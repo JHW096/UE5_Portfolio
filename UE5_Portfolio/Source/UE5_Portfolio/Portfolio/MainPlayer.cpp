@@ -8,11 +8,13 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "../Global/TopDownGameInstance.h"
 
 
 // Sets default values
 AMainPlayer::AMainPlayer()
 {
+	
 	// Do not Rotate Character to Camera direction
 	{
 		bUseControllerRotationPitch = false;
