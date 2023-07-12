@@ -61,12 +61,11 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float _DeltaSecond)
 	{
 		Montage_Play(CurrentMontage, 1.0f);
 	}
+
 }
 
 void UPlayerAnimInstance::MontageEnd(UAnimMontage* _Anim, bool _Inter)
 {
-	TSubclassOf<UAnimInstance> Inst = UPlayerAnimInstance::StaticClass();
-
 	AMainPlayer* Player = Cast<AMainPlayer>(GetOwningActor());
 
 	if (Player == nullptr)
@@ -81,5 +80,6 @@ void UPlayerAnimInstance::MontageEnd(UAnimMontage* _Anim, bool _Inter)
 		Player->AnimState = AnimState;
 		Montage_Play(AllAnimations[PlayerAnimState::IDLE], 1.0f);
 	}
+
 }
 

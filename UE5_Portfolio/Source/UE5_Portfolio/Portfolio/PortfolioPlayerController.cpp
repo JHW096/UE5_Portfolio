@@ -121,6 +121,30 @@ void APortfolioPlayerController::OnSetDestinationReleased()
 
 void APortfolioPlayerController::OnInputCKeyPressed()
 {
+	StopMovement();
+
+	FHitResult Hit;
+	bool bHitSuccessful = false;
+
+	bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
+	if (bHitSuccessful)
+	{
+		CachedDestination = Hit.Location;
+	}
+
+	APawn* ControlledPawn = GetPawn();
+	
+	if (ControlledPawn != nullptr)
+	{
+		FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
+		FRotator Rot = WorldDirection.Rotation();
+		Rot.Roll = 0.0f;
+		Rot.Pitch = 0.0;
+		ControlledPawn->SetActorRotation(Rot);
+	}
+
+
+
 	AMainPlayer* temp = Cast<AMainPlayer>(GetPawn());
 	if (temp == nullptr)
 	{
@@ -135,5 +159,6 @@ void APortfolioPlayerController::OnInputCKeyReleased()
 {
 	return;
 }
+
 
 
