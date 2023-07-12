@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "../Global/MainPlayerAnimState.h"
 #include "GameFramework/Character.h"
 #include "MainPlayer.generated.h"
 
@@ -41,9 +42,20 @@ public:
 
 private: 
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta=(AllowPrivateAccess = "true"))
+	UPROPERTY(Category = "Camera", VisibleAnywhere, BlueprintReadOnly, meta=(AllowPrivateAccess = "true"))
 	class UCameraComponent* TopDownCameraComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(Category = "Camera", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* SpringArmComponent;
+
+public:
+
+	void MoveAction();
+	void NormalAttackAction();
+
+	UPROPERTY(Category = "AnimationValue", EditAnywhere, BlueprintReadWrite)
+	PlayerAnimState AnimState;
+
+	UPROPERTY(Category = "AnimationValue", EditAnywhere, BlueprintReadWrite)
+	TMap<PlayerAnimState, UAnimMontage*> AllAnimations;
 };

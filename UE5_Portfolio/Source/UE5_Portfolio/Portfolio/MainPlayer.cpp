@@ -68,10 +68,8 @@ AMainPlayer::AMainPlayer()
 			UE_LOG(LogTemp, Log, TEXT("%s(%u) MainPlayer : Can not found Skeletal Mesh"), __FUNCTION__, __LINE__);
 		}
 	}
-	
 
-	
-
+	AnimState = PlayerAnimState::IDLE;
 
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -89,7 +87,23 @@ void AMainPlayer::BeginPlay()
 void AMainPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	MoveAction();
 
+}
+
+void AMainPlayer::MoveAction()
+{
+	if (AnimState == PlayerAnimState::NORMAL_ATTACK)
+	{
+		return;
+	}
+	AnimState = GetVelocity().Size() > 1.0f ? PlayerAnimState::JOG_FWD : PlayerAnimState::IDLE;
+}
+
+void AMainPlayer::NormalAttackAction()
+{
+	
+	AnimState = PlayerAnimState::NORMAL_ATTACK;
 }
 
 

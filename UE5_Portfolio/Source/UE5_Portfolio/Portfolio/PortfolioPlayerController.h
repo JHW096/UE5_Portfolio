@@ -30,6 +30,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* SetDestinationClickAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InputCButtonAction;
+
 
 protected:
 	uint32 bMoveToMouseCursor : 1;
@@ -40,7 +43,10 @@ protected:
 	void OnInputStarted();
 	void OnSetDestinationTriggered();
 	void OnSetDestinationReleased();
-	
+
+	void OnInputCKeyPressed();
+	void OnInputCKeyReleased();
+
 private:
 
 	FVector CachedDestination;

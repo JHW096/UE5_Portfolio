@@ -7,6 +7,7 @@
 #include "MainPlayer.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "PlayerAnimInstance.h"
 
 APortfolioPlayerController::APortfolioPlayerController()
 {
@@ -31,6 +32,16 @@ void APortfolioPlayerController::SetupInputComponent()
 
 	Super::SetupInputComponent();
 
+	static bool bBindingsAdded = false;
+
+	if (!bBindingsAdded)
+	{
+		bBindingsAdded = true;
+
+		//UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping(TEXT("ActionKeyC"), EKeys::C));
+	}
+
+
 	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent))
 	{
 		EnhancedInputComponent->BindAction(
@@ -45,7 +56,20 @@ void APortfolioPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(
 			SetDestinationClickAction, ETriggerEvent::Canceled, this, &APortfolioPlayerController::OnSetDestinationReleased
 		);
+		EnhancedInputComponent->BindAction(
+			InputCButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputCKeyPressed
+		);
+		EnhancedInputComponent->BindAction(
+			InputCButtonAction, ETriggerEvent::Triggered, this, &APortfolioPlayerController::OnInputCKeyPressed
+		);
+		/*EnhancedInputComponent->BindAction(
+			InputCButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputCKeyPressed
+		);
+		EnhancedInputComponent->BindAction(
+			InputCButtonAction, ETriggerEvent::Triggered, this, &APortfolioPlayerController::OnInputCKeyPressed
+		);*/
 	}
+	//InputComponent->BindAction("ActionKeyC", EInputEvent::IE_Pressed, this, &APortfolioPlayerController::OnInputCKeyPressed);
 	
 }
 
@@ -94,4 +118,22 @@ void APortfolioPlayerController::OnSetDestinationReleased()
 
 	FollowTime = 0.0f;
 }
+
+void APortfolioPlayerController::OnInputCKeyPressed()
+{
+	AMainPlayer* temp = Cast<AMainPlayer>(GetPawn());
+	if (temp == nullptr)
+	{
+		UE_LOG(LogTemp, Log, TEXT("%s(%u) PlayerController : Can not found MainPlayer in Controller"), __FUNCTION__, __LINE__);
+		return;
+	}
+	temp->AnimState = PlayerAnimState::NORMAL_ATTACK;
+	return; 
+}
+
+void APortfolioPlayerController::OnInputCKeyReleased()
+{
+	return;
+}
+
 
