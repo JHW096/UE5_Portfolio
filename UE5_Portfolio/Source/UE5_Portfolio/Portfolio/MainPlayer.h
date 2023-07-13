@@ -58,4 +58,18 @@ public:
 
 	UPROPERTY(Category = "AnimationValue", EditAnywhere, BlueprintReadWrite)
 	TMap<PlayerAnimState, UAnimMontage*> AllAnimations;
+
+
+	////-----------col test
+
+public:
+
+	UFUNCTION()
+	void BeginOverLap(
+		UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex,
+		bool bFromSweep,
+		const FHitResult& SweepResult);
 };

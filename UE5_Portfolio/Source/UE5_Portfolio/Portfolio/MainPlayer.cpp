@@ -80,6 +80,8 @@ AMainPlayer::AMainPlayer()
 void AMainPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AMainPlayer::BeginOverLap);
 	
 }
 
@@ -104,6 +106,30 @@ void AMainPlayer::NormalAttackAction()
 {
 	
 	AnimState = PlayerAnimState::NORMAL_ATTACK;
+}
+
+void AMainPlayer::BeginOverLap(
+	UPrimitiveComponent* OverlappedComponent,
+	AActor* OtherActor,
+	UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex,
+	bool bFromSweep,
+	const FHitResult& SweepResult
+)
+{
+	int a = 0;
+
+
+	if (OtherActor->ActorHasTag(TEXT("Item")))
+	{
+		OtherActor->Destroy();
+	}
+
+	if (OtherActor->ActorHasTag(TEXT("Monster")))
+	{
+		OtherActor->Destroy();
+	}
+	
 }
 
 
