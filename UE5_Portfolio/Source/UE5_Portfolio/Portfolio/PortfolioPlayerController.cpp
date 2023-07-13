@@ -125,7 +125,7 @@ void APortfolioPlayerController::OnInputCKeyPressed()
 
 	FHitResult Hit;
 	bool bHitSuccessful = false;
-
+	
 	bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
 	if (bHitSuccessful)
 	{
