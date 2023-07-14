@@ -101,7 +101,10 @@ void APortfolioPlayerController::OnSetDestinationTriggered()
 {
 	if (MyCharacter->AnimState == PlayerAnimState::NORMAL_ATTACK)
 	{
+		//º¸·ù
+		//GetPawn()->SetActorotation(FRotator(GetPawn()->GetActorRotation()));
 		return;
+		
 	}
 	
 

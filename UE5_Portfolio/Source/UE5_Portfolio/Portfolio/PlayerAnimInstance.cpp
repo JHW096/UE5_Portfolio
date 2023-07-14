@@ -64,11 +64,11 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float _DeltaSecond)
 	}
 	
 	
-	if (Montage_IsPlaying(AllAnimations[PlayerAnimState::NORMAL_ATTACK]))
-	{
-		PlayerController->StopMovement();
-		return;
-	}
+	//if (Montage_IsPlaying(AllAnimations[PlayerAnimState::NORMAL_ATTACK]))
+	//{
+	//	//PlayerController->
+	//	return;
+	//}
 
 	if (!Montage_IsPlaying(CurrentMontage))
 	{
