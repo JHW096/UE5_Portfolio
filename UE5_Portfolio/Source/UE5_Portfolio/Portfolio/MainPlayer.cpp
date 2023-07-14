@@ -119,6 +119,7 @@ void AMainPlayer::BeginOverLap(
 {
 	int a = 0;
 
+	
 
 	if (OtherActor->ActorHasTag(TEXT("Item")))
 	{

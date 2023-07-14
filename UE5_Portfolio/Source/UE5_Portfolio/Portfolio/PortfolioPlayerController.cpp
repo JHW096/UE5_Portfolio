@@ -138,6 +138,7 @@ void APortfolioPlayerController::OnSetDestinationReleased()
 	if (FollowTime <= ShortPressThreshold)
 	{
 		UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, CachedDestination);
+		
 	}
 
 	FollowTime = 0.0f;
