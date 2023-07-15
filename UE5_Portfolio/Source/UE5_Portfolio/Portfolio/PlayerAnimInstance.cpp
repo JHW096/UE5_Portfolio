@@ -3,7 +3,8 @@
 
 #include "PlayerAnimInstance.h"
 #include "MainPlayer.h"
-
+#include "PortfolioPlayerController.h"
+#include "Kismet/GameplayStatics.h"
 
 UPlayerAnimInstance::UPlayerAnimInstance()
 {
@@ -15,7 +16,12 @@ void UPlayerAnimInstance::NativeBeginPlay()
 {
 	Super::NativeBeginPlay();
 
+	//UGameplayStatics::GetPlayerController(GetWorld(), 0);
+
+	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+
 	OnMontageBlendingOut.AddDynamic(this, &UPlayerAnimInstance::MontageEnd);
+	
 
 	AMainPlayer* Player = Cast<AMainPlayer>(GetOwningActor());
 
@@ -56,6 +62,13 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float _DeltaSecond)
 		UE_LOG(LogTemp, Log, TEXT("%s(%u) AnimInstance : Can not found Anim_Montage."), __FUNCTION__, __LINE__);
 		return;
 	}
+	
+	
+	//if (Montage_IsPlaying(AllAnimations[PlayerAnimState::NORMAL_ATTACK]))
+	//{
+	//	//PlayerController->
+	//	return;
+	//}
 
 	if (!Montage_IsPlaying(CurrentMontage))
 	{

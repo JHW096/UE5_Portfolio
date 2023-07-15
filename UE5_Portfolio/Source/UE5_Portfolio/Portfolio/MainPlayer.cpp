@@ -117,18 +117,13 @@ void AMainPlayer::BeginOverLap(
 	const FHitResult& SweepResult
 )
 {
-	int a = 0;
-
 
 	if (OtherActor->ActorHasTag(TEXT("Item")))
 	{
 		OtherActor->Destroy();
 	}
 
-	if (OtherActor->ActorHasTag(TEXT("Monster")))
-	{
-		OtherActor->Destroy();
-	}
+	
 	
 }
 

@@ -52,4 +52,8 @@ private:
 	FVector CachedDestination;
 
 	float FollowTime;	//How long it has been pressed
+
+	class AMainPlayer* MyCharacter;
+	
+
 };

@@ -14,17 +14,29 @@ APortfolioPlayerController::APortfolioPlayerController()
 	bShowMouseCursor = true;
 	CachedDestination = FVector::ZeroVector;
 	FollowTime = 0.0f;
+
 }
 
 void APortfolioPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+
+	MyCharacter = Cast<AMainPlayer>(GetPawn());
+	if (MyCharacter == nullptr)
+	{
+		return;
+	}
+
+
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);
 	}
 	
+
+
 }
+
 
 
 void APortfolioPlayerController::SetupInputComponent()
@@ -62,6 +74,11 @@ void APortfolioPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(
 			InputCButtonAction, ETriggerEvent::Triggered, this, &APortfolioPlayerController::OnInputCKeyPressed
 		);
+		EnhancedInputComponent->BindAction(
+			InputCButtonAction, ETriggerEvent::Ongoing, this, &APortfolioPlayerController::OnInputCKeyPressed
+		);
+
+
 		/*EnhancedInputComponent->BindAction(
 			InputCButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputCKeyPressed
 		);
@@ -82,6 +99,15 @@ void APortfolioPlayerController::OnInputStarted()
 //every frame when the input is held down
 void APortfolioPlayerController::OnSetDestinationTriggered()
 {
+	if (MyCharacter->AnimState == PlayerAnimState::NORMAL_ATTACK)
+	{
+		//º¸·ù
+		//GetPawn()->SetActorotation(FRotator(GetPawn()->GetActorRotation()));
+		return;
+		
+	}
+	
+
 	int a = 0;
 	//Input is being Pressed
 	FollowTime += GetWorld()->GetDeltaSeconds();
@@ -111,9 +137,11 @@ void APortfolioPlayerController::OnSetDestinationTriggered()
 void APortfolioPlayerController::OnSetDestinationReleased()
 {
 	//If it was a short press
+
 	if (FollowTime <= ShortPressThreshold)
 	{
 		UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, CachedDestination);
+		
 	}
 
 	FollowTime = 0.0f;

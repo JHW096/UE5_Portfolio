@@ -26,8 +26,10 @@ public:
 	UFUNCTION()
 	void MontageEnd(UAnimMontage* _Anim, bool _Inter);
 
+	//Temp
+	APlayerController* PlayerController;
 
-private:
+public:
 	
 	TMap<PlayerAnimState, class UAnimMontage*> AllAnimations;
 
