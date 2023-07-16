@@ -37,7 +37,7 @@ AMainPlayer::AMainPlayer()
 		SpringArmComponent->SetupAttachment(RootComponent);
 		SpringArmComponent->SetUsingAbsoluteRotation(true); //Don't want arm to rotate when character does
 		SpringArmComponent->TargetArmLength = 1250.0f;
-		SpringArmComponent->SetRelativeRotation(FRotator(-60.0f, 0.0f, 0.0f));
+		SpringArmComponent->SetRelativeRotation(FRotator(-50.0f, 0.0f, 0.0f));
 		SpringArmComponent->bDoCollisionTest = false; // Don't want ot pull camera in when it collides with level
 	}
 	
