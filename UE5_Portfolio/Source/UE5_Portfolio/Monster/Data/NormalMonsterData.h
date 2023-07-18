@@ -14,10 +14,17 @@ USTRUCT(BlueprintType)
 struct UE5_PORTFOLIO_API FNormalMonsterData : public FTableRowBase
 {
 	GENERATED_BODY()
+	
+	FNormalMonsterData()
+	{
 
-	FNormalMonsterData() { }
-	~FNormalMonsterData() { }
+	}
 
+	~FNormalMonsterData()
+	{
+
+	}
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	int HP;
 

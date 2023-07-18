@@ -4,32 +4,30 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "MonsterAIController.generated.h"
+#include "AICon_NormalMonster.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UE5_PORTFOLIO_API AMonsterAIController : public AAIController
+class UE5_PORTFOLIO_API AAICon_NormalMonster : public AAIController
 {
 	GENERATED_BODY()
-
+	
 public:
 
-	AMonsterAIController();
+	AAICon_NormalMonster();
 
 protected:
 
 	void OnPossess(APawn* _Pawn) override;
-		 
+
 private:
 
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class UBehaviorTreeComponent* BehaviorTreeComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	class UBehaviorTreeComponent* BehaviorTreeComponent;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	class UBlackboardComponent* BlackboardComponent;
+	class UBlackboardComponent* BlackboardComp;
 
 };

@@ -4,9 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "../Data/NormalMonsterData.h"
 #include "NormalMonster.generated.h"
-
 
 UCLASS()
 class UE5_PORTFOLIO_API ANormalMonster : public ACharacter
@@ -30,14 +28,10 @@ public:
 
 public:
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="AnimValue")
-	int AnimState = 0; 
+	UPROPERTY(Category = "AnimValue", EditAnywhere, BlueprintReadWrite)
+	int AnimState = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AnimValue")
+	UPROPERTY(Category = "AnimValue", EditAnywhere, BlueprintReadWrite)
 	TMap<int, class UAnimMontage*> AllAnimations;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	class UBehaviorTree* BehaviorTree;
-	
 
 };
