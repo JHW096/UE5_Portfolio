@@ -28,10 +28,27 @@ public:
 
 public:
 
-	UPROPERTY(Category = "AnimValue", EditAnywhere, BlueprintReadWrite)
+	template<typename EnumType>
+	void PushAnimation(EnumType Index, class UAnimMontage* Montage)
+	{
+		PushAnimation(static_cast<int>(Index), Montage);
+	}
+
+	void PushAnimation(int Index, class UAnimMontage* Montage)
+	{
+		if (AllAnimations.Contains(Index) == true)
+		{
+			return;
+		}
+		AllAnimations.Add(Index, Montage);
+	}
+
+private:
+
+	UPROPERTY(Category = "AnimValue", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	int AnimState = 0;
 
-	UPROPERTY(Category = "AnimValue", EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(Category = "AnimValue", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	TMap<int, class UAnimMontage*> AllAnimations;
 
 };

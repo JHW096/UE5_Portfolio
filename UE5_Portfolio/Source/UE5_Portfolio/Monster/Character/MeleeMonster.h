@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AINormalMonster.h"
-#include "../Data/NormalMonsterData.h"
+#include "../Data/NormalMonsterState.h"
 #include "MeleeMonster.generated.h"
 
 /**
@@ -15,6 +15,19 @@ class UE5_PORTFOLIO_API AMeleeMonster : public AAINormalMonster
 {
 	GENERATED_BODY()
 
+public:
 
-	const FNormalMonsterData* CurMonsterData;
+	AMeleeMonster();
+
+
+	
+private:
+
+	const struct FNormalMonsterData* NormalMonsterData;
+
+	UPROPERTY(Category = "MeleeInfo", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	FName MeleeMonsterName = "Melee";
+
+	UPROPERTY(Category = "MeleeInfo", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	NormalMonsterState AIState = NormalMonsterState::IDLE;
 };

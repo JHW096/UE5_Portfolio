@@ -13,6 +13,17 @@ UTopDownGameInstance::UTopDownGameInstance()
 			DataTable = DATA_TABLE.Object;
 		}
 	}
+
+	{
+		FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Monster/DataTable/DT_NormalMonster.DT_NormalMonster'");
+		ConstructorHelpers::FObjectFinder<UDataTable> DT_NormalMonster(*DataPath);
+
+		if (DT_NormalMonster.Succeeded())
+		{
+			NormalMonsterData = DT_NormalMonster.Object;
+		}
+
+	}
 }
 
 UTopDownGameInstance::~UTopDownGameInstance()

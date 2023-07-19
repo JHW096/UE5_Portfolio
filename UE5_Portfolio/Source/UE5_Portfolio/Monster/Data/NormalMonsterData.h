@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
 #include "UObject/NoExportTypes.h"
+#include "../Data/NormalMonsterState.h"
 #include "NormalMonsterData.generated.h"
 
 /**
@@ -34,4 +35,6 @@ struct UE5_PORTFOLIO_API FNormalMonsterData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	class UBehaviorTree* BehaviorTree;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	TMap<NormalMonsterState, class UAnimMontage*> NormalMonsterAnims;
 };

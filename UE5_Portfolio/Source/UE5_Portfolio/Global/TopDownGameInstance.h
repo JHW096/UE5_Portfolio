@@ -20,13 +20,17 @@ public:
 	UTopDownGameInstance();
 	~UTopDownGameInstance();
 
-	float GetValue();
+
+public: 
+
+	
 
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta=(AllowAccessPrivate = "true"))
 	UDataTable* DataTable = nullptr;
 
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowAccessPrivate = "true"))
+	UDataTable* NormalMonsterData = nullptr;
 
 };

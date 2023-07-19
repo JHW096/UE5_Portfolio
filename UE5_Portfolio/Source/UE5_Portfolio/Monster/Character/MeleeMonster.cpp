@@ -2,4 +2,15 @@
 
 
 #include "MeleeMonster.h"
+#include "../Data/NormalMonsterData.h"
+#include "../../Global/TopDownGameInstance.h"
 
+AMeleeMonster::AMeleeMonster()
+{
+	UTopDownGameInstance* GameInstance = GetWorld()->GetGameInstance<UTopDownGameInstance>();
+
+	if (GameInstance != nullptr)
+	{
+		NormalMonsterData;
+	}
+}
