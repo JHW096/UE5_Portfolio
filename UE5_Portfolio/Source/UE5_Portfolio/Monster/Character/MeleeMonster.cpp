@@ -7,10 +7,20 @@
 
 AMeleeMonster::AMeleeMonster()
 {
+		
+}
+
+void AMeleeMonster::BeginPlay()
+{
 	UTopDownGameInstance* GameInstance = GetWorld()->GetGameInstance<UTopDownGameInstance>();
 
 	if (GameInstance != nullptr)
 	{
-		NormalMonsterData;
+		NormalMonsterData = GameInstance->GetNormalMonsterData(MeleeMonsterName);
+
+		for (TPair<NormalMonsterState, UAnimMontage*> pair : NormalMonsterData->NormalMonsterAnims)
+		{
+			PushAnimation(pair.Key, pair.Value);
+		}
 	}
 }

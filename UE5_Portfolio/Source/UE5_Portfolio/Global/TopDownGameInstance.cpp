@@ -2,6 +2,7 @@
 
 
 #include "TopDownGameInstance.h"
+#include "../Monster/Data/NormalMonsterData.h"
 
 UTopDownGameInstance::UTopDownGameInstance()
 {
@@ -28,4 +29,22 @@ UTopDownGameInstance::UTopDownGameInstance()
 
 UTopDownGameInstance::~UTopDownGameInstance()
 {
+}
+
+FNormalMonsterData* UTopDownGameInstance::GetNormalMonsterData(FName Name)
+{
+	if (NormalMonsterData == nullptr)
+	{
+		UE_LOG(LogTemp, Log, TEXT("%s(%u) GameInstance : NormalMonsterData is nullptr"), __FUNCTION__, __LINE__);
+		return nullptr;
+	}
+
+	FNormalMonsterData* Table = NormalMonsterData->FindRow<FNormalMonsterData>(Name, Name.ToString());
+
+	if (Table == nullptr)
+	{
+		return nullptr;
+	}
+
+	return Table;
 }

@@ -15,9 +15,13 @@ class UE5_PORTFOLIO_API AMeleeMonster : public AAINormalMonster
 {
 	GENERATED_BODY()
 
+	AMeleeMonster();
+
+	void BeginPlay() override;
+
 public:
 
-	AMeleeMonster();
+	
 
 
 	
