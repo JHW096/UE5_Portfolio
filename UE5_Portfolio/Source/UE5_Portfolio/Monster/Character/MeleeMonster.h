@@ -19,13 +19,10 @@ class UE5_PORTFOLIO_API AMeleeMonster : public AAINormalMonster
 
 	void BeginPlay() override;
 	
-private:
-
 	const struct FNormalMonsterData* NormalMonsterData;
 
-	UPROPERTY(Category = "MeleeInfo", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	FName MeleeMonsterName = "Melee";
+private:
 
 	UPROPERTY(Category = "MeleeInfo", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	NormalMonsterState AIState = NormalMonsterState::IDLE;
+	FName MeleeMonsterName = "NONE";
 };

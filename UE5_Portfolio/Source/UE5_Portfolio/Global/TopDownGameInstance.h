@@ -27,10 +27,10 @@ public:
 
 public:
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta=(AllowAccessPrivate = "true"))
-	UDataTable* DataTable = nullptr;
+	UPROPERTY()
+	UDataTable* DataTable;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (AllowAccessPrivate = "true"))
-	UDataTable* NormalMonsterData = nullptr;
+	UPROPERTY()
+	UDataTable* NormalMonsterData;
 
 };

@@ -91,6 +91,22 @@ void AMainPlayer::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	MoveAction();
 
+	TArray<FHitResult> OutHits;
+	FVector Start = GetActorLocation() - FVector(0.0f, 0.0f, GetCapsuleComponent()->GetScaledCapsuleHalfHeight()); // Line start
+	FVector End = GetActorLocation() + GetSpringArmComponent()->TargetArmLength + 500;
+	FName ProfileName = TEXT("CoverToPlayer");
+	FCollisionQueryParams Params = FCollisionQueryParams::DefaultQueryParam;
+
+	GetWorld()->LineTraceMultiByProfile(OutHits, Start, End, ProfileName, Params);
+	
+
+	if (OutHits.Num() != 0)
+	{
+		FString Text;
+		Text = OutHits[0].GetActor()->GetName();
+		UE_LOG(LogTemp, Log, TEXT("%s"), &Text);
+	}
+
 }
 
 void AMainPlayer::MoveAction()

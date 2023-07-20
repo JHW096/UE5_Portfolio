@@ -28,9 +28,9 @@ void AMeleeMonster::BeginPlay()
 
 	Super::BeginPlay();
 
-	GetBlackboardComponent()->SetValueAsEnum(TEXT("NormalMonsterState"), static_cast<uint8>(NormalMonsterState::IDLE));
+	GetBlackboardComp()->SetValueAsEnum(TEXT("NormalMonsterState"), static_cast<uint8>(NormalMonsterState::IDLE));
 	int a = 0;
-	//GetBlackboardComponent()->SetValueAsString(TEXT("TargetTag"), TEXT("Player"));
+	/*GetBlackboardComponent()->SetValueAsString(TEXT("TargetTag"), TEXT("Player"));
 	GetBlackboardComponent()->SetValueAsFloat(TEXT("SearchRange"), NormalMonsterData->SearchRange);
-	GetBlackboardComponent()->SetValueAsFloat(TEXT("AttackRange"), NormalMonsterData->AttackRagne);
+	GetBlackboardComponent()->SetValueAsFloat(TEXT("AttackRange"), NormalMonsterData->AttackRagne);*/
 }

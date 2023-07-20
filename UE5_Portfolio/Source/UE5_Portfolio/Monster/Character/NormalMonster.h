@@ -70,4 +70,5 @@ private:
 	UPROPERTY(Category = "AnimValue", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	TMap<int, class UAnimMontage*> AllAnimations;
 
+	class UMonsterAnimInstance* MonsterAnimInstance = nullptr;
 };

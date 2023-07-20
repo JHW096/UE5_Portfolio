@@ -21,7 +21,7 @@ public:
 		return BehaviorTree;
 	}
 
-	class UBlackboardComponent* GetBlackboardComponent();
+	class UBlackboardComponent* GetBlackboardComp();
 
 protected:
 

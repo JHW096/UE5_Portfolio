@@ -2,6 +2,7 @@
 
 
 #include "NormalMonster.h"
+#include "MonsterAnimInstance.h"
 
 // Sets default values
 ANormalMonster::ANormalMonster()
@@ -15,7 +16,10 @@ ANormalMonster::ANormalMonster()
 void ANormalMonster::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	MonsterAnimInstance = Cast<UMonsterAnimInstance>(GetMesh()->GetAnimInstance());
+
+	MonsterAnimInstance->AllAnimations = AllAnimations;
 }
 
 // Called every frame

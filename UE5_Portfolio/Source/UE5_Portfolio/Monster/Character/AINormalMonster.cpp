@@ -6,7 +6,7 @@
 #include "../AI/AICon_NormalMonster.h"
 
 
-UBlackboardComponent* AAINormalMonster::GetBlackboardComponent()
+UBlackboardComponent* AAINormalMonster::GetBlackboardComp()
 {
 	if (BlackboardComp == nullptr)
 	{
