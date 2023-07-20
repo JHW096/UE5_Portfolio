@@ -4,6 +4,7 @@
 #include "MeleeMonster.h"
 #include "../Data/NormalMonsterData.h"
 #include "../../Global/TopDownGameInstance.h"
+#include "BehaviorTree/BlackboardComponent.h"
 
 AMeleeMonster::AMeleeMonster()
 {
@@ -22,5 +23,14 @@ void AMeleeMonster::BeginPlay()
 		{
 			PushAnimation(pair.Key, pair.Value);
 		}
+		SetAnimState(NormalMonsterState::IDLE);
 	}
+
+	Super::BeginPlay();
+
+	GetBlackboardComponent()->SetValueAsEnum(TEXT("NormalMonsterState"), static_cast<uint8>(NormalMonsterState::IDLE));
+	int a = 0;
+	//GetBlackboardComponent()->SetValueAsString(TEXT("TargetTag"), TEXT("Player"));
+	GetBlackboardComponent()->SetValueAsFloat(TEXT("SearchRange"), NormalMonsterData->SearchRange);
+	GetBlackboardComponent()->SetValueAsFloat(TEXT("AttackRange"), NormalMonsterData->AttackRagne);
 }

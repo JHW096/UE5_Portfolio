@@ -18,12 +18,6 @@ class UE5_PORTFOLIO_API AMeleeMonster : public AAINormalMonster
 	AMeleeMonster();
 
 	void BeginPlay() override;
-
-public:
-
-	
-
-
 	
 private:
 

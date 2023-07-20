@@ -33,6 +33,12 @@ struct UE5_PORTFOLIO_API FNormalMonsterData : public FTableRowBase
 	int ATT;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	float SearchRange = 3000.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	float AttackRagne = 200.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	class UBehaviorTree* BehaviorTree;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")

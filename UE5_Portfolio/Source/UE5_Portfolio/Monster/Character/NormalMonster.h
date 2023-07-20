@@ -26,6 +26,25 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+public: 
+
+	int GetAnimState()
+	{
+		return AnimState;
+	}
+
+
+	template<typename EnumType>
+	void SetAnimState(EnumType _AnimState)
+	{
+		AnimState = static_cast<int>(_AnimState);
+	}
+
+	void SetAnimState(int _AnimState)
+	{
+		AnimState = _AnimState;
+	}
+
 public:
 
 	template<typename EnumType>
