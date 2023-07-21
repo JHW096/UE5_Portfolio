@@ -2,6 +2,11 @@
 
 
 #include "BTTask_NormalMonster_Idle.h"
+#include "../Character/NormalMonster.h"
+#include "AICon_NormalMonster.h"
+#include "../Data/NormalMonsterState.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 UBTTask_NormalMonster_Idle::UBTTask_NormalMonster_Idle()
 {
@@ -14,8 +19,11 @@ void UBTTask_NormalMonster_Idle::OnGameplayTaskActivated(UGameplayTask&)
 	
 }
 
-EBTNodeResult::Type UBTTask_NormalMonster_Idle::ExecuteTask(UBehaviorTree& OwnerComp, uint8* NodeMemory)
+EBTNodeResult::Type UBTTask_NormalMonster_Idle::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
+	Super::ExecuteTask(OwnerComp, NodeMemory);
+
+	
 
 	return EBTNodeResult::Type::InProgress;
 }

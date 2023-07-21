@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/Tasks/BTTask_BlackboardBase.h"
+#include "BTTask_BaseNode.h"
 #include "BTTask_NormalMonster_Idle.generated.h"
 
 /**
@@ -21,7 +22,7 @@ protected:
 
 	void OnGameplayTaskActivated(class UGameplayTask&) override;
 
-	EBTNodeResult::Type ExecuteTask(UBehaviorTree& OwnerComp, uint8* NodeMemory);
+	EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory);
 
 	void TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds);
 };

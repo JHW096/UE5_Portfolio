@@ -93,7 +93,7 @@ void AMainPlayer::Tick(float DeltaTime)
 
 	TArray<FHitResult> OutHits;
 	FVector Start = GetActorLocation() - FVector(0.0f, 0.0f, GetCapsuleComponent()->GetScaledCapsuleHalfHeight()); // Line start
-	FVector End = GetActorLocation() + GetSpringArmComponent()->TargetArmLength + 500;
+	FVector End = GetActorLocation() + FVector(-500.0f, 0.0f, 500.0f);
 	FName ProfileName = TEXT("CoverToPlayer");
 	FCollisionQueryParams Params = FCollisionQueryParams::DefaultQueryParam;
 
@@ -102,9 +102,7 @@ void AMainPlayer::Tick(float DeltaTime)
 
 	if (OutHits.Num() != 0)
 	{
-		FString Text;
-		Text = OutHits[0].GetActor()->GetName();
-		UE_LOG(LogTemp, Log, TEXT("%s"), &Text);
+		OutHits[0].GetActor()->Destroy();
 	}
 
 }
