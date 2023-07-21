@@ -11,7 +11,7 @@
  * 
  */
 UCLASS()
-class UE5_PORTFOLIO_API UBTTask_NormalMonster_Idle : public UBTTask_BlackboardBase
+class UE5_PORTFOLIO_API UBTTask_NormalMonster_Idle : public UBTTask_BaseNode
 {
 	GENERATED_BODY()
 
