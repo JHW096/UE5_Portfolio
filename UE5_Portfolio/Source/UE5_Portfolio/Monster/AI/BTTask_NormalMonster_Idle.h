@@ -20,8 +20,6 @@ class UE5_PORTFOLIO_API UBTTask_NormalMonster_Idle : public UBTTask_BaseNode
 
 protected:
 
-	void OnGameplayTaskActivated(class UGameplayTask&) override;
-
 	EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory);
 
 	void TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds);

@@ -15,11 +15,6 @@ UBTTask_NormalMonster_Idle::UBTTask_NormalMonster_Idle()
 	bNotifyTaskFinished = true;
 }
 
-void UBTTask_NormalMonster_Idle::OnGameplayTaskActivated(UGameplayTask&)
-{
-	
-}
-
 EBTNodeResult::Type UBTTask_NormalMonster_Idle::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	Super::ExecuteTask(OwnerComp, NodeMemory);
@@ -33,6 +28,8 @@ void UBTTask_NormalMonster_Idle::TickTask(UBehaviorTreeComponent& OwnerComp, uin
 {
 	//ÃßÀû
 	Super::TickTask(OwnerComp, NodeMemory, DeltaSeconds);
+
+	int a = 0;
 
 	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
 
@@ -75,7 +72,7 @@ void UBTTask_NormalMonster_Idle::TickTask(UBehaviorTreeComponent& OwnerComp, uin
 
 		if (TargetAggro != nullptr)
 		{
-			GetBlackboardComponent(OwnerComp)->SetValueAsObject(TEXT("TargetActor"), TargetAggro);
+			GetBlackboardComponent(OwnerComp)->SetValueAsObject(TEXT("TargetActor"), TargetAggro);	
 			SetStateChange(OwnerComp, NormalMonsterState::MOVE);
 			return;
 		}
