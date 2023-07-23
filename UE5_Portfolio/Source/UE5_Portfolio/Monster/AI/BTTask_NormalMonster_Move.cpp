@@ -60,6 +60,7 @@ void UBTTask_NormalMonster_Move::TickTask(UBehaviorTreeComponent& OwnerComp, uin
 			GetNormalMonster(OwnerComp)->SetActorRotation(Rot);
 		}
 	}
+
 	
 	{
 		FVector PawnPos = GetNormalMonster(OwnerComp)->GetActorLocation();
@@ -69,9 +70,12 @@ void UBTTask_NormalMonster_Move::TickTask(UBehaviorTreeComponent& OwnerComp, uin
 
 		GetNormalMonster(OwnerComp)->AddMovementInput(Dir);
 
-		float AttackRange = GetBlackboardComponent(OwnerComp)->GetValueAsFloat(TEXT("AttackRagne"));
+		float AttackRagne = GetBlackboardComponent(OwnerComp)->GetValueAsFloat(TEXT("AttackRagne"));
 
+		if (Dir.Size() <= AttackRagne)
+		{
+			SetStateChange(OwnerComp, NormalMonsterState::ATTACK);
+			return;
+		}
 	}
-	
-	
 }

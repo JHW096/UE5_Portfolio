@@ -62,6 +62,22 @@ public:
 		AllAnimations.Add(Index, Montage);
 	}
 
+	template<typename EnumType>
+	class UAnimMontage* GetAnimMontage(EnumType Index)
+	{
+		return GetAnimMontage(static_cast<int>(Index));
+	}
+
+	class UAnimMontage* GetAnimMontage(int Index)
+	{
+		if (AllAnimations.Contains(Index))
+		{
+			return nullptr;
+		}
+
+		return AllAnimations[Index];
+	}
+
 private:
 
 	UPROPERTY(Category = "AnimValue", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
