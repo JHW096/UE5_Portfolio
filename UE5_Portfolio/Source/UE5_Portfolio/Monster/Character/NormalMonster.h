@@ -70,7 +70,7 @@ public:
 
 	class UAnimMontage* GetAnimMontage(int Index)
 	{
-		if (AllAnimations.Contains(Index))
+		if (AllAnimations.Contains(Index) == false)
 		{
 			return nullptr;
 		}

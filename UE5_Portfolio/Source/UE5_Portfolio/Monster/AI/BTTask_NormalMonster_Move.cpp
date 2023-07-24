@@ -70,7 +70,7 @@ void UBTTask_NormalMonster_Move::TickTask(UBehaviorTreeComponent& OwnerComp, uin
 
 		GetNormalMonster(OwnerComp)->AddMovementInput(Dir);
 
-		float AttackRagne = GetBlackboardComponent(OwnerComp)->GetValueAsFloat(TEXT("AttackRagne"));
+		float AttackRagne = GetBlackboardComponent(OwnerComp)->GetValueAsFloat(TEXT("AttackRange"));
 
 		if (Dir.Size() <= AttackRagne)
 		{
