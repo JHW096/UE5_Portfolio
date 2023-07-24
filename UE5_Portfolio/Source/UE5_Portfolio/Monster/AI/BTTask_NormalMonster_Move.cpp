@@ -4,7 +4,7 @@
 #include "BTTask_NormalMonster_Move.h"
 #include "AICon_NormalMonster.h"
 #include "../Character/NormalMonster.h"
-
+#include "Kismet/GameplayStatics.h"
 
 UBTTask_NormalMonster_Move::UBTTask_NormalMonster_Move()
 {
@@ -26,12 +26,13 @@ void UBTTask_NormalMonster_Move::TickTask(UBehaviorTreeComponent& OwnerComp, uin
 
 	if (TargetActor == nullptr)
 	{
+		SetStateChange(OwnerComp, NormalMonsterState::RETURN);
 		UE_LOG(LogTemp, Log, TEXT("%s(%u) TargetActor == nullptr"), __FUNCTION__, __LINE__);
 		return;
 	}
 
-	int a = 0;
 
+	//Rotate
 	{
 		FVector TargetPos = TargetActor->GetActorLocation();
 		FVector ThisPos = GetNormalMonster(OwnerComp)->GetActorLocation();
@@ -61,7 +62,7 @@ void UBTTask_NormalMonster_Move::TickTask(UBehaviorTreeComponent& OwnerComp, uin
 		}
 	}
 
-	
+	//Chagne Attack
 	{
 		FVector PawnPos = GetNormalMonster(OwnerComp)->GetActorLocation();
 		FVector TargetPos = TargetActor->GetActorLocation();
@@ -76,6 +77,62 @@ void UBTTask_NormalMonster_Move::TickTask(UBehaviorTreeComponent& OwnerComp, uin
 		{
 			SetStateChange(OwnerComp, NormalMonsterState::ATTACK);
 			return;
+		}
+	}
+
+	{
+
+		UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
+
+		if (Blackboard == nullptr)
+		{
+			UE_LOG(LogTemp, Log, TEXT("%s, %u : Blackboard is nullptr"), __FUNCTION__, __LINE__);
+			return;
+		}
+
+		FString TargetTag = Blackboard->GetValueAsString(TEXT("TargetTag"));
+		TArray<AActor*> TargetActors;
+		UGameplayStatics::GetAllActorsWithTag(GetWorld(), *TargetTag, TargetActors);
+
+
+		ANormalMonster* ThisMonster = GetNormalMonster(OwnerComp);
+		float SearchRagne = Blackboard->GetValueAsFloat(TEXT("SearchRange"));
+
+
+		if (TargetActors.Num() != 0)
+		{
+			AActor* TargetAggro = nullptr;
+			float Range = TNumericLimits<float>::Max();
+
+			for (size_t i = 0; i < TargetActors.Num(); i++)
+			{
+				float Distance = (ThisMonster->GetActorLocation() - TargetActors[i]->GetActorLocation()).Size();
+
+				if (SearchRagne <= Distance)
+				{
+					continue;
+				}
+
+				//가장 가까운 거리의 Player Actor를 찾는 과정
+				if (Range > Distance)
+				{
+					Range = Distance;
+					TargetAggro = TargetActors[i];
+				}
+			}
+
+			if (TargetAggro == nullptr)
+			{
+				int a = 0;
+				SetStateChange(OwnerComp, NormalMonsterState::RETURN);
+			}
+
+			if (TargetAggro != nullptr)
+			{
+				GetBlackboardComponent(OwnerComp)->SetValueAsObject(TEXT("TargetActor"), TargetAggro);
+				SetStateChange(OwnerComp, NormalMonsterState::MOVE);
+				return;
+			}
 		}
 	}
 }
