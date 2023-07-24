@@ -81,27 +81,24 @@ void UBTTask_NormalMonster_Move::TickTask(UBehaviorTreeComponent& OwnerComp, uin
 	}
 
 	{
-
 		UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
 
 		if (Blackboard == nullptr)
 		{
-			UE_LOG(LogTemp, Log, TEXT("%s, %u : Blackboard is nullptr"), __FUNCTION__, __LINE__);
-			return;
+			UE_LOG(LogTemp, Log, TEXT("%s, %u : Blackboard == nullptr"), __FUNCTION__, __LINE__);
+			return; 
 		}
 
 		FString TargetTag = Blackboard->GetValueAsString(TEXT("TargetTag"));
 		TArray<AActor*> TargetActors;
 		UGameplayStatics::GetAllActorsWithTag(GetWorld(), *TargetTag, TargetActors);
 
-
 		ANormalMonster* ThisMonster = GetNormalMonster(OwnerComp);
 		float SearchRagne = Blackboard->GetValueAsFloat(TEXT("SearchRange"));
 
-
 		if (TargetActors.Num() != 0)
 		{
-			AActor* TargetAggro = nullptr;
+			AActor* Target = nullptr;
 			float Range = TNumericLimits<float>::Max();
 
 			for (size_t i = 0; i < TargetActors.Num(); i++)
@@ -113,26 +110,73 @@ void UBTTask_NormalMonster_Move::TickTask(UBehaviorTreeComponent& OwnerComp, uin
 					continue;
 				}
 
-				//가장 가까운 거리의 Player Actor를 찾는 과정
 				if (Range > Distance)
 				{
 					Range = Distance;
-					TargetAggro = TargetActors[i];
+					Target = TargetActors[i];
 				}
 			}
-
-			if (TargetAggro == nullptr)
+			if (Target == nullptr)
 			{
 				int a = 0;
 				SetStateChange(OwnerComp, NormalMonsterState::RETURN);
 			}
 
-			if (TargetAggro != nullptr)
-			{
-				GetBlackboardComponent(OwnerComp)->SetValueAsObject(TEXT("TargetActor"), TargetAggro);
-				SetStateChange(OwnerComp, NormalMonsterState::MOVE);
-				return;
-			}
 		}
 	}
+	//{
+
+	//	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
+
+	//	if (Blackboard == nullptr)
+	//	{
+	//		UE_LOG(LogTemp, Log, TEXT("%s, %u : Blackboard is nullptr"), __FUNCTION__, __LINE__);
+	//		return;
+	//	}
+
+	//	FString TargetTag = Blackboard->GetValueAsString(TEXT("TargetTag"));
+	//	TArray<AActor*> TargetActors;
+	//	UGameplayStatics::GetAllActorsWithTag(GetWorld(), *TargetTag, TargetActors);
+
+
+	//	ANormalMonster* ThisMonster = GetNormalMonster(OwnerComp);
+	//	float SearchRagne = Blackboard->GetValueAsFloat(TEXT("SearchRange"));
+
+
+	//	if (TargetActors.Num() != 0)
+	//	{
+	//		AActor* TargetAggro = nullptr;
+	//		float Range = TNumericLimits<float>::Max();
+
+	//		for (size_t i = 0; i < TargetActors.Num(); i++)
+	//		{
+	//			float Distance = (ThisMonster->GetActorLocation() - TargetActors[i]->GetActorLocation()).Size();
+
+	//			if (SearchRagne <= Distance)
+	//			{
+	//				continue;
+	//			}
+
+	//			//가장 가까운 거리의 Player Actor를 찾는 과정
+	//			if (Range > Distance)
+	//			{
+	//				Range = Distance;
+	//				TargetAggro = TargetActors[i];
+	//			}
+	//		}
+
+	//		if (TargetAggro == nullptr)
+	//		{
+	//			int a = 0;
+	//			SetStateChange(OwnerComp, NormalMonsterState::RETURN);
+	//		}
+
+	//		if (TargetAggro != nullptr)
+	//		{
+	//			GetBlackboardComponent(OwnerComp)->SetValueAsObject(TEXT("TargetActor"), TargetAggro);
+	//			SetStateChange(OwnerComp, NormalMonsterState::MOVE);
+	//			return;
+	//		}
+	//	}
+	//}
 }
