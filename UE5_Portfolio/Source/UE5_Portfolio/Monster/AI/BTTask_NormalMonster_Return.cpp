@@ -16,6 +16,7 @@ EBTNodeResult::Type UBTTask_NormalMonster_Return::ExecuteTask(UBehaviorTreeCompo
 	//Animation -> Normal
 	GetNormalMonster(OwnerComp)->SetAnimState(NormalMonsterState::RETURN);
 
+
 	return EBTNodeResult::Type::InProgress;
 }
 
@@ -25,15 +26,16 @@ void UBTTask_NormalMonster_Return::TickTask(UBehaviorTreeComponent& OwnerComp, u
 
 	FVector ThisPos = GetNormalMonster(OwnerComp)->GetActorLocation();
 	ThisPos.Z = 0.0f;
-	FVector Dir = OriginPos - ThisPos;
 	
-	int a = 0;
 
-	GetNormalMonster(OwnerComp)->AddMovementInput(Dir);
+	int a = 0; 
 
-	if (ThisPos == OriginPos)
+	//GetNormalMonster(OwnerComp)->AddMovementInput(Dir);
+
+
+	/*if (ThisPos == origin)
 	{
 		SetStateChange(OwnerComp, NormalMonsterState::IDLE);
-	}
+	}*/
 	
 }

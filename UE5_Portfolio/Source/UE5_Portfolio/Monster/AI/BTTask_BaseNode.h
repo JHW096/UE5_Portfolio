@@ -18,6 +18,9 @@ class UE5_PORTFOLIO_API UBTTask_BaseNode : public UBTTask_BlackboardBase
 {
 	GENERATED_BODY()
 
+protected:
+
+
 public: 
 
 	UBTTask_BaseNode();
