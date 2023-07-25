@@ -32,4 +32,5 @@ void AMeleeMonster::BeginPlay()
 	GetBlackboardComp()->SetValueAsString(TEXT("TargetTag"), TEXT("Player"));
 	GetBlackboardComp()->SetValueAsFloat(TEXT("SearchRange"), NormalMonsterData->SearchRange);
 	GetBlackboardComp()->SetValueAsFloat(TEXT("AttackRange"), NormalMonsterData->AttackRange);
+	GetBlackboardComp()->SetValueAsVector(TEXT("SpawnPos"), GetActorLocation());
 }

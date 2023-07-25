@@ -39,6 +39,9 @@ struct UE5_PORTFOLIO_API FNormalMonsterData : public FTableRowBase
 	float AttackRange;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	FVector SpawnPos;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	class UBehaviorTree* BehaviorTree;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
