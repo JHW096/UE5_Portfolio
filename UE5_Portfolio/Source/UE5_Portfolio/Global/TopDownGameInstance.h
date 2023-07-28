@@ -25,12 +25,18 @@ public:
 
 	struct FNormalMonsterData* GetNormalMonsterData(FName Name);
 
+	struct FUI_Data* GetUIData(FName _Name);
+
 public:
 
-	UPROPERTY()
-	UDataTable* DataTable;
+	/*UPROPERTY()
+	UDataTable* DataTable;*/
 
 	UPROPERTY()
 	UDataTable* NormalMonsterData;
+
+	UPROPERTY()
+	UDataTable* UIData;
+	
 
 };
