@@ -32,20 +32,30 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InputCButtonAction;
-
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InputGButtonAction;
 
 protected:
 	uint32 bMoveToMouseCursor : 1;
 
+	//Override
 	virtual void SetupInputComponent() override;
 	virtual void BeginPlay() override;
 
+	//Mouse Move
 	void OnInputStarted();
 	void OnSetDestinationTriggered();
 	void OnSetDestinationReleased();
 
+
+	//Attack
 	void OnInputCKeyPressed();
 	void OnInputCKeyReleased();
+
+	//UI
+	void OnInputTestUIKeyPressed();
+
 
 private:
 

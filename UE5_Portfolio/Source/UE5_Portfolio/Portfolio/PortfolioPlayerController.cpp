@@ -8,6 +8,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "PlayerAnimInstance.h"
+#include "PortfolioHUD.h"
 
 APortfolioPlayerController::APortfolioPlayerController()
 {
@@ -76,6 +77,14 @@ void APortfolioPlayerController::SetupInputComponent()
 		);
 		EnhancedInputComponent->BindAction(
 			InputCButtonAction, ETriggerEvent::Ongoing, this, &APortfolioPlayerController::OnInputCKeyPressed
+		);
+
+		//UI Visiblity TEST
+		EnhancedInputComponent->BindAction(
+			InputGButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputTestUIKeyPressed
+		);
+		EnhancedInputComponent->BindAction(
+			InputGButtonAction, ETriggerEvent::Triggered, this, &APortfolioPlayerController::OnInputTestUIKeyPressed
 		);
 
 
@@ -186,6 +195,19 @@ void APortfolioPlayerController::OnInputCKeyPressed()
 void APortfolioPlayerController::OnInputCKeyReleased()
 {
 	return;
+}
+
+void APortfolioPlayerController::OnInputTestUIKeyPressed()
+{
+	int a = 0;
+	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
+
+	if (HUD == nullptr && HUD->IsValidLowLevel())
+	{
+		return;
+	}
+
+	HUD->GetMainWidget()->TestWindowVisibilitySwitch();
 }
 
 
