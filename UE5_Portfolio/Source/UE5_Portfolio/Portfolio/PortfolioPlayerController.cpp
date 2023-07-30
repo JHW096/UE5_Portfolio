@@ -83,9 +83,9 @@ void APortfolioPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(
 			InputGButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputTestUIKeyPressed
 		);
-		EnhancedInputComponent->BindAction(
+		/*EnhancedInputComponent->BindAction(
 			InputGButtonAction, ETriggerEvent::Triggered, this, &APortfolioPlayerController::OnInputTestUIKeyPressed
-		);
+		);*/
 
 
 		/*EnhancedInputComponent->BindAction(
