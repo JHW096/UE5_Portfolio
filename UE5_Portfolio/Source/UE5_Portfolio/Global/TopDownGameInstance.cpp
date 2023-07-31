@@ -3,6 +3,7 @@
 
 #include "TopDownGameInstance.h"
 #include "../Monster/Data/NormalMonsterData.h"
+#include "Data/Test2.h"
 
 UTopDownGameInstance::UTopDownGameInstance()
 {
