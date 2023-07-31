@@ -33,6 +33,8 @@ protected:
 
 private:
 
+	const struct FTest2* UIDataTable;
+
 	UMainWidget* MainWidget = nullptr;
 
 };

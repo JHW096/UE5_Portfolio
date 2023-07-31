@@ -25,6 +25,16 @@ UTopDownGameInstance::UTopDownGameInstance()
 		}
 
 	}
+
+	{
+		FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Global/Data/DT_Test2.DT_Test2'");
+		ConstructorHelpers::FObjectFinder<UDataTable> DT_UITest(*DataPath);
+
+		if (DT_UITest.Succeeded())
+		{
+			UIData = DT_UITest.Object;
+		}
+	}
 }
 
 UTopDownGameInstance::~UTopDownGameInstance()
@@ -48,3 +58,22 @@ FNormalMonsterData* UTopDownGameInstance::GetNormalMonsterData(FName Name)
 
 	return Table;
 }
+
+FTest2* UTopDownGameInstance::GetTestData(FName Name)
+{
+	if (UIData == nullptr)
+	{
+		UE_LOG(LogTemp, Log, TEXT("%s(%u) GameInstance : UIData is nullptr"), __FUNCTION__, __LINE__);
+		return nullptr;
+	}
+
+	FTest2* Table = UIData->FindRow<FTest2>(Name, Name.ToString());
+
+	if (Table == nullptr)
+	{
+		return nullptr;
+	}
+
+	return Table;
+}
+

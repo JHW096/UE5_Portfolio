@@ -25,6 +25,8 @@ public:
 
 	struct FNormalMonsterData* GetNormalMonsterData(FName Name);
 
+	struct FTest2* GetTestData(FName Name);
+
 public:
 
 	UPROPERTY()
@@ -32,5 +34,8 @@ public:
 
 	UPROPERTY()
 	UDataTable* NormalMonsterData;
+
+	UPROPERTY()
+	UDataTable* UIData;
 
 };
