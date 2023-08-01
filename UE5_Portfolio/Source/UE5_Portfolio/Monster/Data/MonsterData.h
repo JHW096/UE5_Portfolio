@@ -27,7 +27,7 @@ struct UE5_PORTFOLIO_API FMonsterData : public FTableRowBase
 	int ATT = 10;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	float SearchRange = 1500;
+	float SearchRange = 500;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	float AttackRange = 100;

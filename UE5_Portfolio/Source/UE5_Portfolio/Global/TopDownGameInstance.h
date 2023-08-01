@@ -23,7 +23,7 @@ public:
 
 public: 
 
-	struct FNormalMonsterData* GetNormalMonsterData(FName Name);
+	struct FMonsterData* GetNormalMonsterData(FName Name);
 
 	struct FTest2* GetTestData(FName Name);
 

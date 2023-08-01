@@ -25,8 +25,6 @@ void UBTTask_NormalMonster_Attack::TickTask(UBehaviorTreeComponent& OwnerComp, u
 	UAnimMontage* Montage = GetNormalMonster(OwnerComp)->GetAnimMontage(UBTTask_BaseNode::GetNormalMonsterState(OwnerComp));
 	float Time = Montage->CalculateSequenceLength();
 
-	int a = 0;
-
 	if (Time <= GetStateTime(OwnerComp))
 	{
 		SetStateChange(OwnerComp, NormalMonsterState::MOVE);

@@ -19,6 +19,7 @@ EBTNodeResult::Type UBTTask_NormalMonster_Move::ExecuteTask(UBehaviorTreeCompone
 	GetNormalMonster(OwnerComp)->SetAnimState(NormalMonsterState::MOVE);
 
 	UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetNavigationSystem(GetWorld());
+
 	if (NavSystem == nullptr)
 	{
 		return EBTNodeResult::Type::Failed;

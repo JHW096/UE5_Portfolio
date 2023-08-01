@@ -3,6 +3,7 @@
 
 #include "TopDownGameInstance.h"
 #include "../Monster/Data/NormalMonsterData.h"
+#include "../Monster/Data/MonsterData.h"
 #include "Data/Test2.h"
 
 UTopDownGameInstance::UTopDownGameInstance()
@@ -17,13 +18,13 @@ UTopDownGameInstance::UTopDownGameInstance()
 	}
 
 	{
-		FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Monster/DataTable/DT_NormalMonster.DT_NormalMonster'");
+		/*FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Monster/DataTable/DT_NormalMonster.DT_NormalMonster'");
 		ConstructorHelpers::FObjectFinder<UDataTable> DT_NormalMonster(*DataPath);
 
 		if (DT_NormalMonster.Succeeded())
 		{
 			NormalMonsterData = DT_NormalMonster.Object;
-		}
+		}*/
 
 	}
 
@@ -36,13 +37,23 @@ UTopDownGameInstance::UTopDownGameInstance()
 			UIData = DT_UITest.Object;
 		}
 	}
+	
+	{
+		FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Global/Data/DT_Monster.DT_Monster'");
+		ConstructorHelpers::FObjectFinder<UDataTable> DT_NormalMonster(*DataPath);
+
+		if (DT_NormalMonster.Succeeded())
+		{
+			NormalMonsterData = DT_NormalMonster.Object;
+		}
+	}
 }
 
 UTopDownGameInstance::~UTopDownGameInstance()
 {
 }
 
-FNormalMonsterData* UTopDownGameInstance::GetNormalMonsterData(FName Name)
+FMonsterData* UTopDownGameInstance::GetNormalMonsterData(FName Name)
 {
 	if (NormalMonsterData == nullptr)
 	{
@@ -50,7 +61,7 @@ FNormalMonsterData* UTopDownGameInstance::GetNormalMonsterData(FName Name)
 		return nullptr;
 	}
 
-	FNormalMonsterData* Table = NormalMonsterData->FindRow<FNormalMonsterData>(Name, Name.ToString());
+	FMonsterData* Table = NormalMonsterData->FindRow<FMonsterData>(Name, Name.ToString());
 
 	if (Table == nullptr)
 	{

@@ -9,6 +9,7 @@
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "../Global/TopDownGameInstance.h"
+#include "Components/MeshComponent.h"
 
 
 // Sets default values
@@ -98,11 +99,10 @@ void AMainPlayer::Tick(float DeltaTime)
 	FCollisionQueryParams Params = FCollisionQueryParams::DefaultQueryParam;
 
 	GetWorld()->LineTraceMultiByProfile(OutHits, Start, End, ProfileName, Params);
-	
 
 	if (OutHits.Num() != 0)
 	{
-		OutHits[0].GetActor()->Destroy();
+		int a = 0;
 	}
 
 }

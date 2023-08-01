@@ -19,7 +19,7 @@ class UE5_PORTFOLIO_API AMeleeMonster : public AAINormalMonster
 
 	void BeginPlay() override;
 	
-	const struct FNormalMonsterData* NormalMonsterData;
+	const struct FMonsterData* NormalMonsterData;
 
 private:
 

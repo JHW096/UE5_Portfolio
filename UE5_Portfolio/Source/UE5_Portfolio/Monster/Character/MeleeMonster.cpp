@@ -2,8 +2,8 @@
 
 
 #include "MeleeMonster.h"
-#include "../Data/NormalMonsterData.h"
 #include "../../Global/TopDownGameInstance.h"
+#include "../Data/MonsterData.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
 AMeleeMonster::AMeleeMonster()
@@ -33,4 +33,5 @@ void AMeleeMonster::BeginPlay()
 	GetBlackboardComp()->SetValueAsFloat(TEXT("SearchRange"), NormalMonsterData->SearchRange);
 	GetBlackboardComp()->SetValueAsFloat(TEXT("AttackRange"), NormalMonsterData->AttackRange);
 	GetBlackboardComp()->SetValueAsVector(TEXT("SpawnPos"), GetActorLocation());
+	GetBlackboardComp()->SetValueAsFloat(TEXT("RangeOver"), 3000.0f);
 }
