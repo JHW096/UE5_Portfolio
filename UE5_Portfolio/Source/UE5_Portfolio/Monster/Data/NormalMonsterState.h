@@ -16,5 +16,6 @@ enum class NormalMonsterState : uint8
 	RETURN,
 	PATROL,
 	ATTACK,
+	HIT,
 	DEATH
 };
