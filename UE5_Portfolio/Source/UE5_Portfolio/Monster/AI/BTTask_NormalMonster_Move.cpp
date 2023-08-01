@@ -105,8 +105,8 @@ void UBTTask_NormalMonster_Move::TickTask(UBehaviorTreeComponent& OwnerComp, uin
 		FVector Dir = (Dest - Start);
 		if (DestActor != nullptr)
 		{
-			UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetNormalMonster(OwnerComp)->Controller, Dest);
-
+			//UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetNormalMonster(OwnerComp)->Controller, Dest);
+			UAIBlueprintHelperLibrary::SimpleMoveToActor(GetNormalMonster(OwnerComp)->Controller, DestActor);
 			//GetNormalMonster(OwnerComp)->AddMovementInput(Dir, 1.0f, false);
 		}
 
