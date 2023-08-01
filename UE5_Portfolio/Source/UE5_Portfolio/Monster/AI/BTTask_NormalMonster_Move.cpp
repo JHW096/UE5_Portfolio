@@ -4,6 +4,8 @@
 #include "BTTask_NormalMonster_Move.h"
 #include "AICon_NormalMonster.h"
 #include "../Character/NormalMonster.h"
+#include "NavigationSystem.h"
+#include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "Kismet/GameplayStatics.h"
 
 UBTTask_NormalMonster_Move::UBTTask_NormalMonster_Move()
@@ -15,6 +17,15 @@ UBTTask_NormalMonster_Move::UBTTask_NormalMonster_Move()
 EBTNodeResult::Type UBTTask_NormalMonster_Move::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	GetNormalMonster(OwnerComp)->SetAnimState(NormalMonsterState::MOVE);
+
+	UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetNavigationSystem(GetWorld());
+	if (NavSystem == nullptr)
+	{
+		return EBTNodeResult::Type::Failed;
+	}
+
+	
+
 
 	return EBTNodeResult::Type::InProgress;
 }
@@ -62,15 +73,44 @@ void UBTTask_NormalMonster_Move::TickTask(UBehaviorTreeComponent& OwnerComp, uin
 		}
 	}
 
-	//Chagne Attack
+	
+//#pragma region NormalMove
+//	//Chagne Attack
+//	{
+//		FVector PawnPos = GetNormalMonster(OwnerComp)->GetActorLocation();
+//		FVector TargetPos = TargetActor->GetActorLocation();
+//
+//		FVector Dir = TargetPos - PawnPos;
+//
+//		GetNormalMonster(OwnerComp)->AddMovementInput(Dir);
+//
+//		float AttackRagne = GetBlackboardComponent(OwnerComp)->GetValueAsFloat(TEXT("AttackRange"));
+//
+//		if (Dir.Size() <= AttackRagne)
+//		{
+//			SetStateChange(OwnerComp, NormalMonsterState::ATTACK);
+//			return;
+//		}
+//	}
+//#pragma endregion
+
+	//Navsystem Move
+
+#pragma region MyMove
 	{
-		FVector PawnPos = GetNormalMonster(OwnerComp)->GetActorLocation();
-		FVector TargetPos = TargetActor->GetActorLocation();
+		AActor* DestActor = Cast<AActor>(GetBlackboardComponent(OwnerComp)->GetValueAsObject(TEXT("TargetActor")));
+		FVector Dest = DestActor->GetActorLocation();
+		FVector Start = GetNormalMonster(OwnerComp)->GetActorLocation();
 
-		FVector Dir = TargetPos - PawnPos;
+		FVector Dir = (Dest - Start);
+		if (DestActor != nullptr)
+		{
+			UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetNormalMonster(OwnerComp)->Controller, Dest);
 
-		GetNormalMonster(OwnerComp)->AddMovementInput(Dir);
+			//GetNormalMonster(OwnerComp)->AddMovementInput(Dir, 1.0f, false);
+		}
 
+		
 		float AttackRagne = GetBlackboardComponent(OwnerComp)->GetValueAsFloat(TEXT("AttackRange"));
 
 		if (Dir.Size() <= AttackRagne)
@@ -78,8 +118,13 @@ void UBTTask_NormalMonster_Move::TickTask(UBehaviorTreeComponent& OwnerComp, uin
 			SetStateChange(OwnerComp, NormalMonsterState::ATTACK);
 			return;
 		}
-	}
 
+
+	}
+#pragma endregion
+
+
+	//
 	{
 		UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
 
