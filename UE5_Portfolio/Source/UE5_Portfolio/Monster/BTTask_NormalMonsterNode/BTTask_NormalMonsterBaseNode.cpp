@@ -24,7 +24,7 @@ EBTNodeResult::Type UBTTask_NormalMonsterBaseNode::ExecuteTask(UBehaviorTreeComp
 
 void UBTTask_NormalMonsterBaseNode::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DelataSeconds)
 {
-	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
+	UBlackboardComponent* Blackboard = GetBlackboardComponent(OwnerComp);
 
 	if (Blackboard == nullptr)
 	{
@@ -51,7 +51,7 @@ void UBTTask_NormalMonsterBaseNode::TickTask(UBehaviorTreeComponent& OwnerComp, 
 
 ANormalMonster* UBTTask_NormalMonsterBaseNode::GetNormalMonster(UBehaviorTreeComponent& OwnerComp)
 {
-	AAICon_NormalMonster* AI_Controller = OwnerComp.GetOwner<AAICon_NormalMonster>();
+	AAICon_NormalMonster* AI_Controller = GetBlackboardComponent(OwnerComp)->GetOwner<AAICon_NormalMonster>();
 	if (AI_Controller == nullptr || AI_Controller->IsValidLowLevel() == false)
 	{
 		UE_LOG(LogTemp, Log, TEXT("%s(%u) : MonsterAIController is nullptr"), __FUNCTION__, __LINE__);
@@ -83,7 +83,7 @@ UBlackboardComponent* UBTTask_NormalMonsterBaseNode::GetBlackboardComponent(UBeh
 
 NormalMonsterState UBTTask_NormalMonsterBaseNode::GetNormalMonsterState(UBehaviorTreeComponent& OwnerComp)
 {
-	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
+	UBlackboardComponent* Blackboard = GetBlackboardComponent(OwnerComp);
 	if (Blackboard == nullptr)
 	{
 		UE_LOG(LogTemp, Log, TEXT("%s(%u) : BlackBoard is Nullptr"), __FUNCTION__, __LINE__);
@@ -99,13 +99,13 @@ AActor* UBTTask_NormalMonsterBaseNode::GetTargetSearch(UBehaviorTreeComponent& O
 {
 	AActor* FindTarget = nullptr;
 
-	FString TargetTag = OwnerComp.GetBlackboardComponent()->GetValueAsString(TEXT("TargetTag"));
+	FString TargetTag = GetBlackboardComponent(OwnerComp)->GetValueAsString(TEXT("TargetTag"));
 	TArray<AActor*> TargetActors;
 	UGameplayStatics::GetAllActorsWithTag(GetWorld(), *TargetTag, TargetActors);
 
 	ANormalMonster* OwnerActor = GetNormalMonster(OwnerComp);
 
-	float SearchRagne = OwnerComp.GetBlackboardComponent()->GetValueAsFloat(TEXT("SearchRange"));
+	float SearchRagne = GetBlackboardComponent(OwnerComp)->GetValueAsFloat(TEXT("SearchRange"));
 
 	if (TargetActors.Num() != 0)
 	{
@@ -133,7 +133,7 @@ AActor* UBTTask_NormalMonsterBaseNode::GetTargetSearch(UBehaviorTreeComponent& O
 
 float UBTTask_NormalMonsterBaseNode::GetStateTime(UBehaviorTreeComponent& OwnerComp)
 {
-	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
+	UBlackboardComponent* Blackboard = GetBlackboardComponent(OwnerComp);
 	if (Blackboard == nullptr)
 	{
 		UE_LOG(LogTemp, Log, TEXT("%s(%u) : BlackBoard is Nullptr"), __FUNCTION__, __LINE__);
@@ -147,7 +147,7 @@ float UBTTask_NormalMonsterBaseNode::GetStateTime(UBehaviorTreeComponent& OwnerC
 
 void UBTTask_NormalMonsterBaseNode::ResetStateTime(UBehaviorTreeComponent& OwnerComp)
 {
-	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
+	UBlackboardComponent* Blackboard = GetBlackboardComponent(OwnerComp);
 
 	if (Blackboard == nullptr)
 	{
@@ -160,7 +160,7 @@ void UBTTask_NormalMonsterBaseNode::ResetStateTime(UBehaviorTreeComponent& Owner
 
 void UBTTask_NormalMonsterBaseNode::SetNormalMonsterState(UBehaviorTreeComponent& OwnerComp, uint8 State)
 {
-	UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
+	UBlackboardComponent* Blackboard = GetBlackboardComponent(OwnerComp);
 
 	if (Blackboard == nullptr)
 	{

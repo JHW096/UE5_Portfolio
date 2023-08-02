@@ -33,6 +33,9 @@ struct UE5_PORTFOLIO_API FMonsterData : public FTableRowBase
 	float AttackRange = 100;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	float RangeOver = 1000;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	FVector SpawnPos;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")

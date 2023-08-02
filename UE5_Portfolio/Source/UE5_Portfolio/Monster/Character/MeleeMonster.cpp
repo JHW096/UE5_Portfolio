@@ -28,10 +28,12 @@ void AMeleeMonster::BeginPlay()
 
 	Super::BeginPlay();
 
+	FVector SpawnPos = GetActorLocation();
+
 	GetBlackboardComp()->SetValueAsEnum(TEXT("NormalMonsterState"), static_cast<uint8>(NormalMonsterState::IDLE));
 	GetBlackboardComp()->SetValueAsString(TEXT("TargetTag"), TEXT("Player"));
 	GetBlackboardComp()->SetValueAsFloat(TEXT("SearchRange"), NormalMonsterData->SearchRange);
 	GetBlackboardComp()->SetValueAsFloat(TEXT("AttackRange"), NormalMonsterData->AttackRange);
-	GetBlackboardComp()->SetValueAsVector(TEXT("SpawnPos"), GetActorLocation());
-	GetBlackboardComp()->SetValueAsFloat(TEXT("RangeOver"), 3000.0f);
+	GetBlackboardComp()->SetValueAsVector(TEXT("SpawnPos"), SpawnPos);
+	GetBlackboardComp()->SetValueAsFloat(TEXT("RangeOver"), NormalMonsterData->RangeOver);
 }

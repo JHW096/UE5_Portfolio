@@ -15,6 +15,8 @@ UMyBTTask_Monster_MOVE::UMyBTTask_Monster_MOVE()
 
 EBTNodeResult::Type UMyBTTask_Monster_MOVE::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
+	
+
 	GetNormalMonster(OwnerComp)->SetAnimState(NormalMonsterState::MOVE);
 
 	UCharacterMovementComponent* MoveCom = Cast<UCharacterMovementComponent>(GetNormalMonster(OwnerComp)->GetMovementComponent());
@@ -110,6 +112,23 @@ void UMyBTTask_Monster_MOVE::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* 
 
 
 #pragma region RANGEOVER_
+	{
+		FVector CurrentMonsterPos = GetNormalMonster(OwnerComp)->GetActorLocation();
+		CurrentMonsterPos.Z = 0.0f;
+
+		FVector MonsterSpawnPos = GetBlackboardComponent(OwnerComp)->GetValueAsVector(TEXT("SpawnPos"));
+		MonsterSpawnPos.Z = 0.0f;
+
+		float OverRange = GetBlackboardComponent(OwnerComp)->GetValueAsFloat(TEXT("RangeOver"));
+
+		float Distance = (MonsterSpawnPos - CurrentMonsterPos).Size();
+
+		if (Distance >= OverRange)
+		{
+			int a = 0;
+			SetNormalMonsterState(OwnerComp, NormalMonsterState::RETURN);
+		}
+	}
 
 	
 

@@ -8,14 +8,18 @@
 
 UBTTask_Monster_RETURN::UBTTask_Monster_RETURN()
 {
-
+	bNotifyTick = true;
+	bNotifyTaskFinished = true;
 }
 
 EBTNodeResult::Type UBTTask_Monster_RETURN::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
+
 	GetNormalMonster(OwnerComp)->SetAnimState(NormalMonsterState::RETURN);
 
 	UCharacterMovementComponent* MoveCom = Cast<UCharacterMovementComponent>(GetNormalMonster(OwnerComp)->GetMovementComponent());
+
+	int a = 0;
 
 	if (nullptr != MoveCom)
 	{
@@ -74,16 +78,20 @@ void UBTTask_Monster_RETURN::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* 
 		FVector MonsterSpawnPos = GetBlackboardComponent(OwnerComp)->GetValueAsVector(TEXT("SpawnPos"));
 		MonsterSpawnPos.Z = 0.0f;
 
-		FVector Dir = (MonsterSpawnPos - CurrentMonsterPos).GetSafeNormal();
+		FVector Dir = MonsterSpawnPos - CurrentMonsterPos;
 
-		UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetNormalMonster(OwnerComp)->Controller, Dir);
-		
+		Dir.Normalize();
+
+		//GetNormalMonster(OwnerComp)->AddMovementInput(Dir);
+		UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetNormalMonster(OwnerComp)->Controller, MonsterSpawnPos);
+
+
 		float Distance = (MonsterSpawnPos - CurrentMonsterPos).Size();
 
+		float OverRange = GetBlackboardComponent(OwnerComp)->GetValueAsFloat(TEXT("RangeOver"));
 
-		if (Distance <= 10.0f)
+		if (Distance <= 30.0f)
 		{
-			int a = 0;
 			SetNormalMonsterState(OwnerComp, NormalMonsterState::IDLE);
 		}
 	}
