@@ -24,10 +24,21 @@ public:
 			ESlateVisibility::Visible : ESlateVisibility::Hidden;
 	}
 
+	void InventoryWindowVisibilitySwitch()
+	{
+		int a = 0;
+		InventoryyWindowVisibility = InventoryyWindowVisibility == ESlateVisibility::Hidden ?
+			ESlateVisibility::Visible : ESlateVisibility::Hidden;
+	}
 
 	ESlateVisibility GetTestWindowVisibility()
 	{
 		return TestWindowVisibility;
+	}
+
+	ESlateVisibility GetInventoryyWindowVisibility()
+	{
+		return InventoryyWindowVisibility;
 	}
 
 private:
@@ -35,5 +46,8 @@ private:
 
 	UPROPERTY(Category = "TestWindowInfo", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	ESlateVisibility TestWindowVisibility = ESlateVisibility::Hidden;
+
+	UPROPERTY(Category = "TestWindowInfo", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	ESlateVisibility InventoryyWindowVisibility = ESlateVisibility::Hidden;
 
 };

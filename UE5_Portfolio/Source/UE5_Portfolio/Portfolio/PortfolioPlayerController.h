@@ -30,11 +30,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* SetDestinationClickAction;
 
+	//NormalAttack
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InputCButtonAction;
 	
+	//TestUI
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InputGButtonAction;
+
+	//Inventory
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InputIButtonAction;
 
 protected:
 	uint32 bMoveToMouseCursor : 1;
@@ -55,6 +61,7 @@ protected:
 
 	//UI
 	void OnInputTestUIKeyPressed();
+	void OnInputIKeyPressed();
 
 
 private:

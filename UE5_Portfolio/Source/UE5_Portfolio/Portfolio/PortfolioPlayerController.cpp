@@ -36,6 +36,7 @@ void APortfolioPlayerController::BeginPlay()
 	
 
 
+
 }
 
 
@@ -83,6 +84,14 @@ void APortfolioPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(
 			InputGButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputTestUIKeyPressed
 		);
+
+		//Inventory
+		EnhancedInputComponent->BindAction(
+			InputIButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputIKeyPressed
+		);
+
+
+
 		/*EnhancedInputComponent->BindAction(
 			InputGButtonAction, ETriggerEvent::Triggered, this, &APortfolioPlayerController::OnInputTestUIKeyPressed
 		);*/
@@ -208,6 +217,19 @@ void APortfolioPlayerController::OnInputTestUIKeyPressed()
 	}
 
 	HUD->GetMainWidget()->TestWindowVisibilitySwitch();
+}
+
+void APortfolioPlayerController::OnInputIKeyPressed()
+{
+
+	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
+
+	if (HUD == nullptr && HUD->IsValidLowLevel())
+	{
+		return;
+	}
+	HUD->GetMainWidget()->InventoryWindowVisibilitySwitch();
+
 }
 
 

@@ -27,9 +27,7 @@ void APortfolioHUD::BeginPlay()
 	MainWidget = Cast<UMainWidget>(Widget);
 	MainWidget->AddToViewport();
 
-	{
-		UUserWidget* Window = Cast<UUserWidget>(MainWidget->GetWidgetFromName(TEXT("Test_Widget")));
-	}
+	
 }
 
 void APortfolioHUD::Tick(float DeltaSeconds)
