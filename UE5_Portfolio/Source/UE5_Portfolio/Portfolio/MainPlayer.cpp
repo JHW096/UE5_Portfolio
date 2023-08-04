@@ -70,6 +70,29 @@ AMainPlayer::AMainPlayer()
 		}
 	}
 
+	{
+		static ConstructorHelpers::FObjectFinder<UMaterialInterface> OP_Material(
+			TEXT("/Script/Engine.Material'/Game/MultistoryDungeons/Materials/Base_2.Base_2'")
+		);
+
+		if (OP_Material.Succeeded())
+		{
+			OpacityMaterial = OP_Material.Object;
+		}
+	}
+
+	{
+		static ConstructorHelpers::FObjectFinder<UMaterialInterface> NOP_Material(
+			TEXT("/Script/Engine.Material'/Game/MultistoryDungeons/Materials/Base_01.Base_01'")
+		);
+
+		if (NOP_Material.Succeeded())
+		{
+			NoneOpacityMaterial = NOP_Material.Object;
+		}
+	}
+
+
 	AnimState = PlayerAnimState::IDLE;
 
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -100,11 +123,13 @@ void AMainPlayer::Tick(float DeltaTime)
 
 	GetWorld()->LineTraceMultiByProfile(OutHits, Start, End, ProfileName, Params);
 
+	//FHitResult hit;
 	if (OutHits.Num() != 0)
 	{
-		int a = 0;
+		//hit = OutHits[0];
+		//OutHits[0].GetComponent()->SetMaterial(0, OpacityMaterial);
+		
 	}
-
 }
 
 void AMainPlayer::MoveAction()

@@ -32,14 +32,17 @@ public:
 	UPROPERTY(Category = "Visibility", EditAnywhere, BlueprintReadWrite)
 	ESlateVisibility ItemCountVisibility = ESlateVisibility::Hidden;
 
+	UPROPERTY(Category = "Image", EditAnywhere, BlueprintReadWrite)
 	UImage* ItemIconImage = nullptr;
 
+	UPROPERTY(Category = "Text", EditAnywhere, BlueprintReadWrite)
 	UTextBlock* ItemCountBlock = nullptr;
 
-
+	UPROPERTY(Category = "Count", EditAnywhere, BlueprintReadWrite)
+	int ItemCountValue = 1;
 
 private:
 
-	const FItemData* = nullptr;
+	const FItemData* ItemData = nullptr;
 
 };

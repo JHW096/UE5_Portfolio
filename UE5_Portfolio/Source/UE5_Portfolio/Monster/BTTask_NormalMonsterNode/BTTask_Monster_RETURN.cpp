@@ -37,10 +37,10 @@ void UBTTask_Monster_RETURN::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* 
 	
 	{
 		FVector CurrentMonsterPos = GetNormalMonster(OwnerComp)->GetActorLocation();
-		CurrentMonsterPos.Z = 0.0f;
+		//CurrentMonsterPos.Z = 0.0f;
 
 		FVector MonsterSpawnPos = GetBlackboardComponent(OwnerComp)->GetValueAsVector(TEXT("SpawnPos"));
-		MonsterSpawnPos.Z = 0.0f;
+		//MonsterSpawnPos.Z = 0.0f;
 
 		FVector Dir = MonsterSpawnPos - CurrentMonsterPos;
 		Dir.Normalize();
@@ -78,19 +78,21 @@ void UBTTask_Monster_RETURN::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* 
 		FVector MonsterSpawnPos = GetBlackboardComponent(OwnerComp)->GetValueAsVector(TEXT("SpawnPos"));
 		MonsterSpawnPos.Z = 0.0f;
 
+		FVector DestPos = GetBlackboardComponent(OwnerComp)->GetValueAsVector(TEXT("SpawnPos"));
+
 		FVector Dir = MonsterSpawnPos - CurrentMonsterPos;
 
 		Dir.Normalize();
 
 		//GetNormalMonster(OwnerComp)->AddMovementInput(Dir);
-		UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetNormalMonster(OwnerComp)->Controller, MonsterSpawnPos);
-
+		UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetNormalMonster(OwnerComp)->Controller, DestPos);
+		
 
 		float Distance = (MonsterSpawnPos - CurrentMonsterPos).Size();
 
 		float OverRange = GetBlackboardComponent(OwnerComp)->GetValueAsFloat(TEXT("RangeOver"));
 
-		if (Distance <= 30.0f)
+		if (Distance <= 50.0f)
 		{
 			SetNormalMonsterState(OwnerComp, NormalMonsterState::IDLE);
 		}

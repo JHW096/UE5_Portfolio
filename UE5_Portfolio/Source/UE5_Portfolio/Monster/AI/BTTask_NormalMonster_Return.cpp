@@ -23,6 +23,8 @@ void UBTTask_NormalMonster_Return::TickTask(UBehaviorTreeComponent& OwnerComp, u
 {
 	Super::TickTask(OwnerComp, NodeMemory, DeltaSeconds);
 
+	int a = 0;
+
 	//Monster Return Rotaiton
 	{
 		FVector CurrentMonsterPos = GetNormalMonster(OwnerComp)->GetActorLocation();
@@ -76,7 +78,6 @@ void UBTTask_NormalMonster_Return::TickTask(UBehaviorTreeComponent& OwnerComp, u
 
 		if (Distance <= 10.0f)
 		{
-			int a = 0;  
 			SetStateChange(OwnerComp, NormalMonsterState::IDLE);
 		}
 	}

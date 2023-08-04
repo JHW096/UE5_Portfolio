@@ -48,6 +48,12 @@ private:
 	UPROPERTY(Category = "Camera", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* SpringArmComponent;
 
+	UPROPERTY(Category = "Material", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class UMaterialInterface* OpacityMaterial;
+
+	UPROPERTY(Category = "Material", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class UMaterialInterface* NoneOpacityMaterial;
+
 public:
 
 	void MoveAction();

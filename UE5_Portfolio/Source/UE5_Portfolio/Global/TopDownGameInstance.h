@@ -27,6 +27,8 @@ public:
 
 	struct FTest2* GetTestData(FName Name);
 
+	const struct FItemData* GetItemData();
+
 public:
 
 	UPROPERTY()
@@ -37,5 +39,12 @@ public:
 
 	UPROPERTY()
 	UDataTable* UIData;
+
+	UPROPERTY()
+	UDataTable* ItemDatas;
+
+	TArray<const struct FItemData*> ItemDataRandoms;
+
+	static FRandomStream MainRandom;
 
 };

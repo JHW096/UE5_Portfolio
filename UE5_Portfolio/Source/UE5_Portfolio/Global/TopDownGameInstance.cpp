@@ -5,6 +5,9 @@
 #include "../Monster/Data/NormalMonsterData.h"
 #include "../Monster/Data/MonsterData.h"
 #include "Data/Test2.h"
+#include "Data/ItemData.h"
+
+FRandomStream UTopDownGameInstance::MainRandom;
 
 UTopDownGameInstance::UTopDownGameInstance()
 {
@@ -47,6 +50,24 @@ UTopDownGameInstance::UTopDownGameInstance()
 			NormalMonsterData = DT_NormalMonster.Object;
 		}
 	}
+
+	{
+		FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Global/Data/DT_ItemData.DT_ItemData'");
+		ConstructorHelpers::FObjectFinder<UDataTable> DT_Item(*DataPath);
+
+		if (DT_Item.Succeeded())
+		{
+			ItemDatas = DT_Item.Object;
+
+			TArray<FName> ArrayName = ItemDatas->GetRowNames();
+
+			for (size_t i = 0; i < ArrayName.Num(); i++)
+			{
+				FItemData* ItemData = ItemDatas->FindRow<FItemData>(ArrayName[i], ArrayName[i].ToString());
+				ItemDataRandoms.Add(ItemData);
+			}
+		}
+	}
 }
 
 UTopDownGameInstance::~UTopDownGameInstance()
@@ -87,5 +108,15 @@ FTest2* UTopDownGameInstance::GetTestData(FName Name)
 	}
 
 	return Table;
+}
+
+const FItemData* UTopDownGameInstance::GetItemData()
+{
+	if (true == ItemDataRandoms.IsEmpty())
+	{
+		return nullptr;
+	}
+
+	return ItemDataRandoms[UTopDownGameInstance::MainRandom.RandRange(0, ItemDataRandoms.Num() - 1)];
 }
 

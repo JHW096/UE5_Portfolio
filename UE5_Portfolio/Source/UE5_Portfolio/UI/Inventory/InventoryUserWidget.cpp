@@ -5,6 +5,7 @@
 #include "Components/TileView.h"
 #include "../../Global/TopDownGameInstance.h"
 #include "../Inventory/ItemObj.h"
+#include "../Inventory/ItemSlot.h"
 
 
 void UInventoryUserWidget::NativeConstruct()
@@ -24,8 +25,9 @@ void UInventoryUserWidget::NativeConstruct()
 
 	for (size_t i = 0; i < 20; i++)
 	{
+		int a = 0;
 		UItemObj* Data = NewObject<UItemObj>();
-		Data = nullptr;
+		Data->ItemData = GameInst->GetItemData();
 		InvenList->AddItem(Data);
 	}
 
@@ -38,7 +40,18 @@ void UInventoryUserWidget::NativeTick(const FGeometry& MyGeometry, float InDelta
 
 void UInventoryUserWidget::AddInvenItem(UObject* _Data, UUserWidget* _Widget)
 {
-	
+	UItemSlot* ItemSlotWidget = Cast<UItemSlot>(_Widget);
+
+	UItemObj* InvenSlotData = Cast<UItemObj>(_Data);
+
+	if (nullptr == ItemSlotWidget)
+	{
+		return;
+	}
+
+	ItemSlotWidget->SetItemData(InvenSlotData->ItemData);
+
+
 }
 
 void UInventoryUserWidget::NewWidget(UUserWidget* _Widget)

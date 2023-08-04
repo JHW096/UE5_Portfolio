@@ -19,4 +19,28 @@ void UItemSlot::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 
 void UItemSlot::SetItemData(const FItemData* _ItemData)
 {
+	ItemData = _ItemData;
+
+	if (nullptr == ItemData)
+	{
+		ItemIconVisibility = ESlateVisibility::Hidden;
+		return;
+	}
+
+	if (nullptr != ItemData)
+	{
+		ItemIconVisibility = ESlateVisibility::Visible;
+		ItemIconImage->SetBrushFromTexture(Cast<UTexture2D>(_ItemData->Icon));
+
+		if (1 < ItemData->StackMax)
+		{
+			ItemCountVisibility = ESlateVisibility::Visible;
+			ItemCountValue = 1;
+		}
+		else
+		{
+			ItemCountVisibility = ESlateVisibility::Hidden;
+		}
+	}
+
 }
