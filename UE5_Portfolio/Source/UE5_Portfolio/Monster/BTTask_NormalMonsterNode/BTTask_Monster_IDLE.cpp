@@ -2,6 +2,7 @@
 
 
 #include "BTTask_Monster_IDLE.h"
+#include "../../Global/TopDownGameInstance.h"
 
 
 
@@ -17,7 +18,7 @@ EBTNodeResult::Type UBTTask_Monster_IDLE::ExecuteTask(UBehaviorTreeComponent& Ow
 	Super::ExecuteTask(OwnerComp, NodeMemory);
 
 	GetNormalMonster(OwnerComp)->SetAnimState(NormalMonsterState::IDLE);
-	
+
 	return EBTNodeResult::InProgress;
 }
 
@@ -25,7 +26,22 @@ void UBTTask_Monster_IDLE::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* No
 {
 	Super::TickTask(OwnerComp, NodeMemory, DeltaSeconds);
 
-	int a = 0;
+	/*int PatrolTime = UTopDownGameInstance::MainRandom.RandRange(0, 3);
+
+	if (GetStateTime(OwnerComp) >= PatrolTime)
+	{
+		SetNormalMonsterState(OwnerComp, NormalMonsterState::PATROL);
+		return; 
+	}*/
+
+	if (GetStateTime(OwnerComp) >= 3.0f)
+	{
+		ResetStateTime(OwnerComp);
+
+		SetNormalMonsterState(OwnerComp, NormalMonsterState::PATROL);
+		return;
+	}
+
 
 	AActor* TargetActor = GetTargetSearch(OwnerComp);
 
