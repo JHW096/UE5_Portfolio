@@ -1,35 +1,34 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MyBTTask_Monster_MOVE.h"
+#include "BTTask_Monster_MOVE.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../AI/AICon_NormalMonster.h"
 
-UMyBTTask_Monster_MOVE::UMyBTTask_Monster_MOVE()
+UBTTask_Monster_MOVE::UBTTask_Monster_MOVE()
 {
 	bNotifyTick = true;
 	bNotifyTaskFinished = true;
 }
 
-EBTNodeResult::Type UMyBTTask_Monster_MOVE::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
+EBTNodeResult::Type UBTTask_Monster_MOVE::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	
-
 	GetNormalMonster(OwnerComp)->SetAnimState(NormalMonsterState::MOVE);
 
 	UCharacterMovementComponent* MoveCom = Cast<UCharacterMovementComponent>(GetNormalMonster(OwnerComp)->GetMovementComponent());
 
 	if (nullptr != MoveCom)
 	{
-		MoveCom->MaxWalkSpeed = 250.0f;
+		MoveCom->MaxWalkSpeed = 300.0f;
 	}
 
 	return EBTNodeResult::InProgress;
 }
 
-void UMyBTTask_Monster_MOVE::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
+void UBTTask_Monster_MOVE::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
 	Super::TickTask(OwnerComp, NodeMemory, DeltaSeconds);
 
@@ -43,42 +42,46 @@ void UMyBTTask_Monster_MOVE::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* 
 		return;
 	}
 
-#pragma region OnwerDirection
-	{
-		FVector TargetPos = TargetActor->GetActorLocation();
-		TargetPos.Z = 0.0f;
-
-		FVector OwnerPos = GetNormalMonster(OwnerComp)->GetActorLocation();
-		OwnerPos.Z = 0.0f;
-
-		FVector Dir = TargetPos - OwnerPos;
-		Dir.Normalize();
-
-		FVector OtherForward = GetNormalMonster(OwnerComp)->GetActorForwardVector();
-		OtherForward.Normalize();
-
-		FVector Cross = FVector::CrossProduct(OtherForward, Dir);
-
-		float Angle0 = Dir.Rotation().Yaw;
-		float Angle1 = OtherForward.Rotation().Yaw;
-
-		if (FMath::Abs(Angle0 - Angle1) >= 10.0f)
-		{
-			FRotator Rot = FRotator::MakeFromEuler({ 0, 0, Cross.Z * 500.0f * DeltaSeconds });
-			GetNormalMonster(OwnerComp)->AddActorWorldRotation(Rot);
-		}
-		else
-		{
-			FRotator Rot = Dir.Rotation();
-			GetNormalMonster(OwnerComp)->SetActorRotation(Rot);
-		}
-	}
-#pragma endregion
+//#pragma region OnwerDirection
+//	{
+//		FVector TargetPos = TargetActor->GetActorLocation();
+//		TargetPos.Z = 0.0f;
+//
+//		FVector OwnerPos = GetNormalMonster(OwnerComp)->GetActorLocation();
+//		OwnerPos.Z = 0.0f;
+//
+//		FVector Dir = TargetPos - OwnerPos;
+//		Dir.Normalize();
+//
+//		FVector OtherForward = GetNormalMonster(OwnerComp)->GetActorForwardVector();
+//		OtherForward.Normalize();
+//
+//		FVector Cross = FVector::CrossProduct(OtherForward, Dir);
+//
+//		float Angle0 = Dir.Rotation().Yaw;
+//		float Angle1 = OtherForward.Rotation().Yaw;
+//
+//		if (FMath::Abs(Angle0 - Angle1) >= 10.0f)
+//		{
+//			FRotator Rot = FRotator::MakeFromEuler({ 0, 0, Cross.Z * 500.0f * DeltaSeconds });
+//			GetNormalMonster(OwnerComp)->AddActorWorldRotation(Rot);
+//		}
+//		else
+//		{
+//			FRotator Rot = Dir.Rotation();
+//			GetNormalMonster(OwnerComp)->SetActorRotation(Rot);
+//		}
+//	}
+//#pragma endregion
 
 #pragma region OwnerMoveToTarget, SetAttack
 	{
 		//OwnerMoveToTarget
 		AActor* DestActor = Cast<AActor>(GetBlackboardComponent(OwnerComp)->GetValueAsObject(TEXT("TargetActor")));
+		if (DestActor == nullptr)
+		{
+			return;
+		}
 		FVector Dest = DestActor->GetActorLocation();
 		FVector Start = GetNormalMonster(OwnerComp)->GetActorLocation();
 

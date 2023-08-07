@@ -21,6 +21,8 @@ void UBTService_SearchTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
 
 	AActor* FindTarget = GetTargetSearch(OwnerComp);
+	
+	FVector TargetPos;
 
 	if (FindTarget == nullptr)
 	{
@@ -29,8 +31,11 @@ void UBTService_SearchTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 	else
 	{
 		GetBlackboardComponent(OwnerComp)->SetValueAsObject(TEXT("TargetActor"), FindTarget);
+		GetBlackboardComponent(OwnerComp)->SetValueAsVector(TEXT("TargetPos"), FindTarget->GetActorLocation());
+		TargetPos = GetBlackboardComponent(OwnerComp)->GetValueAsVector(TEXT("TargetPos"));
 		return;
 	}
+
 
 }
 

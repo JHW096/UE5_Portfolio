@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "BTTask_NormalMonsterBaseNode.h"
-#include "MyBTTask_Monster_MOVE.generated.h"
+#include "BTTask_Monster_MOVE.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UE5_PORTFOLIO_API UMyBTTask_Monster_MOVE : public UBTTask_NormalMonsterBaseNode
+class UE5_PORTFOLIO_API UBTTask_Monster_MOVE : public UBTTask_NormalMonsterBaseNode
 {
 	GENERATED_BODY()
 
-	UMyBTTask_Monster_MOVE();
+		UBTTask_Monster_MOVE();
 
 protected:
 
