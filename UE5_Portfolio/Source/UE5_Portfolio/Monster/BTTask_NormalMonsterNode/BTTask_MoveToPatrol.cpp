@@ -8,6 +8,8 @@
 #include "../../Monster/Character/NormalMonster.h"
 #include "../../Monster/AI/AICon_NormalMonster.h"
 #include "../../Monster/Data/NormalMonsterState.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
 
 UBTTask_MoveToPatrol::UBTTask_MoveToPatrol()
 {
