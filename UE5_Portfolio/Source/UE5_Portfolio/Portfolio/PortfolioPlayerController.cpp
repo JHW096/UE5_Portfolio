@@ -9,6 +9,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "PlayerAnimInstance.h"
 #include "PortfolioHUD.h"
+#include "Components/SphereComponent.h"
 
 APortfolioPlayerController::APortfolioPlayerController()
 {
@@ -90,6 +91,10 @@ void APortfolioPlayerController::SetupInputComponent()
 			InputIButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputIKeyPressed
 		);
 
+		//QKey
+		EnhancedInputComponent->BindAction(
+			InputQButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputQKeyPressed
+		);
 
 
 		/*EnhancedInputComponent->BindAction(
@@ -203,7 +208,39 @@ void APortfolioPlayerController::OnInputCKeyPressed()
 
 void APortfolioPlayerController::OnInputCKeyReleased()
 {
+	//StopMovement();
+
+	//FHitResult Hit;
+	//bool bHitSuccessful = false;
+
+	//bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
+	//if (bHitSuccessful)
+	//{
+	//	//GetWorld()->SpawnActor();
+	//	return;
+	//}
 	return;
+}
+
+void APortfolioPlayerController::OnInputQKeyPressed()
+{
+	FHitResult Hit;
+	bool bHitSuccessful = false;
+
+	bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
+	if (bHitSuccessful)
+	{
+		FVector temploaction = Hit.Location;
+		FTransform temptrans;
+		temptrans.SetLocation(temploaction);
+
+		if (tmp == nullptr)
+		{
+			return;
+		}
+
+		GetWorld()->SpawnActor<AActor>(tmp, temptrans);
+	}
 }
 
 void APortfolioPlayerController::OnInputTestUIKeyPressed()

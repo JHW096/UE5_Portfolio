@@ -42,6 +42,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InputIButtonAction;
 
+	//QSkill
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InputQButtonAction;
+
 protected:
 	uint32 bMoveToMouseCursor : 1;
 
@@ -59,6 +63,8 @@ protected:
 	void OnInputCKeyPressed();
 	void OnInputCKeyReleased();
 
+	void OnInputQKeyPressed();
+
 	//UI
 	void OnInputTestUIKeyPressed();
 	void OnInputIKeyPressed();
@@ -71,6 +77,7 @@ private:
 	float FollowTime;	//How long it has been pressed
 
 	class AMainPlayer* MyCharacter;
-	
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> tmp;
 };
