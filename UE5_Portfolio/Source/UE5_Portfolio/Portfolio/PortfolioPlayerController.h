@@ -80,4 +80,6 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> tmp;
+
+	AActor* skill = nullptr;
 };

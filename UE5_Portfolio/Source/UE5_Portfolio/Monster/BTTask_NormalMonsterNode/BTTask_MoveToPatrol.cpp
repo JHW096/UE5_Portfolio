@@ -20,16 +20,14 @@ EBTNodeResult::Type UBTTask_MoveToPatrol::ExecuteTask(UBehaviorTreeComponent& Ow
 {
 	EBTNodeResult::Type Result = Super::ExecuteTask(OwnerComp, NodeMemory);
 
+	GetNormalMonster(OwnerComp)->SetAnimState(NormalMonsterState::PATROL);
+
 	UCharacterMovementComponent* MoveCom = Cast<UCharacterMovementComponent>(GetNormalMonster(OwnerComp)->GetMovementComponent());
 
 	if (nullptr != MoveCom)
 	{
 		MoveCom->MaxWalkSpeed = 150.0f;
 	}
-
-	return EBTNodeResult::InProgress;
-
-	GetNormalMonster(OwnerComp)->SetAnimState(NormalMonsterState::PATROL);
 
 	return Result;
 }

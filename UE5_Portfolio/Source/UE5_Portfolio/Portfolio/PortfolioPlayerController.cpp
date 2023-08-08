@@ -10,6 +10,7 @@
 #include "PlayerAnimInstance.h"
 #include "PortfolioHUD.h"
 #include "Components/SphereComponent.h"
+#include "../Player/FirstSkill.h"
 
 APortfolioPlayerController::APortfolioPlayerController()
 {
@@ -34,8 +35,6 @@ void APortfolioPlayerController::BeginPlay()
 	{
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);
 	}
-	
-
 
 
 }
@@ -230,10 +229,10 @@ void APortfolioPlayerController::OnInputQKeyPressed()
 	bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
 	if (bHitSuccessful)
 	{
-		FVector temploaction = Hit.Location;
+		FVector templocation = Hit.Location;
+		templocation.Z += 1000.0f;
 		FTransform temptrans;
-		temptrans.SetLocation(temploaction);
-
+		temptrans.SetLocation(templocation);
 		if (tmp == nullptr)
 		{
 			return;
