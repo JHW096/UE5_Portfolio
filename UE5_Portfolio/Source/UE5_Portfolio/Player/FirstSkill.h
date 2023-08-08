@@ -25,10 +25,23 @@ public:
 
 private:
 
+	UFUNCTION()
+	void DestroyProjectile(AActor* _Destroy);
 
+	UFUNCTION()
+	void OnHit(
+		UPrimitiveComponent* HitComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		FVector NormalImpulse,
+		const FHitResult& Hit
+	);
 
 private:
 
+	UPROPERTY(Category = "Effect", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> DeathCreateObject = nullptr;
+	
 	UPROPERTY(Category = "Component", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	class USphereComponent* SphereComponent = nullptr;
 

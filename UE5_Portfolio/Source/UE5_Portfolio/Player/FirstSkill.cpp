@@ -3,6 +3,7 @@
 
 #include "FirstSkill.h"
 #include "Components/SphereComponent.h"
+#include "Components/PrimitiveComponent.h"
 
 // Sets default values
 AFirstSkill::AFirstSkill()
@@ -22,8 +23,8 @@ void AFirstSkill::BeginPlay()
 {
 	Super::BeginPlay();
 
-
-	
+	OnDestroyed.AddDynamic(this, &AFirstSkill::DestroyProjectile);
+	SphereComponent->OnComponentHit.AddDynamic(this, &AFirstSkill::OnHit);
 }
 
 // Called every frame
@@ -31,4 +32,24 @@ void AFirstSkill::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AFirstSkill::DestroyProjectile(AActor* _Destroy)
+{
+	if (nullptr == DeathCreateObject)
+	{
+		return;
+	}
+
+	AActor* Actor = GetWorld()->SpawnActor<AActor>(DeathCreateObject);
+
+	Actor->SetActorLocation(this->GetActorLocation());
+}
+
+void AFirstSkill::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (OtherComp->GetCollisionProfileName() == TEXT("Land"))
+	{
+		Destroy();
+	}
 }
