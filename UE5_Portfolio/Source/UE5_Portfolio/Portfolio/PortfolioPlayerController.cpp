@@ -11,6 +11,7 @@
 #include "PortfolioHUD.h"
 #include "Components/SphereComponent.h"
 #include "../Player/FirstSkill.h"
+#include "DrawDebugHelpers.h"
 
 APortfolioPlayerController::APortfolioPlayerController()
 {
@@ -18,6 +19,9 @@ APortfolioPlayerController::APortfolioPlayerController()
 	CachedDestination = FVector::ZeroVector;
 	FollowTime = 0.0f;
 
+
+	///
+	ChargeTime = 2.0f;
 }
 
 void APortfolioPlayerController::BeginPlay()
@@ -58,6 +62,9 @@ void APortfolioPlayerController::SetupInputComponent()
 
 	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent))
 	{
+		
+#pragma region PLAYER_CLICK_MOVE_BIND
+
 		EnhancedInputComponent->BindAction(
 			SetDestinationClickAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputStarted
 		);
@@ -70,6 +77,11 @@ void APortfolioPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(
 			SetDestinationClickAction, ETriggerEvent::Canceled, this, &APortfolioPlayerController::OnSetDestinationReleased
 		);
+
+#pragma endregion
+
+
+		
 		EnhancedInputComponent->BindAction(
 			InputCButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputCKeyPressed
 		);
@@ -80,6 +92,7 @@ void APortfolioPlayerController::SetupInputComponent()
 			InputCButtonAction, ETriggerEvent::Ongoing, this, &APortfolioPlayerController::OnInputCKeyPressed
 		);
 
+#pragma region UI_VISIBILITY_BIND
 		//UI Visiblity TEST
 		EnhancedInputComponent->BindAction(
 			InputGButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputTestUIKeyPressed
@@ -90,25 +103,37 @@ void APortfolioPlayerController::SetupInputComponent()
 			InputIButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputIKeyPressed
 		);
 
-		//QKey
+#pragma endregion
+
+
+#pragma region SKILL_Q_KEY_BIND
+		
 		EnhancedInputComponent->BindAction(
 			InputQButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputQKeyPressed
 		);
 
-
-		/*EnhancedInputComponent->BindAction(
-			InputGButtonAction, ETriggerEvent::Triggered, this, &APortfolioPlayerController::OnInputTestUIKeyPressed
-		);*/
-
-
-		/*EnhancedInputComponent->BindAction(
-			InputCButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputCKeyPressed
-		);
 		EnhancedInputComponent->BindAction(
-			InputCButtonAction, ETriggerEvent::Triggered, this, &APortfolioPlayerController::OnInputCKeyPressed
+			InputQButtonAction, ETriggerEvent::Triggered, this, &APortfolioPlayerController::OnInputQKeyTriggered
+		);
+
+		/*EnhancedInputComponent->BindAction(
+			InputQButtonAction, ETriggerEvent::Ongoing, this, &APortfolioPlayerController::OnInputQKeyTriggered
 		);*/
+
+		EnhancedInputComponent->BindAction(
+			InputQButtonAction, ETriggerEvent::Completed, this, &APortfolioPlayerController::OnInputQKeyReleased
+		);
+
+		EnhancedInputComponent->BindAction(
+			InputQButtonAction, ETriggerEvent::Canceled, this, &APortfolioPlayerController::OnInputQKeyReleased
+		);
+
+
+
+#pragma endregion
+		
 	}
-	//InputComponent->BindAction("ActionKeyC", EInputEvent::IE_Pressed, this, &APortfolioPlayerController::OnInputCKeyPressed);
+	
 	
 }
 
@@ -223,6 +248,7 @@ void APortfolioPlayerController::OnInputCKeyReleased()
 
 void APortfolioPlayerController::OnInputQKeyPressed()
 {
+	ResetChargeTime();
 	FHitResult Hit;
 	bool bHitSuccessful = false;
 
@@ -238,8 +264,81 @@ void APortfolioPlayerController::OnInputQKeyPressed()
 			return;
 		}
 
-		GetWorld()->SpawnActor<AActor>(tmp, temptrans);
+		FVector Debug_SkillRange = templocation;
+		Debug_SkillRange.Z = 0.0f;
 	}
+}
+
+void APortfolioPlayerController::OnInputQKeyTriggered()
+{
+	ChargeTime += GetWorld()->GetDeltaSeconds();
+	
+	FHitResult Hit;
+	bool bHitSuccessful = false;
+
+	bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
+	if (bHitSuccessful)
+	{
+		FVector templocation = Hit.Location;
+		templocation.Z += 1000.0f;
+		FTransform temptrans;
+		temptrans.SetLocation(templocation);
+		if (tmp == nullptr)
+		{
+			return;
+		}
+
+		FVector Debug_SkillRange = templocation;
+		Debug_SkillRange.Z = 0.0f;
+
+		if (ChargeTime > 1.5f)
+		{
+			DrawDebugCylinder(
+				GetWorld(), //World
+				Debug_SkillRange, // Height start
+				Debug_SkillRange + FVector{0.0f, 0.0f, 1.0f}, //Height End
+				200.0f, // Radius
+				100, // Segment
+				FColor::Green, //DrawColor
+				false,	//PersistenLines
+				2.0f //Life Time
+				//Depth
+				//Thick
+			);
+		}
+
+	}
+		
+}
+
+void APortfolioPlayerController::OnInputQKeyReleased()
+{
+	FHitResult Hit;
+	bool bHitSuccessful = false;
+
+	bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
+	if (bHitSuccessful)
+	{
+		FVector templocation = Hit.Location;
+		templocation.Z += 1000.0f;
+		FTransform temptrans;
+		temptrans.SetLocation(templocation);
+		if (tmp == nullptr)
+		{
+			return;
+		}
+		if (ChargeTime > 1.5f)
+		{
+			GetWorld()->SpawnActor<AActor>(tmp, temptrans);
+		}
+		
+	}
+	ResetChargeTime();
+}
+
+void APortfolioPlayerController::OnInputQKeyCanceled()
+{
+	ResetChargeTime();
 }
 
 void APortfolioPlayerController::OnInputTestUIKeyPressed()

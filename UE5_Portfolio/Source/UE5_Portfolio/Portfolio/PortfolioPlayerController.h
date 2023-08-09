@@ -46,6 +46,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InputQButtonAction;
 
+public:
+
+	FORCEINLINE float GetChargeTime()
+	{
+		return ChargeTime;
+	}
+
+	FORCEINLINE void ResetChargeTime()
+	{
+		ChargeTime = 0.0f;
+	}
+
 protected:
 	uint32 bMoveToMouseCursor : 1;
 
@@ -63,7 +75,11 @@ protected:
 	void OnInputCKeyPressed();
 	void OnInputCKeyReleased();
 
+	//Skill_Q
 	void OnInputQKeyPressed();
+	void OnInputQKeyTriggered();
+	void OnInputQKeyReleased();
+	void OnInputQKeyCanceled();
 
 	//UI
 	void OnInputTestUIKeyPressed();
@@ -82,4 +98,5 @@ private:
 	TSubclassOf<AActor> tmp;
 
 	AActor* skill = nullptr;
+	float ChargeTime;
 };
