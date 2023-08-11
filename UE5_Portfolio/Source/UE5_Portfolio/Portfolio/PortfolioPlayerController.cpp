@@ -40,27 +40,7 @@ void APortfolioPlayerController::BeginPlay()
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);
 	}
 
-}
 
-void APortfolioPlayerController::PlayerTick(float _DeltaSeconds)
-{
-	Super::PlayerTick(_DeltaSeconds);
-
-	FHitResult Hit;
-	bool bHitSuccessful = false;
-	bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
-
-	if (Skill_W == nullptr) 
-	{
-		return;
-	}
-
-	if (Skill_W != nullptr && bHitSuccessful)
-	{
-		CursorLocation = Hit.Location;
-		//Cast<AActor>(Skill_W)->SetActorLocation(CursorLocation);
-	}
-	
 }
 
 
@@ -147,18 +127,11 @@ void APortfolioPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(
 			InputQButtonAction, ETriggerEvent::Canceled, this, &APortfolioPlayerController::OnInputQKeyReleased
 		);
+
+
+
 #pragma endregion
 		
-
-#pragma region SKILL_W_KEY_BIND
-
-		EnhancedInputComponent->BindAction(
-			InputWButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputWKeyPressed
-		);
-
-
-#pragma endregion
-
 	}
 	
 	
@@ -366,29 +339,6 @@ void APortfolioPlayerController::OnInputQKeyReleased()
 void APortfolioPlayerController::OnInputQKeyCanceled()
 {
 	ResetChargeTime();
-}
-
-void APortfolioPlayerController::OnInputWKeyPressed()
-{
-	FHitResult Hit;
-	bool bHitSuccessful = false;
-
-	bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
-	if (bHitSuccessful)
-	{
-		FVector templocation = Hit.Location;
-		FTransform temptrans;
-		temptrans.SetLocation(templocation);
-		if (Skill_W == nullptr)
-		{
-			return;
-		}
-		
-		
-		GetWorld()->SpawnActor<AActor>(Skill_W, temptrans);
-	}
-
-	return;
 }
 
 void APortfolioPlayerController::OnInputTestUIKeyPressed()
