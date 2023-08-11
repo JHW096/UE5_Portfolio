@@ -132,6 +132,15 @@ void APortfolioPlayerController::SetupInputComponent()
 
 #pragma endregion
 		
+
+#pragma region SKILL_W_KEY_BIND
+
+		EnhancedInputComponent->BindAction(
+			InputWButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputWKeyPressed
+		);
+
+#pragma endregion
+
 	}
 	
 	
@@ -339,6 +348,26 @@ void APortfolioPlayerController::OnInputQKeyReleased()
 void APortfolioPlayerController::OnInputQKeyCanceled()
 {
 	ResetChargeTime();
+}
+
+void APortfolioPlayerController::OnInputWKeyPressed()
+{
+	FHitResult Hit;
+	bool bHitSuccessful = false;
+
+	bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
+	if (bHitSuccessful)
+	{
+		FVector templocation = Hit.Location;
+		FTransform temptrans;
+		temptrans.SetLocation(templocation);
+		if (KeyWPressedActor == nullptr)
+		{
+			return;
+		}
+
+		GetWorld()->SpawnActor<AActor>(KeyWPressedActor, temptrans);
+	}
 }
 
 void APortfolioPlayerController::OnInputTestUIKeyPressed()

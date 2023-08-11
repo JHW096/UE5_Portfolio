@@ -46,6 +46,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InputQButtonAction;
 
+	//WSkill
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InputWButtonAction;
+
 public:
 
 	FORCEINLINE float GetChargeTime()
@@ -58,12 +62,18 @@ public:
 		ChargeTime = 0.0f;
 	}
 
+	FORCEINLINE FHitResult GetHitResult()
+	{
+		return MouseHit;
+	}
+
 protected:
 	uint32 bMoveToMouseCursor : 1;
 
 	//Override
 	virtual void SetupInputComponent() override;
 	virtual void BeginPlay() override;
+	//void PlayerTick(float _DeltaTime) override;
 
 	//Mouse Move
 	void OnInputStarted();
@@ -81,6 +91,9 @@ protected:
 	void OnInputQKeyReleased();
 	void OnInputQKeyCanceled();
 
+	//skill_W
+	void OnInputWKeyPressed();
+
 	//UI
 	void OnInputTestUIKeyPressed();
 	void OnInputIKeyPressed();
@@ -97,6 +110,12 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> tmp;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> KeyWPressedActor;
+
+
 	AActor* skill = nullptr;
 	float ChargeTime;
+
+	FHitResult MouseHit;
 };
