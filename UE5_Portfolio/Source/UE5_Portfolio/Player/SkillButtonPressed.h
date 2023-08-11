@@ -22,6 +22,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
+	UFUNCTION()
+	void DestroyProjectile(AActor* _Destroy);
 
 private:
 
@@ -29,4 +32,8 @@ private:
 
 	FHitResult PlayerHitResult;
 	bool bHitSuccessful = false;
+
+
+	UPROPERTY(Category = "Effect", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> DeathCreateObject = nullptr;
 };

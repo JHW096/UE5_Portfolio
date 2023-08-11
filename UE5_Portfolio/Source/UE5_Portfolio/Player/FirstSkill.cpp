@@ -25,6 +25,7 @@ void AFirstSkill::BeginPlay()
 
 	OnDestroyed.AddDynamic(this, &AFirstSkill::DestroyProjectile);
 	SphereComponent->OnComponentHit.AddDynamic(this, &AFirstSkill::OnHit);
+	//SphereComponent->OnComponentEndOverlap.AddDynamic(this, &AFirstSkill::OnOverlapEnd);
 }
 
 // Called every frame
@@ -44,12 +45,25 @@ void AFirstSkill::DestroyProjectile(AActor* _Destroy)
 	AActor* Actor = GetWorld()->SpawnActor<AActor>(DeathCreateObject);
 
 	Actor->SetActorLocation(this->GetActorLocation());
+
+	int a = 0;
 }
 
 void AFirstSkill::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	if (OtherComp->GetCollisionProfileName() == TEXT("Land"))
 	{
+		int a = 0;
 		Destroy();
 	}
+	
 }
+
+//void AFirstSkill::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+//{
+//	if (OtherActor->ActorHasTag("Monster"))
+//	{
+//		int a = 0;
+//		Destroy();
+//	}
+//}

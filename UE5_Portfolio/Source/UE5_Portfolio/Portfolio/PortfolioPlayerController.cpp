@@ -12,6 +12,7 @@
 #include "Components/SphereComponent.h"
 #include "../Player/FirstSkill.h"
 #include "DrawDebugHelpers.h"
+#include "../Player/SkillButtonPressed.h"
 
 APortfolioPlayerController::APortfolioPlayerController()
 {
@@ -22,6 +23,16 @@ APortfolioPlayerController::APortfolioPlayerController()
 
 	///
 	ChargeTime = 2.0f;
+
+	/// Script / Engine.Blueprint'/Game/BP_PressedActor.BP_PressedActor'
+
+	/*static ConstructorHelpers::FObjectFinder<ASkillButtonPressed> BP_W(
+		TEXT("/Script/Engine.Blueprint'/Game/BP_PressedActor.BP_PressedActor_C'")
+	);
+	if (BP_W.Succeeded())
+	{
+		KeyWPressedActor2 = BP_W.Object;
+	}*/
 }
 
 void APortfolioPlayerController::BeginPlay()
@@ -141,6 +152,16 @@ void APortfolioPlayerController::SetupInputComponent()
 
 #pragma endregion
 
+#pragma region MOUSE_L_CLICK
+
+		EnhancedInputComponent->BindAction(
+			InputMouseLButtonAction, ETriggerEvent::Started, this, &APortfolioPlayerController::OnInputLMouseClicked
+		);
+
+#pragma endregion
+
+
+
 	}
 	
 	
@@ -201,6 +222,17 @@ void APortfolioPlayerController::OnSetDestinationReleased()
 	}
 
 	FollowTime = 0.0f;
+}
+
+void APortfolioPlayerController::OnInputLMouseClicked()
+{
+	int a = 0;
+	KeyWPressedActor2->Destroy();
+	if (KeyWPressedActor2 != nullptr)
+	{
+		KeyWPressedActor2 = nullptr;
+	}
+	
 }
 
 void APortfolioPlayerController::OnInputCKeyPressed()
@@ -366,8 +398,17 @@ void APortfolioPlayerController::OnInputWKeyPressed()
 			return;
 		}
 
-		GetWorld()->SpawnActor<AActor>(KeyWPressedActor, temptrans);
+		if (KeyWPressedActor2 == nullptr)
+		{
+			KeyWPressedActor2 = GetWorld()->SpawnActor<AActor>(KeyWPressedActor, temptrans);
+		}
+		else
+		{
+			return;
+		}
+
 	}
+
 }
 
 void APortfolioPlayerController::OnInputTestUIKeyPressed()

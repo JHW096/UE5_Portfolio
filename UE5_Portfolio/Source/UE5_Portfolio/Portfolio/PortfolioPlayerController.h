@@ -50,6 +50,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InputWButtonAction;
 
+	//L_Mouse_Click
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InputMouseLButtonAction;
+
 public:
 
 	FORCEINLINE float GetChargeTime()
@@ -80,6 +84,8 @@ protected:
 	void OnSetDestinationTriggered();
 	void OnSetDestinationReleased();
 
+	//L_Mouse_Click_Action
+	void OnInputLMouseClicked();
 
 	//Attack
 	void OnInputCKeyPressed();
@@ -112,6 +118,9 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> KeyWPressedActor;
+	
+	
+	AActor* KeyWPressedActor2;
 
 
 	AActor* skill = nullptr;

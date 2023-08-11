@@ -5,6 +5,7 @@
 #include "../Portfolio/PortfolioPlayerController.h"
 #include "Kismet/GameplayStatics.h"
 
+
 // Sets default values
 ASkillButtonPressed::ASkillButtonPressed()
 {
@@ -24,6 +25,8 @@ void ASkillButtonPressed::BeginPlay()
 		UE_LOG(LogTemp, Log, TEXT("%s(%u) : PlayerController == nullptr"), __FUNCTION__, __LINE__);
 		return;
 	}
+
+	OnDestroyed.AddDynamic(this, &ASkillButtonPressed::DestroyProjectile);
 	
 
 }
@@ -41,5 +44,20 @@ void ASkillButtonPressed::Tick(float DeltaTime)
 		SetActorLocation(PlayerHitResult.Location);
 	}
 
+}
+
+void ASkillButtonPressed::DestroyProjectile(AActor* _Destroy)
+{
+	if (nullptr == DeathCreateObject)
+	{
+		return;
+	}
+
+	AActor* Actor = GetWorld()->SpawnActor<AActor>(DeathCreateObject);
+
+	FVector vec = GetActorLocation();
+	vec.Z += 1000.0f;
+
+	Actor->SetActorLocation(vec);
 }
 

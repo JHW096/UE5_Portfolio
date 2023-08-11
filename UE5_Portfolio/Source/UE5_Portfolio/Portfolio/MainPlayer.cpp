@@ -72,7 +72,7 @@ AMainPlayer::AMainPlayer()
 
 	{
 		static ConstructorHelpers::FObjectFinder<UMaterialInterface> OP_Material(
-			TEXT("/Script/Engine.Material'/Game/MultistoryDungeons/Materials/Base_2.Base_2'")
+			TEXT("/Script/Engine.MaterialInstanceConstant'/Game/MultistoryDungeons/Materials/Base_Low_Transparency_Inst.Base_Low_Transparency_Inst'")
 		);
 
 		if (OP_Material.Succeeded())
@@ -83,7 +83,7 @@ AMainPlayer::AMainPlayer()
 
 	{
 		static ConstructorHelpers::FObjectFinder<UMaterialInterface> NOP_Material(
-			TEXT("/Script/Engine.Material'/Game/MultistoryDungeons/Materials/Base_01.Base_01'")
+			TEXT("/Script/Engine.MaterialInstanceConstant'/Game/MultistoryDungeons/Materials/Base_01_Inst.Base_01_Inst'")
 		);
 
 		if (NOP_Material.Succeeded())
@@ -123,12 +123,34 @@ void AMainPlayer::Tick(float DeltaTime)
 
 	GetWorld()->LineTraceMultiByProfile(OutHits, Start, End, ProfileName, Params);
 
-	//FHitResult hit;
+	FHitResult hit;
+	TArray<UPrimitiveComponent*> CurComponents;
+
 	if (OutHits.Num() != 0)
 	{
-		//hit = OutHits[0];
-		//OutHits[0].GetComponent()->SetMaterial(0, OpacityMaterial);
-		
+		for (size_t i = 0; i < OutHits.Num(); i++)
+		{
+			CurComponents.Add(OutHits[i].GetComponent());
+		}
+	}
+
+	for (size_t i = 0; i < PrevComponents.Num(); i++)
+	{
+		if (CurComponents.Contains(PrevComponents[i]) == false)
+		{
+			PrevComponents[i]->SetMaterial(0, NoneOpacityMaterial);
+			PrevComponents.RemoveAt(i);
+			--i;
+		}
+	}
+
+	for (size_t i = 0; i < CurComponents.Num(); i++)
+	{
+		if (PrevComponents.Contains(CurComponents[i]) == false)
+		{
+			CurComponents[i]->SetMaterial(0, OpacityMaterial);
+			PrevComponents.Add(CurComponents[i]);
+		}
 	}
 }
 

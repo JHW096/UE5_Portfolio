@@ -37,6 +37,14 @@ private:
 		const FHitResult& Hit
 	);
 
+	/*UFUNCTION()
+	void OnOverlapEnd(
+		class UPrimitiveComponent* OverlappedComp,
+		class AActor* OtherActor,
+		class UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex
+	);*/
+
 private:
 
 	UPROPERTY(Category = "Effect", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))

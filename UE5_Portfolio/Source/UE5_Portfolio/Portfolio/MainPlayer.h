@@ -54,6 +54,8 @@ private:
 	UPROPERTY(Category = "Material", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UMaterialInterface* NoneOpacityMaterial;
 
+	TArray<UPrimitiveComponent*> PrevComponents;
+
 public:
 
 	void MoveAction();
