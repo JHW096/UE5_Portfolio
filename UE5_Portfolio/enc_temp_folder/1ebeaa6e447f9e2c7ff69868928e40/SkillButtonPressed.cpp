@@ -21,6 +21,7 @@ void ASkillButtonPressed::BeginPlay()
 	PlayerController = Cast<APortfolioPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	if (PlayerController == nullptr)
 	{
+		int a = 0;
 		UE_LOG(LogTemp, Log, TEXT("%s(%u) : PlayerController == nullptr"), __FUNCTION__, __LINE__);
 		return;
 	}
