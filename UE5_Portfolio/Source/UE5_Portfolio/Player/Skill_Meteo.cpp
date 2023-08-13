@@ -4,6 +4,7 @@
 #include "Skill_Meteo.h"
 #include "Components/PrimitiveComponent.h"
 #include "Components/SphereComponent.h"
+#include "GameFramework/Actor.h"
 
 
 // Sets default values
@@ -38,12 +39,11 @@ void ASkill_Meteo::Tick(float DeltaTime)
 
 void ASkill_Meteo::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (OtherActor->ActorHasTag(TEXT("Monster")))
-	{
-		int a = 0;
-		/*OtherActor->Destroy();*/
-	}
 
+	if(OverlappedComp->GetCollisionProfileName() == TEXT("Monster"))	
+	{
+		
+	}
 	
 }
 
