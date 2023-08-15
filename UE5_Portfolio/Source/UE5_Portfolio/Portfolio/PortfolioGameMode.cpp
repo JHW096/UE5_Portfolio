@@ -23,15 +23,6 @@ APortfolioGameMode::APortfolioGameMode()
 		DefaultPawnClass = BP_MainPlayer.Class;
 	}
 
-
-	static ConstructorHelpers::FClassFinder<APlayerController> BP_PlayerController(
-		TEXT("/Script/Engine.Blueprint'/Game/GameMode/BP_PlayerController.BP_PlayerController_C'")
-	);
-	if (BP_PlayerController.Succeeded())
-	{
-		PlayerControllerClass = BP_PlayerController.Class;
-	}
-
 	static ConstructorHelpers::FClassFinder<AHUD> BP_HUD(
 		TEXT("/Script/Engine.Blueprint'/Game/GameMode/BP_HUD.BP_HUD_C'")
 	);

@@ -24,7 +24,7 @@ void UPlayerAnimInstance::NativeBeginPlay()
 	
 
 	AMainPlayer* Player = Cast<AMainPlayer>(GetOwningActor());
-
+	
 	if (Player == nullptr && Player->IsValidLowLevel() == false)
 	{
 		UE_LOG(LogTemp, Log, TEXT("%s(%u) : AnimInstance : TryGetPawnOnwer Faild"), __FUNCTION__, __LINE__);

@@ -71,8 +71,8 @@ public:
 	////-----------col test
 
 public:
-
 	UFUNCTION()
+
 	void BeginOverLap(
 		UPrimitiveComponent* OverlappedComponent,
 		AActor* OtherActor,
