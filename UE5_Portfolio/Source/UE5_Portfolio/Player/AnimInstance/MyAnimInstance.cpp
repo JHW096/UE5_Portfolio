@@ -71,6 +71,12 @@ void UMyAnimInstance::MontageEnd(UAnimMontage* _Anim, bool _Inter)
 	{
 		m_AnimState = MyPlayerAnimState::IDLE;
 		m_Player->m_AnimState = m_AnimState;
+		FRotator RecorverRotationToRootMotion = m_Player->GetActorRotation();
+		RecorverRotationToRootMotion.Pitch = 0.0;
+		//RecorverRotationToRootMotion.Yaw = 0.0;
+		RecorverRotationToRootMotion.Roll = 0.0;
+		m_Player->SetActorRotation(RecorverRotationToRootMotion);
+		
 		Montage_Play(AllAnimations[MyPlayerAnimState::IDLE], 1.0f);
 	}
 }

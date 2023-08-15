@@ -120,7 +120,6 @@ void AMyPlayerController::OnSetDestinationReleased()
 	if (FollowTime <= ShortPressThreshold)
 	{
 		UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, CachedDestination);
-
 	}
 
 	FollowTime = 0.0f;
@@ -136,7 +135,15 @@ void AMyPlayerController::OnInputSpaceKeyPressed()
 	const FVector ForwardDir = m_HitResult.Location.GetSafeNormal();
 
 	Player->LaunchCharacter(ForwardDir * 1000.0f, true, false);*/
-
+	
+	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
+	{
+		FRotator Rot = FRotator::ZeroRotator;
+		FVector Dir = (m_HitResult.Location - Player->GetActorLocation()).GetSafeNormal();
+		Rot.Yaw = Dir.Rotation().Yaw;
+		Player->SetActorRotation(Rot);
+	}
+	StopMovement();
 	Player->m_AnimState = MyPlayerAnimState::DASH;
 }
 
