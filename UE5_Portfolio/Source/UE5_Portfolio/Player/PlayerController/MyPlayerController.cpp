@@ -71,6 +71,13 @@ void AMyPlayerController::SetupInputComponent()
 				InputSpaceAction, ETriggerEvent::Started, this, &AMyPlayerController::OnInputSpaceKeyPressed
 			);
 		}
+
+		//PLAYER_INPUT_C_KEY_PRESSED_NORMAL_ATTACK
+		{
+			EnhancedInputComponent->BindAction(
+				InputCKeyAction, ETriggerEvent::Started, this, &AMyPlayerController::OnInputCKeyPressed
+			);
+		}
 	}
 }
 
@@ -145,6 +152,19 @@ void AMyPlayerController::OnInputSpaceKeyPressed()
 	}
 	StopMovement();
 	Player->m_AnimState = MyPlayerAnimState::DASH;
+}
+
+void AMyPlayerController::OnInputCKeyPressed()
+{
+	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
+	{
+		FRotator Rot = FRotator::ZeroRotator;
+		FVector Dir = (m_HitResult.Location - Player->GetActorLocation()).GetSafeNormal();
+		Rot.Yaw = Dir.Rotation().Yaw;
+		Player->SetActorRotation(Rot);
+	}
+	StopMovement();
+	Player->m_AnimState = MyPlayerAnimState::NORMAL_ATTACK_GUN;
 }
 
 

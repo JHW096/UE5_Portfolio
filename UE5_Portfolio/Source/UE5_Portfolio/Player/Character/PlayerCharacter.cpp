@@ -5,6 +5,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "UObject/ConstructorHelpers.h"
 
 // Sets default values
@@ -69,6 +70,28 @@ APlayerCharacter::APlayerCharacter()
 		}
 	}
 
+	{
+		static ConstructorHelpers::FObjectFinder<UMaterialInterface> OP_Material(
+			TEXT("/Script/Engine.MaterialInstanceConstant'/Game/MultistoryDungeons/Materials/Base_Low_Transparency_Inst.Base_Low_Transparency_Inst'")
+		);
+
+		if (OP_Material.Succeeded())
+		{
+			OpacityMaterial = OP_Material.Object;
+		}
+	}
+
+	{
+		static ConstructorHelpers::FObjectFinder<UMaterialInterface> NOP_Material(
+			TEXT("/Script/Engine.MaterialInstanceConstant'/Game/MultistoryDungeons/Materials/Base_01_Inst.Base_01_Inst'")
+		);
+
+		if (NOP_Material.Succeeded())
+		{
+			NoneOpacityMaterial = NOP_Material.Object;
+		}
+	}
+
 
 	m_AnimState = MyPlayerAnimState::IDLE;
 }
@@ -85,6 +108,8 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	MoveAction();
+	UncoverPlayer();
+
 }
 
 // Called to bind functionality to input
@@ -100,6 +125,52 @@ void APlayerCharacter::MoveAction()
 	{
 		return;
 	}
+
+	if (m_AnimState == MyPlayerAnimState::NORMAL_ATTACK_GUN)
+	{
+		return;
+	}
 	m_AnimState = GetVelocity().Size() > 1.0f ? MyPlayerAnimState::JOG_FWD : MyPlayerAnimState::IDLE;
+}
+
+void APlayerCharacter::UncoverPlayer()
+{
+	TArray<FHitResult> OutHits;
+	FVector Start = GetActorLocation() - FVector(0.0f, 0.0f, GetCapsuleComponent()->GetScaledCapsuleHalfHeight()); // Line start
+	FVector End = GetActorLocation() + FVector(-500.0f, 0.0f, 500.0f);
+	FName ProfileName = TEXT("CoverToPlayer");
+	FCollisionQueryParams Params = FCollisionQueryParams::DefaultQueryParam;
+
+	GetWorld()->LineTraceMultiByProfile(OutHits, Start, End, ProfileName, Params);
+
+	FHitResult hit;
+	TArray<UPrimitiveComponent*> CurComponents;
+
+	if (OutHits.Num() != 0)
+	{
+		for (size_t i = 0; i < OutHits.Num(); i++)
+		{
+			CurComponents.Add(OutHits[i].GetComponent());
+		}
+	}
+
+	for (size_t i = 0; i < PrevComponents.Num(); i++)
+	{
+		if (CurComponents.Contains(PrevComponents[i]) == false)
+		{
+			PrevComponents[i]->SetMaterial(0, NoneOpacityMaterial);
+			PrevComponents.RemoveAt(i);
+			--i;
+		}
+	}
+
+	for (size_t i = 0; i < CurComponents.Num(); i++)
+	{
+		if (PrevComponents.Contains(CurComponents[i]) == false)
+		{
+			CurComponents[i]->SetMaterial(0, OpacityMaterial);
+			PrevComponents.Add(CurComponents[i]);
+		}
+	}
 }
 

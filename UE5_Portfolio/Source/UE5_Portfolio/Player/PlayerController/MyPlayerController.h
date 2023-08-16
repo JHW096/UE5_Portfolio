@@ -32,6 +32,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InputSpaceAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InputCKeyAction;
+
 protected:
 
 	uint32 bMoveToMouseCursor : 1;
@@ -51,6 +54,8 @@ public:
 	//PLAYER_DASH
 	void OnInputSpaceKeyPressed();
 
+	//PLAYER_GUN_NORMAL_ATTACK(TEMP)
+	void OnInputCKeyPressed();
 
 private:
 

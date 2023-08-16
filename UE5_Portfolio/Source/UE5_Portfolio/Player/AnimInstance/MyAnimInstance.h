@@ -25,10 +25,14 @@ protected:
 	void NativeUpdateAnimation(float _DeltaSecond) override;
 	
 public: 
-
+	//FOR DELEGATE
 	UFUNCTION()
 	void MontageEnd(UAnimMontage* _Anim, bool _Inter);
 
+
+public:
+
+	bool AnimCancelCheck(MyPlayerAnimState _State);
 private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = AllAnimations, meta = (AllowPrivateAccess = "true"))
@@ -42,4 +46,5 @@ private:
 
 	float CurrentPawnSpeed = 0.0f;
 
+	bool m_CancelAnimCheck;
 };

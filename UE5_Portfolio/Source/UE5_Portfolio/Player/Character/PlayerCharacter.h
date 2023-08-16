@@ -31,6 +31,9 @@ public:
 
 	void MoveAction();
 
+public:
+	
+	void UncoverPlayer();
 
 public:
 
@@ -62,4 +65,14 @@ private:
 	UPROPERTY(Category = "CameraComponent", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* m_CameraComponent;
 
+private: 
+
+	//BEHIND PLAYER
+	UPROPERTY(Category = "Material", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class UMaterialInterface* OpacityMaterial;
+
+	UPROPERTY(Category = "Material", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	class UMaterialInterface* NoneOpacityMaterial;
+
+	TArray<UPrimitiveComponent*> PrevComponents;
 };

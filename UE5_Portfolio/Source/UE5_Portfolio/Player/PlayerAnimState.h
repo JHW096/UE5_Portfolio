@@ -13,5 +13,5 @@ enum class MyPlayerAnimState : uint8
 	IDLE,
 	JOG_FWD,
 	DASH,
-	NORMAL_ATTACK
+	NORMAL_ATTACK_GUN
 };

@@ -79,4 +79,23 @@ void UMyAnimInstance::MontageEnd(UAnimMontage* _Anim, bool _Inter)
 		
 		Montage_Play(AllAnimations[MyPlayerAnimState::IDLE], 1.0f);
 	}
+
+	if (_Anim == AllAnimations[MyPlayerAnimState::NORMAL_ATTACK_GUN])
+	{
+		m_AnimState = MyPlayerAnimState::IDLE;
+		m_Player->m_AnimState = m_AnimState;
+		Montage_Play(AllAnimations[MyPlayerAnimState::IDLE], 1.0f);
+	}
+}
+
+bool UMyAnimInstance::AnimCancelCheck(MyPlayerAnimState _State)
+{
+	if (_State == MyPlayerAnimState::DASH)
+	{
+		return false;
+	}
+	
+
+
+	return true;
 }
