@@ -33,6 +33,14 @@ public:
 public:
 
 	bool AnimCancelCheck(MyPlayerAnimState _State);
+
+public:
+
+	FORCEINLINE class UAnimMontage* GetAnimMontage(MyPlayerAnimState _AnimState)
+	{
+		return AllAnimations[_AnimState];
+	}
+
 private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = AllAnimations, meta = (AllowPrivateAccess = "true"))

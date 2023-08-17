@@ -2,6 +2,7 @@
 
 
 #include "MyPlayerController.h"
+#include "../AnimInstance/MyAnimInstance.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
@@ -25,6 +26,13 @@ void AMyPlayerController::BeginPlay()
 	{
 		int a = 0;
 		UE_LOG(LogTemp, Warning, TEXT("%s(%u) PlayerCharacter == Nullptr"), __FUNCTION__, __LINE__);
+	}
+
+	m_AnimInstance = Cast<UMyAnimInstance>(Player->GetMesh()->GetAnimInstance());
+	if (m_AnimInstance == nullptr)
+	{
+		int a = 0;
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) Animinstance == Nullptr"), __FUNCTION__, __LINE__);
 	}
 
 	//EnhancedInputSystem_MappingContext
@@ -78,6 +86,13 @@ void AMyPlayerController::SetupInputComponent()
 				InputCKeyAction, ETriggerEvent::Started, this, &AMyPlayerController::OnInputCKeyPressed
 			);
 		}
+		
+		//PLAYER_INPUT_Q_KEY_PRESSED_NORMAL_ATTACK
+		{
+			EnhancedInputComponent->BindAction(
+				InputQKeyAction, ETriggerEvent::Started, this, &AMyPlayerController::OnInputQKeyPressed
+			);
+		}
 	}
 }
 
@@ -99,6 +114,17 @@ void AMyPlayerController::OnInputStarted()
 
 void AMyPlayerController::OnSetDestinationTriggered()
 {
+
+	if (Player->m_AnimState == MyPlayerAnimState::NORMAL_ATTACK_GUN)
+	{
+		return;
+	}
+
+	if (Player->m_AnimState == MyPlayerAnimState::NORMAL_ATTACK_SWORD)
+	{
+		return;
+	}
+
 	FollowTime += GetWorld()->GetDeltaSeconds();
 
 	//Where the Player has pressed the input
@@ -134,28 +160,44 @@ void AMyPlayerController::OnSetDestinationReleased()
 
 void AMyPlayerController::OnInputSpaceKeyPressed()
 {
-	/*if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
+	if (Player->m_AnimState == MyPlayerAnimState::NORMAL_ATTACK_GUN)
 	{
-		CachedDestination = m_HitResult.Location;
+		m_AnimInstance->Montage_Stop(0.1f, m_AnimInstance->GetAnimMontage(MyPlayerAnimState::NORMAL_ATTACK_GUN));
 	}
 
-	const FVector ForwardDir = m_HitResult.Location.GetSafeNormal();
+	if (Player->m_AnimState == MyPlayerAnimState::NORMAL_ATTACK_SWORD)
+	{
+		m_AnimInstance->Montage_Stop(0.1f, m_AnimInstance->GetAnimMontage(MyPlayerAnimState::NORMAL_ATTACK_SWORD));
+	}
 
-	Player->LaunchCharacter(ForwardDir * 1000.0f, true, false);*/
+	if (Player->m_AnimState == MyPlayerAnimState::DASH)
+	{
+		return;
+	}
 	
 	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
 	{
 		FRotator Rot = FRotator::ZeroRotator;
 		FVector Dir = (m_HitResult.Location - Player->GetActorLocation()).GetSafeNormal();
-		Rot.Yaw = Dir.Rotation().Yaw;
+		float RecoveryRootMotionAngle = -27.32f;
+		Rot.Yaw = Dir.Rotation().Yaw + RecoveryRootMotionAngle;
 		Player->SetActorRotation(Rot);
 	}
-	StopMovement();
 	Player->m_AnimState = MyPlayerAnimState::DASH;
 }
 
 void AMyPlayerController::OnInputCKeyPressed()
 {
+	if (Player->m_AnimState == MyPlayerAnimState::DASH)
+	{
+		return;
+	}
+
+	if (Player->m_AnimState == MyPlayerAnimState::NORMAL_ATTACK_GUN)
+	{
+		return;
+	}
+
 	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
 	{
 		FRotator Rot = FRotator::ZeroRotator;
@@ -165,6 +207,31 @@ void AMyPlayerController::OnInputCKeyPressed()
 	}
 	StopMovement();
 	Player->m_AnimState = MyPlayerAnimState::NORMAL_ATTACK_GUN;
+}
+
+void AMyPlayerController::OnInputQKeyPressed()
+{
+	if (Player->m_AnimState == MyPlayerAnimState::DASH)
+	{
+		return;
+	}
+
+	if (Player->m_AnimState == MyPlayerAnimState::NORMAL_ATTACK_SWORD)
+	{
+		return;
+	}
+
+	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
+	{
+		FRotator Rot = FRotator::ZeroRotator;
+		FVector Dir = (m_HitResult.Location - Player->GetActorLocation()).GetSafeNormal();
+		float RecoveryRootMotionAngle = -27.32f;
+		Rot.Yaw = Dir.Rotation().Yaw + RecoveryRootMotionAngle;
+		Player->SetActorRotation(Rot);
+	}
+	StopMovement();
+	Player->m_AnimState = MyPlayerAnimState::NORMAL_ATTACK_SWORD;
+
 }
 
 

@@ -130,6 +130,12 @@ void APlayerCharacter::MoveAction()
 	{
 		return;
 	}
+
+	if (m_AnimState == MyPlayerAnimState::NORMAL_ATTACK_SWORD)
+	{
+		return;
+	}
+
 	m_AnimState = GetVelocity().Size() > 1.0f ? MyPlayerAnimState::JOG_FWD : MyPlayerAnimState::IDLE;
 }
 

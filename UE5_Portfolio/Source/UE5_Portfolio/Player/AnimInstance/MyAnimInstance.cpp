@@ -57,6 +57,7 @@ void UMyAnimInstance::NativeUpdateAnimation(float _DeltaSecond)
 	{
 		Montage_Play(CurrentMontage, 1.0f);
 	}
+	
 }
 
 void UMyAnimInstance::MontageEnd(UAnimMontage* _Anim, bool _Inter)
@@ -73,7 +74,7 @@ void UMyAnimInstance::MontageEnd(UAnimMontage* _Anim, bool _Inter)
 		m_Player->m_AnimState = m_AnimState;
 		FRotator RecorverRotationToRootMotion = m_Player->GetActorRotation();
 		RecorverRotationToRootMotion.Pitch = 0.0;
-		//RecorverRotationToRootMotion.Yaw = 0.0;
+		RecorverRotationToRootMotion.Yaw += 27.32;
 		RecorverRotationToRootMotion.Roll = 0.0;
 		m_Player->SetActorRotation(RecorverRotationToRootMotion);
 		
@@ -83,6 +84,22 @@ void UMyAnimInstance::MontageEnd(UAnimMontage* _Anim, bool _Inter)
 	if (_Anim == AllAnimations[MyPlayerAnimState::NORMAL_ATTACK_GUN])
 	{
 		m_AnimState = MyPlayerAnimState::IDLE;
+		m_Player->m_AnimState = m_AnimState;
+		Montage_Play(AllAnimations[MyPlayerAnimState::IDLE], 1.0f);
+	}
+
+
+	if (_Anim == AllAnimations[MyPlayerAnimState::NORMAL_ATTACK_SWORD])
+	{
+		m_AnimState = MyPlayerAnimState::IDLE;
+
+		FRotator RecorverRotationToRootMotion = m_Player->GetActorRotation();
+		RecorverRotationToRootMotion.Pitch = 0.0;
+		RecorverRotationToRootMotion.Yaw += 27.32;
+		RecorverRotationToRootMotion.Roll = 0.0;
+		m_Player->SetActorRotation(RecorverRotationToRootMotion);
+
+
 		m_Player->m_AnimState = m_AnimState;
 		Montage_Play(AllAnimations[MyPlayerAnimState::IDLE], 1.0f);
 	}

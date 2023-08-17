@@ -35,6 +35,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InputCKeyAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InputQKeyAction;
+
 protected:
 
 	uint32 bMoveToMouseCursor : 1;
@@ -57,6 +60,29 @@ public:
 	//PLAYER_GUN_NORMAL_ATTACK(TEMP)
 	void OnInputCKeyPressed();
 
+	//PLAYER_NORMAL_ATTACK_SWORD(TEMP)
+	void OnInputQKeyPressed();
+
+public:
+
+	FORCEINLINE FHitResult GetHitResult()
+	{
+		return m_HitResult;
+	}
+
+	FORCEINLINE FVector GetChacheDestination()
+	{
+		return CachedDestination;
+	}
+
+public:
+
+	FORCEINLINE void SetChacheDestination(const FVector& _Vec)
+	{
+		CachedDestination = _Vec;
+	}
+
+
 private:
 
 	//Mouse Cursor Hit
@@ -64,6 +90,8 @@ private:
 
 	//Chracter
 	class APlayerCharacter* Player;
+
+	class UMyAnimInstance* m_AnimInstance;
 
 	//Movement
 	FVector CachedDestination;
