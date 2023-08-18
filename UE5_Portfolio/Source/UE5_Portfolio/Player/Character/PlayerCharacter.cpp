@@ -7,6 +7,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "UObject/ConstructorHelpers.h"
+#include "../Skill/Player_Bullet.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -91,7 +92,6 @@ APlayerCharacter::APlayerCharacter()
 			NoneOpacityMaterial = NOP_Material.Object;
 		}
 	}
-
 
 	m_AnimState = MyPlayerAnimState::IDLE;
 }

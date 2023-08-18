@@ -97,4 +97,10 @@ private:
 	FVector CachedDestination;
 	float FollowTime;	
 
+	class AActor* Bullet = nullptr;
+
+private:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> m_Bullet;
 };

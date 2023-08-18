@@ -27,18 +27,30 @@ protected:
 public: 
 	//FOR DELEGATE
 	UFUNCTION()
-	void MontageEnd(UAnimMontage* _Anim, bool _Inter);
+	void MontageBlendOut(UAnimMontage* _Anim, bool _Inter);
 
+	UFUNCTION()
+	void MontagEnd(UAnimMontage* _Anim, bool _Inter);
 
 public:
 
+	void JumpToSection(int32 SectionIndex);
+	FName GetNormalAttackMontageName(int32 SectionIndex);
+
 	bool AnimCancelCheck(MyPlayerAnimState _State);
+
+
 
 public:
 
 	FORCEINLINE class UAnimMontage* GetAnimMontage(MyPlayerAnimState _AnimState)
 	{
 		return AllAnimations[_AnimState];
+	}
+
+	FORCEINLINE int32 GetAttackSectionIndex()
+	{
+		return AttackSectionIndex;
 	}
 
 private:
@@ -55,4 +67,6 @@ private:
 	float CurrentPawnSpeed = 0.0f;
 
 	bool m_CancelAnimCheck;
+
+	int32 AttackSectionIndex = 0;
 };

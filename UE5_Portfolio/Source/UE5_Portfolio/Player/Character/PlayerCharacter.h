@@ -75,4 +75,8 @@ private:
 	class UMaterialInterface* NoneOpacityMaterial;
 
 	TArray<UPrimitiveComponent*> PrevComponents;
+
+	float DestroyDistance = 0.0f;
+
+	class AActor* m_Bullet;
 };

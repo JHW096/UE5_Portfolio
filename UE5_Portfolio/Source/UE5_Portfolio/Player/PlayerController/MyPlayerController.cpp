@@ -5,6 +5,8 @@
 #include "../AnimInstance/MyAnimInstance.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Components/SceneComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../../Player/Character/PlayerCharacter.h"
@@ -83,7 +85,7 @@ void AMyPlayerController::SetupInputComponent()
 		//PLAYER_INPUT_C_KEY_PRESSED_NORMAL_ATTACK
 		{
 			EnhancedInputComponent->BindAction(
-				InputCKeyAction, ETriggerEvent::Started, this, &AMyPlayerController::OnInputCKeyPressed
+				InputCKeyAction, ETriggerEvent::Triggered, this, &AMyPlayerController::OnInputCKeyPressed
 			);
 		}
 		
@@ -206,6 +208,19 @@ void AMyPlayerController::OnInputCKeyPressed()
 		Player->SetActorRotation(Rot);
 	}
 	StopMovement();
+
+	USceneComponent* BulletStartPosComp = Player->GetCapsuleComponent()->GetChildComponent(0);
+	FTransform BulletPos = BulletStartPosComp->GetComponentTransform();
+	//
+	if (m_AnimInstance->GetAttackSectionIndex() == 1)
+	{
+		GetWorld()->SpawnActor<AActor>(m_Bullet, BulletPos);
+		GetWorld()->SpawnActor<AActor>(m_Bullet, BulletPos);
+	}
+	else
+	{
+		GetWorld()->SpawnActor<AActor>(m_Bullet, BulletPos);
+	}
 	Player->m_AnimState = MyPlayerAnimState::NORMAL_ATTACK_GUN;
 }
 

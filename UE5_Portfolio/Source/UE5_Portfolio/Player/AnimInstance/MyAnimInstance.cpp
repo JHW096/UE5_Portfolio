@@ -28,7 +28,8 @@ void UMyAnimInstance::NativeBeginPlay()
 	AllAnimations = m_Player->AllAnimations;
 
 
-	OnMontageBlendingOut.AddDynamic(this, &UMyAnimInstance::MontageEnd);
+	OnMontageBlendingOut.AddDynamic(this, &UMyAnimInstance::MontageBlendOut);
+	//OnMontageEnded.AddDynamic(this, &UMyAnimInstance::MontagEnd);
 }
 
 void UMyAnimInstance::NativeUpdateAnimation(float _DeltaSecond)
@@ -55,18 +56,27 @@ void UMyAnimInstance::NativeUpdateAnimation(float _DeltaSecond)
 
 	if (!Montage_IsPlaying(CurrentMontage))
 	{
-		Montage_Play(CurrentMontage, 1.0f);
+		if (CurrentMontage == AllAnimations[MyPlayerAnimState::NORMAL_ATTACK_GUN])
+		{
+			Montage_Play(CurrentMontage, 1.0f);
+			JumpToSection(AttackSectionIndex);
+			AttackSectionIndex = (AttackSectionIndex + 1) % 3;
+		}
+		else
+		{
+			Montage_Play(CurrentMontage, 1.0f);
+		}
 	}
-	
 }
 
-void UMyAnimInstance::MontageEnd(UAnimMontage* _Anim, bool _Inter)
+void UMyAnimInstance::MontageBlendOut(UAnimMontage* _Anim, bool _Inter)
 {
 	if (m_Player == nullptr)
 	{
 		UE_LOG(LogTemp, Log, TEXT("%s(%u) MainPlayer AnimInstance : MainPlayer is nullptr"), __FUNCTION__, __LINE__);
 		return;
 	}
+
 
 	if (_Anim == AllAnimations[MyPlayerAnimState::DASH])
 	{
@@ -103,6 +113,25 @@ void UMyAnimInstance::MontageEnd(UAnimMontage* _Anim, bool _Inter)
 		m_Player->m_AnimState = m_AnimState;
 		Montage_Play(AllAnimations[MyPlayerAnimState::IDLE], 1.0f);
 	}
+}
+
+void UMyAnimInstance::MontagEnd(UAnimMontage* _Anim, bool _Inter)
+{
+	if (_Anim == AllAnimations[MyPlayerAnimState::NORMAL_ATTACK_GUN])
+	{
+		AttackSectionIndex = 0;
+	}
+}
+
+void UMyAnimInstance::JumpToSection(int32 SectionIndex)
+{
+	FName Name = GetNormalAttackMontageName(SectionIndex);
+	Montage_JumpToSection(Name, AllAnimations[MyPlayerAnimState::NORMAL_ATTACK_GUN]);
+}
+
+FName UMyAnimInstance::GetNormalAttackMontageName(int32 SectionIndex)
+{
+	return FName(*FString::Printf(TEXT("Combo%d"), SectionIndex + 1));
 }
 
 bool UMyAnimInstance::AnimCancelCheck(MyPlayerAnimState _State)
