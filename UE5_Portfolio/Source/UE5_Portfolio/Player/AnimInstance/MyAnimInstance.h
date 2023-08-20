@@ -10,6 +10,7 @@
 /**
  * 
  */
+
 UCLASS()
 class UE5_PORTFOLIO_API UMyAnimInstance : public UAnimInstance
 {
@@ -35,10 +36,12 @@ public:
 public:
 
 	void JumpToSection(int32 SectionIndex);
+
 	FName GetNormalAttackMontageName(int32 SectionIndex);
 
 	bool AnimCancelCheck(MyPlayerAnimState _State);
 
+public:
 
 
 public:
@@ -53,10 +56,22 @@ public:
 		return AttackSectionIndex;
 	}
 
+	FORCEINLINE class UAnimMontage* GetCurrentMontage()
+	{
+		return m_CurrentMontage;
+	}
+
+	FORCEINLINE TMap<MyPlayerAnimState, class UAnimMontage*> GetAllanimations()
+	{
+		return AllAnimations;
+	}
+
 private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = AllAnimations, meta = (AllowPrivateAccess = "true"))
 	TMap<MyPlayerAnimState, class UAnimMontage*> AllAnimations;
+
+	class UAnimMontage* m_CurrentMontage;
 
 	class APlayerController* m_PlayerController;
 

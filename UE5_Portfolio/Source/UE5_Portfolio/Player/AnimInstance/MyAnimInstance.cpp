@@ -3,6 +3,7 @@
 
 #include "MyAnimInstance.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/CapsuleComponent.h"
 #include "../PlayerController/MyPlayerController.h"
 #include "../Character/PlayerCharacter.h"
 
@@ -47,6 +48,7 @@ void UMyAnimInstance::NativeUpdateAnimation(float _DeltaSecond)
 	m_AnimState = m_Player->m_AnimState;
 		
 	UAnimMontage* CurrentMontage = AllAnimations[m_AnimState];
+	m_CurrentMontage = CurrentMontage;
 
 	if (CurrentMontage == nullptr)
 	{

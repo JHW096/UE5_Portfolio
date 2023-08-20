@@ -8,6 +8,7 @@
 #include "Components/SceneComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../../Player/Character/PlayerCharacter.h"
 
@@ -42,6 +43,7 @@ void AMyPlayerController::BeginPlay()
 	{
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);
 	}
+
 
 }
 
@@ -102,16 +104,10 @@ void AMyPlayerController::SetupInputComponent()
 //{
 //	Super::PlayerTick(_DeltaSeconds);
 //
-//	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
-//	{
-//
-//	}
-//
 //}
 
 void AMyPlayerController::OnInputStarted()
 {
-	
 }
 
 void AMyPlayerController::OnSetDestinationTriggered()
@@ -152,6 +148,16 @@ void AMyPlayerController::OnSetDestinationTriggered()
 
 void AMyPlayerController::OnSetDestinationReleased()
 {
+	if (Player->m_AnimState == MyPlayerAnimState::NORMAL_ATTACK_GUN)
+	{
+		return;
+	}
+
+	if (Player->m_AnimState == MyPlayerAnimState::NORMAL_ATTACK_SWORD)
+	{
+		return;
+	}
+
 	if (FollowTime <= ShortPressThreshold)
 	{
 		UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, CachedDestination);
@@ -211,8 +217,8 @@ void AMyPlayerController::OnInputCKeyPressed()
 
 	USceneComponent* BulletStartPosComp = Player->GetCapsuleComponent()->GetChildComponent(0);
 	FTransform BulletPos = BulletStartPosComp->GetComponentTransform();
-	//
-	if (m_AnimInstance->GetAttackSectionIndex() == 1)
+	
+	/*if (m_AnimInstance->GetAttackSectionIndex() == 1)
 	{
 		GetWorld()->SpawnActor<AActor>(m_Bullet, BulletPos);
 		GetWorld()->SpawnActor<AActor>(m_Bullet, BulletPos);
@@ -220,7 +226,7 @@ void AMyPlayerController::OnInputCKeyPressed()
 	else
 	{
 		GetWorld()->SpawnActor<AActor>(m_Bullet, BulletPos);
-	}
+	}*/
 	Player->m_AnimState = MyPlayerAnimState::NORMAL_ATTACK_GUN;
 }
 
@@ -247,6 +253,19 @@ void AMyPlayerController::OnInputQKeyPressed()
 	StopMovement();
 	Player->m_AnimState = MyPlayerAnimState::NORMAL_ATTACK_SWORD;
 
+}
+
+void AMyPlayerController::OnShootNotify()
+{
+	/*USceneComponent* BulletStartPosComp = Player->GetCapsuleComponent()->GetChildComponent(0);
+	FTransform BulletPos = BulletStartPosComp->GetComponentTransform();
+	BulletPos.SetRotation(Player->GetCapsuleComponent()->GetComponentTransform().GetRotation());*/
+	
+	FTransform BulletPos = Player->GetMesh()->GetSocketTransform(TEXT("WP_Gun_Socket"));
+	BulletPos.SetRotation(Player->GetCapsuleComponent()->GetComponentTransform().GetRotation()); 
+
+
+	GetWorld()->SpawnActor<AActor>(m_Bullet, BulletPos);
 }
 
 

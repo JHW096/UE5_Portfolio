@@ -47,7 +47,10 @@ public:
 		return m_CameraComponent;
 	}
 
-
+	FORCEINLINE UAnimMontage* GetAnimMontage(MyPlayerAnimState _AnimState)
+	{
+		return AllAnimations[_AnimState];
+	}
 
 public:
 

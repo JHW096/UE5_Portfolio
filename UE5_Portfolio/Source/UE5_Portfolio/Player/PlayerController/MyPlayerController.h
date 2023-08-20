@@ -65,6 +65,12 @@ public:
 
 public:
 
+	UFUNCTION(BlueprintCallable)
+	void OnShootNotify();
+
+
+public:
+
 	FORCEINLINE FHitResult GetHitResult()
 	{
 		return m_HitResult;
@@ -81,6 +87,8 @@ public:
 	{
 		CachedDestination = _Vec;
 	}
+
+private:
 
 
 private:
