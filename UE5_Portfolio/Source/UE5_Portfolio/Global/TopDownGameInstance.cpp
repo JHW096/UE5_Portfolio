@@ -63,8 +63,8 @@ UTopDownGameInstance::UTopDownGameInstance()
 
 			for (size_t i = 0; i < ArrayName.Num(); i++)
 			{
-				FItemData* ItemData = ItemDatas->FindRow<FItemData>(ArrayName[i], ArrayName[i].ToString());
-				ItemDataRandoms.Add(ItemData);
+				FItemData* m_ItemData = ItemDatas->FindRow<FItemData>(ArrayName[i], ArrayName[i].ToString());
+				ItemDataRandoms.Add(m_ItemData);
 			}
 		}
 	}

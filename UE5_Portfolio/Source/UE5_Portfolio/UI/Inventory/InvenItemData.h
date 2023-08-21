@@ -5,18 +5,24 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "../../Global/Data/ItemData.h"
-#include "ItemObj.generated.h"
+#include "InvenItemData.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UE5_PORTFOLIO_API UItemObj : public UObject
+class UE5_PORTFOLIO_API UInvenItemData : public UObject
 {
 	GENERATED_BODY()
 
 public:
 
-	const FItemData* ItemData;
+	class UItemSlot* m_SlotWidget;
+
+	const FItemData* m_ItemData;
+
+	int Count = 1;
 
 };
+
+

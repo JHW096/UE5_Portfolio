@@ -8,7 +8,10 @@
 #include "../State_Type/ItemType.h"		//for ItemType_Enum
 #include "Engine/Texture.h"				//for Icon
 #include "Engine/StaticMesh.h"			//for 3D obj_In_Map
+#include "NiagaraSystem.h"				//for Drop_Item
+#include "NiagaraComponent.h"			//for Drop_Item
 #include "ItemData.generated.h"
+
 
 /**
  * 
@@ -39,7 +42,10 @@ public:
 	UStaticMesh* Mesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	int StackMax = 1;
+	UNiagaraComponent* ItemEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int CountMax = 1;
 
 #pragma endregion
 

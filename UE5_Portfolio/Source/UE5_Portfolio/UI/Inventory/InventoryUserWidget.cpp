@@ -4,7 +4,7 @@
 #include "InventoryUserWidget.h"
 #include "Components/TileView.h"
 #include "../../Global/TopDownGameInstance.h"
-#include "../Inventory/ItemObj.h"
+#include "../Inventory/InvenItemData.h"
 #include "../Inventory/ItemSlot.h"
 
 
@@ -26,8 +26,8 @@ void UInventoryUserWidget::NativeConstruct()
 	for (size_t i = 0; i < 20; i++)
 	{
 		int a = 0;
-		UItemObj* Data = NewObject<UItemObj>();
-		Data->ItemData = GameInst->GetItemData();
+		UInvenItemData* Data = NewObject<UInvenItemData>();
+		Data->m_ItemData = GameInst->GetItemData();
 		InvenList->AddItem(Data);
 	}
 
@@ -42,14 +42,14 @@ void UInventoryUserWidget::AddInvenItem(UObject* _Data, UUserWidget* _Widget)
 {
 	UItemSlot* ItemSlotWidget = Cast<UItemSlot>(_Widget);
 
-	UItemObj* InvenSlotData = Cast<UItemObj>(_Data);
+	UInvenItemData* InvenSlotData = Cast<UInvenItemData>(_Data);
 
 	if (nullptr == ItemSlotWidget)
 	{
 		return;
 	}
 
-	ItemSlotWidget->SetItemData(InvenSlotData->ItemData);
+	ItemSlotWidget->SetItemData(InvenSlotData);
 
 
 }

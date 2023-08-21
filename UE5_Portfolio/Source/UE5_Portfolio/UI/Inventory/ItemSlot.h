@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "../../Global/Data/ItemData.h"
+#include "InvenItemData.h"
+#include "../../Global/State_Type/ItemType.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "ItemSlot.generated.h"
@@ -22,7 +24,20 @@ public:
 	void NativeConstruct() override;
 	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
-	void SetItemData(const FItemData* _ItemData);
+public:
+
+
+	void SetItemData(UInvenItemData* _ItemData);
+
+	void ItemSlotCheck();
+
+public:
+
+	FORCEINLINE UInvenItemData* GetInvenItemData() const
+	{
+		return m_InvenItemData;
+	}
+
 
 public:
 
@@ -32,17 +47,25 @@ public:
 	UPROPERTY(Category = "Visibility", EditAnywhere, BlueprintReadWrite)
 	ESlateVisibility ItemCountVisibility = ESlateVisibility::Hidden;
 
+public:
+
 	UPROPERTY(Category = "Image", EditAnywhere, BlueprintReadWrite)
-	UImage* ItemIconImage = nullptr;
+	ItemType ItemSlotTypeValue = ItemType::NONE;
 
-	UPROPERTY(Category = "Text", EditAnywhere, BlueprintReadWrite)
-	UTextBlock* ItemCountBlock = nullptr;
+	UPROPERTY(Category = "Image", EditAnywhere, BlueprintReadWrite)
+	UImage* ItemSlotBackGround = nullptr;
 
-	UPROPERTY(Category = "Count", EditAnywhere, BlueprintReadWrite)
-	int ItemCountValue = 1;
+	UPROPERTY(Category = "Image", EditAnywhere, BlueprintReadWrite)
+	UImage* ItemSlotIcon = nullptr;
+
+	UPROPERTY(Category = "Image", EditAnywhere, BlueprintReadWrite)
+	UTextBlock* ItemSlotCountText = nullptr;
+
+	UPROPERTY(Category = "Image", EditAnywhere, BlueprintReadWrite)
+	int ItemSlotCountValue = 0;
 
 private:
 
-	const FItemData* ItemData = nullptr;
+	UInvenItemData* m_InvenItemData = nullptr;
 
 };
