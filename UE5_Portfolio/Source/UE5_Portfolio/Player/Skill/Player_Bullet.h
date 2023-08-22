@@ -43,4 +43,8 @@ private:
 
 	float DestroyDistance = 0.0f;
 	class AActor* m_Player;
+
+	UPROPERTY(Category = "Texture", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UTexture* m_Texture = nullptr;
+
 };

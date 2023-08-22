@@ -36,14 +36,15 @@ void APlayer_Bullet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	AddActorWorldOffset(GetActorForwardVector() * DeltaTime * 1000.0f);
+	AddActorWorldOffset(GetActorForwardVector() * DeltaTime * 1500.0f);
 	
 	TArray<AActor*> arr;
 	UGameplayStatics::GetAllActorsWithTag(GetWorld(), TEXT("Player"), arr);
 	FVector PlayerPos = arr[0]->GetActorLocation();
 	
 	float Distance = (PlayerPos - this->GetActorLocation()).Size();
-	
+
+
 	if (Distance > DestroyDistance)
 	{
 		this->Destroy();
