@@ -38,6 +38,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InputQKeyAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InputWKeyAction;
+
 protected:
 
 	uint32 bMoveToMouseCursor : 1;
@@ -62,6 +65,10 @@ public:
 
 	//PLAYER_NORMAL_ATTACK_SWORD(TEMP)
 	void OnInputQKeyPressed();
+
+	//PLAYER_SECOND_SKILL_PRESSED
+	void OnInputWKeyPressed();
+	void OnInputCKeyTriggered();
 
 public:
 
@@ -111,4 +118,6 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> m_Bullet;
+
+	class UMainWidget* m_MainWidget = nullptr;
 };

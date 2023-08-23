@@ -31,6 +31,12 @@ public:
 			ESlateVisibility::Visible : ESlateVisibility::Hidden;
 	}
 
+	void ProgressBarVisibilitySwitch()
+	{
+		ProgressBarVisibility = ProgressBarVisibility == ESlateVisibility::Hidden?
+			ESlateVisibility::Visible : ESlateVisibility::Hidden;
+	}
+
 	ESlateVisibility GetTestWindowVisibility()
 	{
 		return TestWindowVisibility;
@@ -39,6 +45,11 @@ public:
 	ESlateVisibility GetInventoryyWindowVisibility()
 	{
 		return InventoryyWindowVisibility;
+	}
+
+	FORCEINLINE ESlateVisibility GetProgressBarVisibility()
+	{
+		return ProgressBarVisibility;
 	}
 
 private:
@@ -50,4 +61,6 @@ private:
 	UPROPERTY(Category = "TestWindowInfo", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	ESlateVisibility InventoryyWindowVisibility = ESlateVisibility::Hidden;
 
+	UPROPERTY(Category = "TestWindowInfo", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	ESlateVisibility ProgressBarVisibility = ESlateVisibility::Hidden;
 };

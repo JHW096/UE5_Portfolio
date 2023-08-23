@@ -11,6 +11,10 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../../Player/Character/PlayerCharacter.h"
+#include "../../UI/MainWidget.h"
+#include "../../Portfolio/PortfolioHUD.h"
+#include "Components/ProgressBar.h"
+
 
 AMyPlayerController::AMyPlayerController()
 {
@@ -96,6 +100,19 @@ void AMyPlayerController::SetupInputComponent()
 			EnhancedInputComponent->BindAction(
 				InputQKeyAction, ETriggerEvent::Started, this, &AMyPlayerController::OnInputQKeyPressed
 			);
+		}
+
+		//PLAYER_INPUT_W_KEY_PRESSED_SECOND_SKILL
+		{
+			EnhancedInputComponent->BindAction(
+				InputWKeyAction, ETriggerEvent::Started, this, &AMyPlayerController::OnInputWKeyPressed
+			);
+
+			EnhancedInputComponent->BindAction(
+				InputWKeyAction, ETriggerEvent::Triggered, this, &AMyPlayerController::OnInputCKeyTriggered
+			);
+
+
 		}
 	}
 }
@@ -254,6 +271,24 @@ void AMyPlayerController::OnInputQKeyPressed()
 	Player->m_AnimState = MyPlayerAnimState::NORMAL_ATTACK_SWORD;
 
 }
+
+void AMyPlayerController::OnInputWKeyPressed()
+{
+	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
+
+	if (HUD == nullptr && HUD->IsValidLowLevel())
+	{
+		return;
+	}
+
+	HUD->GetMainWidget()->ProgressBarVisibilitySwitch();
+}
+
+void AMyPlayerController::OnInputWKeyTriggered()
+{
+	
+}
+
 
 void AMyPlayerController::OnShootNotify()
 {
