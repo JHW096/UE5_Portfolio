@@ -22,10 +22,21 @@ public:
 
 public:
 
+	/*UFUNCTION(BlueprintCallable)
 	FORCEINLINE bool IsProgressBarHidden()
 	{
 		return this->Visibility == ESlateVisibility::Hidden ? true : false;
 	}
+
+	FORCEINLINE void TurnOnProgressbar()
+	{
+		this->Visibility == ESlateVisibility::Visible;
+	}*/
+
+	/*FORCEINLINE void TurnOffProgressbar()
+	{
+		this->Visibility = ESlateVisibility::Hidden;
+	}*/
 
 	FORCEINLINE class UProgressBar* GetProgressBar()
 	{
@@ -37,12 +48,23 @@ public:
 		m_FillAmount = 0.0f;
 	}
 
+	FORCEINLINE float GetFillAmount()
+	{
+		return m_FillAmount;
+	}
+
 public:
 
+	UFUNCTION(BlueprintCallable)
+	float FillProgressBar();
 
 private:
 
 	class UProgressBar* m_ProgressBar = nullptr;
 
+	UPROPERTY(Category = "value", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	float m_FillAmount = 0.0f;
+
+	UPROPERTY(Category = "value", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float m_FillSpeed = 0.5f;
 };

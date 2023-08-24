@@ -14,5 +14,6 @@ enum class MyPlayerAnimState : uint8
 	JOG_FWD,
 	DASH,
 	NORMAL_ATTACK_GUN,
-	NORMAL_ATTACK_SWORD
+	NORMAL_ATTACK_SWORD,
+	SKILL_W
 };

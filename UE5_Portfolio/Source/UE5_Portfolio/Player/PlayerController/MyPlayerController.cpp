@@ -14,6 +14,7 @@
 #include "../../UI/MainWidget.h"
 #include "../../Portfolio/PortfolioHUD.h"
 #include "Components/ProgressBar.h"
+#include "../../UI/CastingBarWidget.h"
 
 
 AMyPlayerController::AMyPlayerController()
@@ -109,10 +110,16 @@ void AMyPlayerController::SetupInputComponent()
 			);
 
 			EnhancedInputComponent->BindAction(
-				InputWKeyAction, ETriggerEvent::Triggered, this, &AMyPlayerController::OnInputCKeyTriggered
+				InputWKeyAction, ETriggerEvent::Triggered, this, &AMyPlayerController::OnInputWKeyTriggered
 			);
 
+			EnhancedInputComponent->BindAction(
+				InputWKeyAction, ETriggerEvent::Canceled, this, &AMyPlayerController::OnInputWKeyCanceled
+			);
 
+			EnhancedInputComponent->BindAction(
+				InputWKeyAction, ETriggerEvent::Completed, this, &AMyPlayerController::OnInputWKeyCanceled
+			);
 		}
 	}
 }
@@ -274,6 +281,12 @@ void AMyPlayerController::OnInputQKeyPressed()
 
 void AMyPlayerController::OnInputWKeyPressed()
 {
+	
+	
+}
+
+void AMyPlayerController::OnInputWKeyTriggered()
+{
 	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
 
 	if (HUD == nullptr && HUD->IsValidLowLevel())
@@ -281,13 +294,48 @@ void AMyPlayerController::OnInputWKeyPressed()
 		return;
 	}
 
-	HUD->GetMainWidget()->ProgressBarVisibilitySwitch();
+	float Percent = 
+	Cast<UCastingBarWidget>(HUD->GetMainWidget()->GetWidgetFromName(TEXT("WBP_CastingBar")))->GetFillAmount();
+
+	if (Percent >= 1.0f)
+	{
+		HUD->GetMainWidget()->TurnOffProgressBar();
+		Player->m_AnimState = MyPlayerAnimState::IDLE;
+		return;
+	}
+
+	HUD->GetMainWidget()->TurnOnProgressBar();
+
+
+	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
+	{
+		FRotator Rot = FRotator::ZeroRotator;
+		FVector Dir = (m_HitResult.Location - Player->GetActorLocation()).GetSafeNormal();
+		float RecoveryRootMotionAngle = -5.32f;
+		Rot.Yaw = Dir.Rotation().Yaw; // +RecoveryRootMotionAngle;
+		Player->SetActorRotation(Rot);
+	}
+
+	Player->m_AnimState = MyPlayerAnimState::SKILL_W;
 }
 
-void AMyPlayerController::OnInputWKeyTriggered()
+void AMyPlayerController::OnInputWKeyCanceled()
 {
-	
+	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
+
+	if (HUD == nullptr && HUD->IsValidLowLevel())
+	{
+		return;
+	}
+
+	HUD->GetMainWidget()->TurnOffProgressBar();
+
+	Cast<UCastingBarWidget>(HUD->GetMainWidget()->GetWidgetFromName(TEXT("WBP_CastingBar")))->FillReset();
+
+	Player->m_AnimState = MyPlayerAnimState::IDLE;
 }
+
+
 
 
 void AMyPlayerController::OnShootNotify()

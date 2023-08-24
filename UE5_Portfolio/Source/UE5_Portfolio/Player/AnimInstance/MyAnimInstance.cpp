@@ -115,6 +115,16 @@ void UMyAnimInstance::MontageBlendOut(UAnimMontage* _Anim, bool _Inter)
 		m_Player->m_AnimState = m_AnimState;
 		Montage_Play(AllAnimations[MyPlayerAnimState::IDLE], 1.0f);
 	}
+
+	if (_Anim == AllAnimations[MyPlayerAnimState::SKILL_W])
+	{
+		FRotator RecorverRotationToRootMotion = m_Player->GetActorRotation();
+		RecorverRotationToRootMotion.Pitch = 0.0;
+		RecorverRotationToRootMotion.Roll = 0.0;
+		m_Player->SetActorRotation(RecorverRotationToRootMotion);
+	}
+
+
 }
 
 void UMyAnimInstance::MontagEnd(UAnimMontage* _Anim, bool _Inter)

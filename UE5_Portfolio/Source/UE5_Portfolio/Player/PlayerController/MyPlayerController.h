@@ -67,8 +67,12 @@ public:
 	void OnInputQKeyPressed();
 
 	//PLAYER_SECOND_SKILL_PRESSED
+	UFUNCTION(BlueprintCallable)
 	void OnInputWKeyPressed();
-	void OnInputCKeyTriggered();
+
+	void OnInputWKeyTriggered();
+
+	void OnInputWKeyCanceled();
 
 public:
 

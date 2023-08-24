@@ -14,7 +14,6 @@ void UCastingBarWidget::NativeConstruct()
 		return;
 	}
 
-	m_ProgressBar->SetPercent(0.5f);
 }
 
 void UCastingBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -33,5 +32,14 @@ void UCastingBarWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTim
 		FillReset();
 	}*/
 
+}
+
+float UCastingBarWidget::FillProgressBar()
+{
+	
+	{
+		m_FillAmount += (m_FillSpeed * GetWorld()->GetDeltaSeconds());
+	}
+	return m_FillAmount;
 }
 

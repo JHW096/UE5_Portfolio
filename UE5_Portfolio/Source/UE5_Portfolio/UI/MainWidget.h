@@ -37,6 +37,16 @@ public:
 			ESlateVisibility::Visible : ESlateVisibility::Hidden;
 	}
 
+	FORCEINLINE void TurnOnProgressBar()
+	{
+		ProgressBarVisibility = ESlateVisibility::Visible;
+	}
+
+	FORCEINLINE void TurnOffProgressBar()
+	{
+		ProgressBarVisibility = ESlateVisibility::Hidden;
+	}
+
 	ESlateVisibility GetTestWindowVisibility()
 	{
 		return TestWindowVisibility;
