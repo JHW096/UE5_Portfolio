@@ -15,6 +15,9 @@
 #include "../../Portfolio/PortfolioHUD.h"
 #include "Components/ProgressBar.h"
 #include "../../UI/CastingBarWidget.h"
+#include "Components/WidgetComponent.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
+#include "Components/Image.h"
 
 
 AMyPlayerController::AMyPlayerController()
@@ -39,7 +42,6 @@ void AMyPlayerController::BeginPlay()
 	m_AnimInstance = Cast<UMyAnimInstance>(Player->GetMesh()->GetAnimInstance());
 	if (m_AnimInstance == nullptr)
 	{
-		int a = 0;
 		UE_LOG(LogTemp, Warning, TEXT("%s(%u) Animinstance == Nullptr"), __FUNCTION__, __LINE__);
 	}
 
@@ -48,8 +50,6 @@ void AMyPlayerController::BeginPlay()
 	{
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);
 	}
-
-
 }
 
 void AMyPlayerController::SetupInputComponent()
@@ -119,6 +119,13 @@ void AMyPlayerController::SetupInputComponent()
 
 			EnhancedInputComponent->BindAction(
 				InputWKeyAction, ETriggerEvent::Completed, this, &AMyPlayerController::OnInputWKeyCanceled
+			);
+		}
+
+		//PLAYER_INPUT_R_KEY_SKILL
+		{
+			EnhancedInputComponent->BindAction(
+				InputRKeyAction, ETriggerEvent::Triggered, this, &AMyPlayerController::OnInputRKeyPressed
 			);
 		}
 	}
@@ -335,6 +342,28 @@ void AMyPlayerController::OnInputWKeyCanceled()
 	Player->m_AnimState = MyPlayerAnimState::IDLE;
 }
 
+void AMyPlayerController::OnInputRKeyPressed()
+{
+	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
+
+	if (HUD == nullptr && HUD->IsValidLowLevel())
+	{
+		return;
+	}
+
+	HUD->GetMainWidget()->TurnOnCrossHair();
+
+	UWidget* Widget = HUD->GetMainWidget()->GetWidgetFromName(TEXT("WBP_Skill_Snipe"));
+
+	FVector2D ScreenPos = UWidgetLayoutLibrary::GetMousePositionOnViewport(GetWorld()->GetGameViewport());
+	
+
+	FWidgetTransform WidgetTransform;
+	WidgetTransform.Translation = ScreenPos;
+
+	Widget->SetRenderTransform(WidgetTransform);
+}
+
 
 
 
@@ -352,3 +381,32 @@ void AMyPlayerController::OnShootNotify()
 }
 
 
+//Other Source
+	/*FTransform Transform;
+	Transform.SetLocation(m_HitResult.Location);
+	AActor* cross = nullptr;
+	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
+	{
+		cross = GetWorld()->SpawnActor<AActor>(m_CrossHairActor, Transform);
+	}
+
+	TArray<UActorComponent*> Arr;
+	UUserWidget* CrossHairWidget = nullptr;
+	if (cross != nullptr)
+	{
+		cross->GetComponents(Arr);
+	}
+
+	for (const auto& component : Arr)
+	{
+		if (component->ComponentHasTag(TEXT("CrossHair")))
+		{
+			CrossHairWidget = Cast<UWidgetComponent>(component)->GetWidget();
+		}
+
+	}
+	if (CrossHairWidget != nullptr)
+	{
+		CrossHairWidget->Visibility = ESlateVisibility::Visible;
+	}
+	*/

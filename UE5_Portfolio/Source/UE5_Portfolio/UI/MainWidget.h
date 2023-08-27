@@ -37,15 +37,50 @@ public:
 			ESlateVisibility::Visible : ESlateVisibility::Hidden;
 	}
 
-	FORCEINLINE void TurnOnProgressBar()
-	{
-		ProgressBarVisibility = ESlateVisibility::Visible;
-	}
 
-	FORCEINLINE void TurnOffProgressBar()
-	{
-		ProgressBarVisibility = ESlateVisibility::Hidden;
-	}
+//Holding Skill ProgressBar
+#pragma region PROGRESSBAR
+
+		FORCEINLINE void TurnOnProgressBar()
+		{
+			ProgressBarVisibility = ESlateVisibility::Visible;
+		}
+
+		FORCEINLINE void TurnOffProgressBar()
+		{
+			ProgressBarVisibility = ESlateVisibility::Hidden;
+		}
+	
+#pragma endregion
+	
+
+//Scope Skill CrossHair
+#pragma region CROSSHAIR
+
+		FORCEINLINE void TurnOnCrossHair()
+		{
+			CrossHairVisibility = ESlateVisibility::Visible;
+		}
+
+		FORCEINLINE void TurnOffCrossHair()
+		{
+			CrossHairVisibility = ESlateVisibility::Hidden;
+		}
+
+		FORCEINLINE void SwitchCrossHair()
+		{
+			CrossHairVisibility = CrossHairVisibility == ESlateVisibility::Hidden ?
+				ESlateVisibility::Visible : ESlateVisibility::Hidden;
+		}
+
+		FORCEINLINE ESlateVisibility GetCrossHairVisibility()
+		{
+			return CrossHairVisibility;
+		}
+
+#pragma endregion
+
+	
 
 	ESlateVisibility GetTestWindowVisibility()
 	{
@@ -73,4 +108,7 @@ private:
 
 	UPROPERTY(Category = "TestWindowInfo", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	ESlateVisibility ProgressBarVisibility = ESlateVisibility::Hidden;
+
+	UPROPERTY(Category = "TestWindowInfo", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	ESlateVisibility CrossHairVisibility = ESlateVisibility::Hidden;
 };

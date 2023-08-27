@@ -41,6 +41,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InputWKeyAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InputRKeyAction;
+
 protected:
 
 	uint32 bMoveToMouseCursor : 1;
@@ -69,10 +72,11 @@ public:
 	//PLAYER_SECOND_SKILL_PRESSED
 	UFUNCTION(BlueprintCallable)
 	void OnInputWKeyPressed();
-
 	void OnInputWKeyTriggered();
-
 	void OnInputWKeyCanceled();
+
+	//PLAYER_R_KEY_RELATE
+	void OnInputRKeyPressed();
 
 public:
 
@@ -122,6 +126,10 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> m_Bullet;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> m_CrossHairActor;
+
 
 	class UMainWidget* m_MainWidget = nullptr;
 };

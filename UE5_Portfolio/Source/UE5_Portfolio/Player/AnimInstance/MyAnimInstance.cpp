@@ -79,6 +79,13 @@ void UMyAnimInstance::MontageBlendOut(UAnimMontage* _Anim, bool _Inter)
 		return;
 	}
 
+	if (_Anim == AllAnimations[MyPlayerAnimState::JOG_FWD])
+	{
+		m_AnimState = MyPlayerAnimState::IDLE;
+		m_Player->m_AnimState = m_AnimState;
+		Montage_Play(AllAnimations[MyPlayerAnimState::IDLE], 1.0f);
+	}
+
 
 	if (_Anim == AllAnimations[MyPlayerAnimState::DASH])
 	{
