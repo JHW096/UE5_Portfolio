@@ -61,6 +61,11 @@ void AMeleeMonster::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	{
 		this->Destroy();
 	}
+
+	if (OtherActor->ActorHasTag(TEXT("SnipeShoot")))
+	{
+		this->Destroy();
+	}
 }
 void AMeleeMonster::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {

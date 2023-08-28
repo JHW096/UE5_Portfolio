@@ -4,9 +4,11 @@
 #include "PlayerCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "../PlayerController/MyPlayerController.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Kismet/GameplayStatics.h"
 #include "../Skill/Player_Bullet.h"
 
 // Sets default values
@@ -94,6 +96,7 @@ APlayerCharacter::APlayerCharacter()
 	}
 
 	m_AnimState = MyPlayerAnimState::IDLE;
+
 }
 
 // Called when the game starts or when spawned
@@ -110,6 +113,10 @@ void APlayerCharacter::Tick(float DeltaTime)
 	MoveAction();
 	UncoverPlayer();
 
+	if (m_AnimState == MyPlayerAnimState::SNIPE_SHOOT)
+	{
+		UGameplayStatics::GetPlayerController(GetWorld(), 0)->StopMovement();
+	}
 }
 
 // Called to bind functionality to input
@@ -132,6 +139,11 @@ void APlayerCharacter::MoveAction()
 	}
 
 	if (m_AnimState == MyPlayerAnimState::NORMAL_ATTACK_SWORD)
+	{
+		return;
+	}
+
+	if (m_AnimState == MyPlayerAnimState::SNIPE_SHOOT)
 	{
 		return;
 	}

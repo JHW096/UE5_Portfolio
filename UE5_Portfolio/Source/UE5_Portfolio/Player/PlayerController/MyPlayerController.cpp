@@ -127,6 +127,22 @@ void AMyPlayerController::SetupInputComponent()
 			EnhancedInputComponent->BindAction(
 				InputRKeyAction, ETriggerEvent::Triggered, this, &AMyPlayerController::OnInputRKeyPressed
 			);
+
+			EnhancedInputComponent->BindAction(
+				InputRKeyAction, ETriggerEvent::Canceled, this, &AMyPlayerController::OnInputRKeyReleased
+			);
+
+			EnhancedInputComponent->BindAction(
+				InputRKeyAction, ETriggerEvent::Completed, this, &AMyPlayerController::OnInputRKeyReleased
+			);
+		}
+
+
+		//PLAYER_L_MOUSE_BUTTON_
+		{
+			EnhancedInputComponent->BindAction(
+				InputLMouseAction, ETriggerEvent::Started, this, &AMyPlayerController::OnMouseLButtonClicked
+			);
 		}
 	}
 }
@@ -143,6 +159,10 @@ void AMyPlayerController::OnInputStarted()
 
 void AMyPlayerController::OnSetDestinationTriggered()
 {
+	if (Player->m_AnimState == MyPlayerAnimState::SNIPE_SHOOT)
+	{
+		return;
+	}
 
 	if (Player->m_AnimState == MyPlayerAnimState::NORMAL_ATTACK_GUN)
 	{
@@ -185,6 +205,11 @@ void AMyPlayerController::OnSetDestinationReleased()
 	}
 
 	if (Player->m_AnimState == MyPlayerAnimState::NORMAL_ATTACK_SWORD)
+	{
+		return;
+	}
+
+	if (Player->m_AnimState == MyPlayerAnimState::SNIPE_SHOOT)
 	{
 		return;
 	}
@@ -237,6 +262,11 @@ void AMyPlayerController::OnInputCKeyPressed()
 		return;
 	}
 
+	if (Player->m_AnimState == MyPlayerAnimState::SNIPE_SHOOT)
+	{
+		return;
+	}
+
 	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
 	{
 		FRotator Rot = FRotator::ZeroRotator;
@@ -269,6 +299,11 @@ void AMyPlayerController::OnInputQKeyPressed()
 	}
 
 	if (Player->m_AnimState == MyPlayerAnimState::NORMAL_ATTACK_SWORD)
+	{
+		return;
+	}
+
+	if (Player->m_AnimState == MyPlayerAnimState::SNIPE_SHOOT)
 	{
 		return;
 	}
@@ -362,6 +397,35 @@ void AMyPlayerController::OnInputRKeyPressed()
 	WidgetTransform.Translation = ScreenPos;
 
 	Widget->SetRenderTransform(WidgetTransform);
+
+	Player->m_AnimState = MyPlayerAnimState::SNIPE_SHOOT;
+}
+
+void AMyPlayerController::OnInputRKeyReleased()
+{
+	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
+
+	if (HUD == nullptr && HUD->IsValidLowLevel())
+	{
+		return;
+	}
+
+	HUD->GetMainWidget()->TurnOffCrossHair();
+
+	Player->m_AnimState = MyPlayerAnimState::IDLE;
+}
+
+void AMyPlayerController::OnMouseLButtonClicked()
+{
+	if (Player->m_AnimState == MyPlayerAnimState::SNIPE_SHOOT)
+	{
+		if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
+		{
+			FTransform SnipeShootSpawnTransform;
+			SnipeShootSpawnTransform.SetLocation(m_HitResult.Location);
+			GetWorld()->SpawnActor<AActor>(m_SnipeShootActor, SnipeShootSpawnTransform);
+		}
+	}
 }
 
 

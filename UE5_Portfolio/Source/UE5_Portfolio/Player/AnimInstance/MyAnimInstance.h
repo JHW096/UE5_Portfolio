@@ -66,6 +66,9 @@ public:
 		return AllAnimations;
 	}
 
+	UFUNCTION()
+	void AnimNotifyBegin(FName NotifyName, const FBranchingPointNotifyPayload& BranchingPointPayload);
+
 private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = AllAnimations, meta = (AllowPrivateAccess = "true"))

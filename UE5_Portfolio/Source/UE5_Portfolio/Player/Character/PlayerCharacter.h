@@ -57,6 +57,8 @@ public:
 	UPROPERTY(Category = "Animation_Value", EditAnywhere, BlueprintReadWrite)
 	MyPlayerAnimState m_AnimState;
 
+	class AMyPlayerController* m_PlayerController = nullptr;
+
 	UPROPERTY(Category = "Animation_Value", EditAnywhere, BlueprintReadWrite)
 	TMap<MyPlayerAnimState, UAnimMontage*> AllAnimations;
 

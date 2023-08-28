@@ -30,6 +30,7 @@ void UMyAnimInstance::NativeBeginPlay()
 
 
 	OnMontageBlendingOut.AddDynamic(this, &UMyAnimInstance::MontageBlendOut);
+	OnPlayMontageNotifyBegin.AddDynamic(this, &UMyAnimInstance::AnimNotifyBegin);
 	//OnMontageEnded.AddDynamic(this, &UMyAnimInstance::MontagEnd);
 }
 
@@ -163,4 +164,13 @@ bool UMyAnimInstance::AnimCancelCheck(MyPlayerAnimState _State)
 
 
 	return true;
+}
+
+void UMyAnimInstance::AnimNotifyBegin(FName NotifyName, const FBranchingPointNotifyPayload& BranchingPointPayload)
+{
+	if (NotifyName == TEXT("Pause"))
+	{
+		int a = 0;
+		Montage_Pause(GetCurrentMontage());
+	}
 }

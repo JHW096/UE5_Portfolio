@@ -44,6 +44,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InputRKeyAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InputLMouseAction;
+
+
 protected:
 
 	uint32 bMoveToMouseCursor : 1;
@@ -77,6 +81,11 @@ public:
 
 	//PLAYER_R_KEY_RELATE
 	void OnInputRKeyPressed();
+	void OnInputRKeyReleased();
+
+	//PLAYER_R_MOUSE_BUTTON_
+	void OnMouseLButtonClicked();
+	
 
 public:
 
@@ -129,6 +138,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> m_CrossHairActor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> m_SnipeShootActor;
 
 
 	class UMainWidget* m_MainWidget = nullptr;
