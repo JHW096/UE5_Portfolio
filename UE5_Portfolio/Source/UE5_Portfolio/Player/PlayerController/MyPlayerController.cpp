@@ -159,6 +159,11 @@ void AMyPlayerController::OnInputStarted()
 
 void AMyPlayerController::OnSetDestinationTriggered()
 {
+	if (Player->m_AnimState == MyPlayerAnimState::DASH)
+	{
+		return;
+	}
+
 	if (Player->m_AnimState == MyPlayerAnimState::SNIPE_SHOOT)
 	{
 		return;
@@ -397,6 +402,11 @@ void AMyPlayerController::OnInputRKeyPressed()
 	WidgetTransform.Translation = ScreenPos;
 
 	Widget->SetRenderTransform(WidgetTransform);
+
+	if (Player->m_AnimState == MyPlayerAnimState::SNIPE_SHOOT)
+	{
+		return;
+	}
 
 	Player->m_AnimState = MyPlayerAnimState::SNIPE_SHOOT;
 }
