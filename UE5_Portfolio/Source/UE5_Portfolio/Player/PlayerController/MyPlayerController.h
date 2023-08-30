@@ -42,6 +42,9 @@ public:
 	class UInputAction* InputWKeyAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InputEKeyAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InputRKeyAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -78,6 +81,9 @@ public:
 	void OnInputWKeyPressed();
 	void OnInputWKeyTriggered();
 	void OnInputWKeyCanceled();
+
+	//PLAYER_E_KEY_
+	void OnInputEKeyPressed();
 
 	//PLAYER_R_KEY_RELATE
 	void OnInputRKeyPressed();
@@ -133,6 +139,7 @@ private:
 
 private:
 
+	//³ªÁß¿¡ Array·Î ¹­ÀÚ DataTableÀÌ¶û °°ÀÌ.
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> m_Bullet;
 	
@@ -141,6 +148,9 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> m_SnipeShootActor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> m_AreaShot;
 
 
 	class UMainWidget* m_MainWidget = nullptr;

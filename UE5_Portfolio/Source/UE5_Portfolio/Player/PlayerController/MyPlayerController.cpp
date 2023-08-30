@@ -122,6 +122,13 @@ void AMyPlayerController::SetupInputComponent()
 			);
 		}
 
+		//PLAYER_INPUT_E_KEY_SKILL 
+		{
+			EnhancedInputComponent->BindAction(
+				InputEKeyAction, ETriggerEvent::Started, this, &AMyPlayerController::OnInputEKeyPressed
+			);
+		}
+
 		//PLAYER_INPUT_R_KEY_SKILL
 		{
 			EnhancedInputComponent->BindAction(
@@ -381,6 +388,24 @@ void AMyPlayerController::OnInputWKeyCanceled()
 
 	Player->m_AnimState = MyPlayerAnimState::IDLE;
 }
+
+void AMyPlayerController::OnInputEKeyPressed()
+{
+	AActor* AreaActor = nullptr;
+
+	FTransform ActorTransform;
+	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
+	{
+		ActorTransform.SetLocation(m_HitResult.Location);
+	}
+
+	AreaActor = GetWorld()->SpawnActor<AActor>(m_AreaShot, ActorTransform);
+	
+	AreaActor->SetActorLocation(m_HitResult.Location);
+	
+	
+}
+
 
 void AMyPlayerController::OnInputRKeyPressed()
 {
