@@ -18,6 +18,7 @@
 #include "Components/WidgetComponent.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/Image.h"
+#include "../Skill/Skill_AreaShotStart.h"
 
 
 AMyPlayerController::AMyPlayerController()
@@ -391,19 +392,27 @@ void AMyPlayerController::OnInputWKeyCanceled()
 
 void AMyPlayerController::OnInputEKeyPressed()
 {
-	AActor* AreaActor = nullptr;
-
-	FTransform ActorTransform;
-	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
+	if (m_OnArea == true)
 	{
-		ActorTransform.SetLocation(m_HitResult.Location);
+		return;
 	}
 
-	AreaActor = GetWorld()->SpawnActor<AActor>(m_AreaShot, ActorTransform);
-	
-	AreaActor->SetActorLocation(m_HitResult.Location);
-	
-	
+	if (m_AreaShot == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s(%u) m_AreaShot == nullptr"), __FUNCTION__, __LINE__);
+		return;
+	}
+
+	m_OnArea = true;
+
+	AActor* AreaShot = nullptr;
+	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
+	{
+		FTransform AreaShotTransform;
+		AreaShotTransform.SetLocation(m_HitResult.Location);
+		AreaShot = Cast<ASkill_AreaShotStart>(GetWorld()->SpawnActor<AActor>(m_AreaShot, AreaShotTransform));
+	}
+
 }
 
 
@@ -477,6 +486,10 @@ void AMyPlayerController::OnShootNotify()
 
 
 	GetWorld()->SpawnActor<AActor>(m_Bullet, BulletPos);
+}
+
+void AMyPlayerController::AreaShotDecalDestroyed()
+{
 }
 
 

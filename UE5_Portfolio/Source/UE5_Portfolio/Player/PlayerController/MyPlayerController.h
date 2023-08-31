@@ -150,8 +150,24 @@ private:
 	TSubclassOf<AActor> m_SnipeShootActor;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<AActor> m_AreaShot;
+	TSubclassOf<AActor> m_AreaShotDecal;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> m_AreaShotStart;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> m_AreaShotEnd;
+
+	bool m_OnArea = false;
 
 	class UMainWidget* m_MainWidget = nullptr;
+
+public:
+
+	void AreaShotDecalDestroyed();
+
+	FORCEINLINE void SetOnArea(bool _bool)
+	{
+		m_OnArea = _bool;
+	}
 };

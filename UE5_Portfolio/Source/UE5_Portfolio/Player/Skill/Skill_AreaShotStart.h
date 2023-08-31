@@ -25,8 +25,15 @@ public:
 
 private:
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Component, meta = (AllowPrivateAccess = "true"))
-	class UCapsuleComponent* m_CapsuleComponent = nullptr;
+	UFUNCTION()
+	void OnActorDestroy(AActor* _Destroy);
+
+private:
 	
-	float m_OverTime;
+	UPROPERTY(Category = "AreaShot", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> m_AreaShotFire;
+
+	class AMyPlayerController* m_PlayerController = nullptr;
+
+	FHitResult m_HitResult;
 };
