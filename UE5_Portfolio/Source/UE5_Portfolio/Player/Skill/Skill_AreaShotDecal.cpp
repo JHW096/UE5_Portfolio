@@ -46,5 +46,5 @@ void ASkill_AreaShotDecal::Tick(float _DeltaSecond)
 
 void ASkill_AreaShotDecal::OnActorDestroy(AActor* _Destroy)
 {
-	m_PlayerController->AreaShotDecalDestroyed();
+	//m_PlayerController->AreaShotDecalDestroyed();
 }

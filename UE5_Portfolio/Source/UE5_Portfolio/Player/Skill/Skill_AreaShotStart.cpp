@@ -5,7 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/SceneComponent.h"
 #include "../PlayerController/MyPlayerController.h"
-#include "../Character/PlayerCharacter.h"
+
 
 
 
@@ -25,44 +25,19 @@ void ASkill_AreaShotStart::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//Setting
-	m_PlayerController = Cast<AMyPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	m_HitResult = m_PlayerController->GetHitResult();
+	/*m_PlayerController = Cast<AMyPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 
-	//Delegate 
-	OnDestroyed.AddDynamic(this, &ASkill_AreaShotStart::OnActorDestroy);
+	FVector StartPos = this->GetActorLocation();
+	FVector EndPos = m_PlayerController->GetHitResult().Location;
+	m_EndLocation = (StartPos - EndPos).GetSafeNormal() * 500.0f;*/
+	
+	//Setting
+
 }
 
 // Called every frame
 void ASkill_AreaShotStart::Tick(float DeltaTime)
 {	
 	Super::Tick(DeltaTime);
-
-
-	if (m_PlayerController->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
-	{
-		FVector HitResultLocation = m_HitResult.Location;
-		this->SetActorLocation(HitResultLocation);
-	}
-}
-
-void ASkill_AreaShotStart::OnActorDestroy(AActor* _Destroy)
-{
-	if (m_AreaShotFire == nullptr)
-	{
-		return;
-	}
-
-	APlayerCharacter* Player = Cast<APlayerCharacter>(m_PlayerController->GetPawn());
-	TArray<UActorComponent*> ComponentsByTag = Player->GetComponentsByTag(USceneComponent::StaticClass(), TEXT("BulletPos"));
-	
-	FVector AreaShotSpawnLocation = Cast<USceneComponent>(ComponentsByTag[0])->GetComponentLocation();
-	
-	FTransform AreaShotSpawnTransform;
-	AreaShotSpawnTransform.SetLocation(AreaShotSpawnLocation);
-
-	AActor* AreaShotFireActor = GetWorld()->SpawnActor<AActor>(m_AreaShotFire, AreaShotSpawnTransform);
-
-	m_PlayerController->SetOnArea(false); 
 }
 

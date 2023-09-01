@@ -48,6 +48,9 @@ public:
 	class UInputAction* InputRKeyAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InputFKeyAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InputLMouseAction;
 
 
@@ -89,6 +92,9 @@ public:
 	void OnInputRKeyPressed();
 	void OnInputRKeyReleased();
 
+	//PLAYER_F_KEY_
+	void OnInputFKeyPressed();
+
 	//PLAYER_R_MOUSE_BUTTON_
 	void OnMouseLButtonClicked();
 	
@@ -98,9 +104,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void OnShootNotify();
 
+	UFUNCTION(BlueprintCallable)
+	void AreaShotDecalDestroyed();
 
 public:
 
+	UFUNCTION(BlueprintCallable)
 	FORCEINLINE FHitResult GetHitResult()
 	{
 		return m_HitResult;
@@ -152,11 +161,16 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> m_AreaShotDecal;
 
+	AActor* m_DecalActor = nullptr;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> m_AreaShotStart;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> m_AreaShotEnd;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> m_LaserShotStart;
 
 	bool m_OnArea = false;
 
@@ -164,7 +178,7 @@ private:
 
 public:
 
-	void AreaShotDecalDestroyed();
+	
 
 	FORCEINLINE void SetOnArea(bool _bool)
 	{

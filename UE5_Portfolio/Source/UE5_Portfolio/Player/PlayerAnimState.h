@@ -17,4 +17,5 @@ enum class MyPlayerAnimState : uint8
 	NORMAL_ATTACK_SWORD,
 	SKILL_W,
 	SNIPE_SHOOT,
+	SKILL_E,
 };

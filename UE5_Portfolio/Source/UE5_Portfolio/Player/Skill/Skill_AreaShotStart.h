@@ -10,8 +10,8 @@ UCLASS()
 class UE5_PORTFOLIO_API ASkill_AreaShotStart : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ASkill_AreaShotStart();
 
@@ -19,21 +19,23 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-private:
 
 	UFUNCTION()
-	void OnActorDestroy(AActor* _Destroy);
+		FORCEINLINE FVector GetLocation() const
+	{
+		return m_EndLocation;
+	}
 
 private:
-	
-	UPROPERTY(Category = "AreaShot", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<AActor> m_AreaShotFire;
 
 	class AMyPlayerController* m_PlayerController = nullptr;
 
-	FHitResult m_HitResult;
+	UPROPERTY(Category = "Transform", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	FVector m_EndLocation;
+
+
 };

@@ -19,6 +19,8 @@
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/Image.h"
 #include "../Skill/Skill_AreaShotStart.h"
+#include "../Skill/Skill_AreaShotDecal.h"
+#include "Kismet/GameplayStatics.h"
 
 
 AMyPlayerController::AMyPlayerController()
@@ -142,6 +144,14 @@ void AMyPlayerController::SetupInputComponent()
 
 			EnhancedInputComponent->BindAction(
 				InputRKeyAction, ETriggerEvent::Completed, this, &AMyPlayerController::OnInputRKeyReleased
+			);
+		}
+
+
+		//PLAYER_INPUT_F_KEY_SKILL
+		{
+			EnhancedInputComponent->BindAction(
+				InputFKeyAction, ETriggerEvent::Started, this, &AMyPlayerController::OnInputFKeyPressed
 			);
 		}
 
@@ -397,7 +407,7 @@ void AMyPlayerController::OnInputEKeyPressed()
 		return;
 	}
 
-	if (m_AreaShot == nullptr)
+	if (m_AreaShotDecal == nullptr)
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s(%u) m_AreaShot == nullptr"), __FUNCTION__, __LINE__);
 		return;
@@ -410,9 +420,8 @@ void AMyPlayerController::OnInputEKeyPressed()
 	{
 		FTransform AreaShotTransform;
 		AreaShotTransform.SetLocation(m_HitResult.Location);
-		AreaShot = Cast<ASkill_AreaShotStart>(GetWorld()->SpawnActor<AActor>(m_AreaShot, AreaShotTransform));
+		m_DecalActor = Cast<ASkill_AreaShotDecal>(GetWorld()->SpawnActor<AActor>(m_AreaShotDecal, AreaShotTransform));
 	}
-
 }
 
 
@@ -459,8 +468,39 @@ void AMyPlayerController::OnInputRKeyReleased()
 	Player->m_AnimState = MyPlayerAnimState::IDLE;
 }
 
+void AMyPlayerController::OnInputFKeyPressed()
+{
+	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
+	{
+		FRotator Rot = FRotator::ZeroRotator;
+		FVector Dir = (m_HitResult.Location - Player->GetActorLocation()).GetSafeNormal();
+		Rot.Yaw = Dir.Rotation().Yaw;
+		Player->SetActorRotation(Rot);
+	}
+
+	/*USceneComponent* ShotPos = Cast<USceneComponent>(Player->GetCapsuleComponent()->GetChildComponent(0));
+	ShotPos->SetWorldRotation(Player->GetActorRotation());*/
+	
+
+	FTransform ShotTransform = Player->GetMesh()->GetSocketTransform(TEXT("WP_Gun_Socket"));
+
+	AActor* LaserShot = GetWorld()->SpawnActor<AActor>(m_LaserShotStart, ShotTransform);
+	LaserShot->SetActorRotation(Player->GetActorRotation().Quaternion());
+	int a = 0;
+}
+
 void AMyPlayerController::OnMouseLButtonClicked()
 {
+	
+	if (m_DecalActor != nullptr)
+	{
+		m_DecalActor->Destroy();
+		m_DecalActor = nullptr;
+		m_OnArea = false;
+		Player->m_AnimState = MyPlayerAnimState::SKILL_E;
+	}
+
+
 	if (Player->m_AnimState == MyPlayerAnimState::SNIPE_SHOOT)
 	{
 		if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
@@ -490,6 +530,10 @@ void AMyPlayerController::OnShootNotify()
 
 void AMyPlayerController::AreaShotDecalDestroyed()
 {
+	FTransform BulletPos = Player->GetMesh()->GetSocketTransform(TEXT("WP_Gun_Socket"));
+
+	GetWorld()->SpawnActor<AActor>(m_AreaShotStart, BulletPos);
+
 }
 
 
