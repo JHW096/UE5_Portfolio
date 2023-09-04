@@ -18,4 +18,5 @@ enum class MyPlayerAnimState : uint8
 	SKILL_W,
 	SNIPE_SHOOT,
 	SKILL_E,
+	SKILL_F
 };

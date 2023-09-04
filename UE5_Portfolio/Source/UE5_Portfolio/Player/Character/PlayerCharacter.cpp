@@ -148,8 +148,12 @@ void APlayerCharacter::MoveAction()
 		return;
 	}
 
-
 	if (m_AnimState == MyPlayerAnimState::SNIPE_SHOOT)
+	{
+		return;
+	}
+
+	if (m_AnimState == MyPlayerAnimState::SKILL_F)
 	{
 		return;
 	}

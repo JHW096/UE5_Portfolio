@@ -167,11 +167,14 @@ bool UMyAnimInstance::AnimCancelCheck(MyPlayerAnimState _State)
 	return true;
 }
 
+
+
 void UMyAnimInstance::AnimNotifyBegin(FName NotifyName, const FBranchingPointNotifyPayload& BranchingPointPayload)
 {
 	if (NotifyName == TEXT("Pause"))
 	{
 		int a = 0;
-		Montage_Pause(GetCurrentMontage());
+		UAnimMontage* anim = GetCurrentMontage();
+		//Montage_Pause(GetCurrentMontage());
 	}
 }

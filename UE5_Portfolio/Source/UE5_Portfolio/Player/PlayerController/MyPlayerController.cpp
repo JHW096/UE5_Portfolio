@@ -21,6 +21,7 @@
 #include "../Skill/Skill_AreaShotStart.h"
 #include "../Skill/Skill_AreaShotDecal.h"
 #include "Kismet/GameplayStatics.h"
+#include "NiagaraFunctionLibrary.h"
 
 
 AMyPlayerController::AMyPlayerController()
@@ -197,6 +198,11 @@ void AMyPlayerController::OnSetDestinationTriggered()
 		return;
 	}
 
+	if (Player->m_AnimState == MyPlayerAnimState::SKILL_F)
+	{
+		return;
+	}
+
 	FollowTime += GetWorld()->GetDeltaSeconds();
 
 	//Where the Player has pressed the input
@@ -233,6 +239,11 @@ void AMyPlayerController::OnSetDestinationReleased()
 	}
 
 	if (Player->m_AnimState == MyPlayerAnimState::SNIPE_SHOOT)
+	{
+		return;
+	}
+
+	if (Player->m_AnimState == MyPlayerAnimState::SKILL_F)
 	{
 		return;
 	}
@@ -470,23 +481,22 @@ void AMyPlayerController::OnInputRKeyReleased()
 
 void AMyPlayerController::OnInputFKeyPressed()
 {
+	FVector Dir;
 	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
 	{
 		FRotator Rot = FRotator::ZeroRotator;
-		FVector Dir = (m_HitResult.Location - Player->GetActorLocation()).GetSafeNormal();
+		Dir = (m_HitResult.Location - Player->GetActorLocation()).GetSafeNormal();
 		Rot.Yaw = Dir.Rotation().Yaw;
 		Player->SetActorRotation(Rot);
-	}
+	}	
 
-	/*USceneComponent* ShotPos = Cast<USceneComponent>(Player->GetCapsuleComponent()->GetChildComponent(0));
-	ShotPos->SetWorldRotation(Player->GetActorRotation());*/
-	
+	FTransform SpawnTransform;
+	SpawnTransform = Player->GetMesh()->GetSocketTransform(TEXT("WP_Gun_Socket"));
+	SpawnTransform.SetRotation(Player->GetActorForwardVector().Rotation().Quaternion());
 
-	FTransform ShotTransform = Player->GetMesh()->GetSocketTransform(TEXT("WP_Gun_Socket"));
+	GetWorld()->SpawnActor<AActor>(m_LaserShotStart, SpawnTransform);
 
-	AActor* LaserShot = GetWorld()->SpawnActor<AActor>(m_LaserShotStart, ShotTransform);
-	LaserShot->SetActorRotation(Player->GetActorRotation().Quaternion());
-	int a = 0;
+	Player->m_AnimState = MyPlayerAnimState::SKILL_F;
 }
 
 void AMyPlayerController::OnMouseLButtonClicked()
