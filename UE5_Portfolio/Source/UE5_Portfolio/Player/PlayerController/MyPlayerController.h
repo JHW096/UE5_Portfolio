@@ -189,6 +189,11 @@ private:
 public:
 
 	
+	FORCEINLINE TSubclassOf<AActor> GetLaserShotStart()
+	{
+		return m_LaserShotStart;
+	}
+	
 
 	FORCEINLINE void SetOnArea(bool _bool)
 	{

@@ -19,7 +19,7 @@ void UMyAnimInstance::NativeBeginPlay()
 	m_PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 
 	m_Player = Cast<APlayerCharacter>(GetOwningActor());
-
+	
 	if (m_Player == nullptr)
 	{
 		UE_LOG(LogTemp, Fatal, TEXT("%s(%u) APlayerChracter == Nullptr"), __FUNCTION__, __LINE__);
@@ -32,7 +32,10 @@ void UMyAnimInstance::NativeBeginPlay()
 	OnMontageBlendingOut.AddDynamic(this, &UMyAnimInstance::MontageBlendOut);
 	OnPlayMontageNotifyBegin.AddDynamic(this, &UMyAnimInstance::AnimNotifyBegin);
 	OnPlayMontageNotifyEnd.AddDynamic(this, &UMyAnimInstance::AnimNotifyBegin);
-	//OnMontageEnded.AddDynamic(this, &UMyAnimInstance::MontagEnd);
+	
+
+
+	m_LaserShotCast = Cast<AMyPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0))->GetLaserShotStart();
 }
 
 void UMyAnimInstance::NativeUpdateAnimation(float _DeltaSecond)
@@ -177,14 +180,19 @@ bool UMyAnimInstance::AnimCancelCheck(MyPlayerAnimState _State)
 
 void UMyAnimInstance::AnimNotifyBegin(FName NotifyName, const FBranchingPointNotifyPayload& BranchingPointPayload)
 {
-
-
+	
 	if (NotifyName == TEXT("Pause"))
 	{
 		int a = 0;
 		m_IsMontagePaused = true;
 		UAnimMontage* anim = GetCurrentMontage();
 		Montage_Pause(GetCurrentMontage());
+
+		FTransform SpawnTransform;
+		SpawnTransform = m_Player->GetMesh()->GetSocketTransform(TEXT("WP_Gun_Socket"));
+		SpawnTransform.SetRotation(m_Player->GetActorForwardVector().Rotation().Quaternion());
+		
+		GetWorld()->SpawnActor<AActor>(m_LaserShotCast, SpawnTransform);
 	}
-	
+
 }

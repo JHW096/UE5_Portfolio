@@ -465,11 +465,17 @@ void AMyPlayerController::OnInputRKeyPressed()
 
 	UWidget* Widget = HUD->GetMainWidget()->GetWidgetFromName(TEXT("WBP_Skill_Snipe"));
 
+	UUserWidget* Userwidget = Cast<UUserWidget>(Widget);
+	UImage* CrossHairImage = Cast<UImage>(Userwidget->GetWidgetFromName(TEXT("CrossHair")));
+
+	int a = 0;
+
 	FVector2D ScreenPos = UWidgetLayoutLibrary::GetMousePositionOnViewport(GetWorld()->GetGameViewport());
 	
 
 	FWidgetTransform WidgetTransform;
 	WidgetTransform.Translation = ScreenPos;
+
 
 	Widget->SetRenderTransform(WidgetTransform);
 
@@ -505,12 +511,6 @@ void AMyPlayerController::OnInputFKeyPressed()
 		Rot.Yaw = Dir.Rotation().Yaw;
 		Player->SetActorRotation(Rot);
 	}	
-
-	FTransform SpawnTransform;
-	SpawnTransform = Player->GetMesh()->GetSocketTransform(TEXT("WP_Gun_Socket"));
-	SpawnTransform.SetRotation(Player->GetActorForwardVector().Rotation().Quaternion());
-
-	GetWorld()->SpawnActor<AActor>(m_LaserShotStart, SpawnTransform);
 
 	Player->m_AnimState = MyPlayerAnimState::SKILL_F;
 }

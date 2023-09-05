@@ -71,6 +71,11 @@ public:
 	UFUNCTION()
 	void AnimNotifyBegin(FName NotifyName, const FBranchingPointNotifyPayload& BranchingPointPayload);
 
+	FORCEINLINE void SetMontagePaused(bool _Value)
+	{
+		m_IsMontagePaused = _Value;
+	}
+
 private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = AllAnimations, meta = (AllowPrivateAccess = "true"))
@@ -92,4 +97,9 @@ private:
 	int32 AttackSectionIndex = 0;
 
 	bool m_IsMontagePaused = false;
+
+private:
+
+	TSubclassOf<AActor> m_LaserShotCast;
+
 };

@@ -3,6 +3,7 @@
 
 #include "Skill_LaserShotFire.h"
 #include "../Character/PlayerCharacter.h"
+#include "../AnimInstance/MyAnimInstance.h"
 #include "Kismet/GameplayStatics.h" 
 
 // Sets default values
@@ -18,6 +19,8 @@ void ASkill_LaserShotFire::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	m_Player = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
 	OnDestroyed.AddDynamic(this, &ASkill_LaserShotFire::OnActorDestroy);
 }
 
@@ -30,8 +33,11 @@ void ASkill_LaserShotFire::Tick(float DeltaTime)
 
 void ASkill_LaserShotFire::OnActorDestroy(AActor* _Destroy)
 {
-	APlayerCharacter* Player = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)); 
-	Player->m_AnimState = MyPlayerAnimState::IDLE;
-	int a = 0;
+	UMyAnimInstance* PlayerAnimInst = Cast<UMyAnimInstance>(m_Player->GetMesh()->GetAnimInstance());
+	PlayerAnimInst->SetMontagePaused(false);
+	UAnimMontage* CurrentMontage = PlayerAnimInst->GetCurrentMontage();
+	PlayerAnimInst->Montage_Resume(CurrentMontage);
+
+	m_Player->m_AnimState = MyPlayerAnimState::IDLE;
 }
 

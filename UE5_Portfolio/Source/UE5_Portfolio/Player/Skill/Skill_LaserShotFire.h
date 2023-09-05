@@ -27,4 +27,8 @@ private:
 
 	UFUNCTION()
 	void OnActorDestroy(AActor* _Destroy);
+
+private:
+	
+	class APlayerCharacter* m_Player = nullptr;
 };
