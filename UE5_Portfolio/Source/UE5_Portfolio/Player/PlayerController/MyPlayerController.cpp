@@ -156,6 +156,13 @@ void AMyPlayerController::SetupInputComponent()
 			);
 		}
 
+		//PLAYER_INPUT_I_KEY_SKILL
+		{
+			EnhancedInputComponent->BindAction(
+				InputIKeyAction, ETriggerEvent::Started, this, &AMyPlayerController::OnInputIKeyPressed
+			);
+		}
+
 
 		//PLAYER_L_MOUSE_BUTTON_
 		{
@@ -222,12 +229,14 @@ void AMyPlayerController::OnSetDestinationTriggered()
 	{
 		//WorldDirection = FVector(Hit Location, MainPlayer Location) NormalVector
 		FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
-		ControlledPawn->AddMovementInput(WorldDirection, 1.0f, false);
+		UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, CachedDestination);
+		/*ControlledPawn->AddMovementInput(WorldDirection, 1.0f, false);*/
 	}
 }
 
 void AMyPlayerController::OnSetDestinationReleased()
 {
+
 	if (Player->m_AnimState == MyPlayerAnimState::NORMAL_ATTACK_GUN)
 	{
 		return;
@@ -250,7 +259,7 @@ void AMyPlayerController::OnSetDestinationReleased()
 
 	if (FollowTime <= ShortPressThreshold)
 	{
-		UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, CachedDestination);
+		/*UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, CachedDestination);*/
 	}
 
 	FollowTime = 0.0f;
@@ -258,6 +267,12 @@ void AMyPlayerController::OnSetDestinationReleased()
 
 void AMyPlayerController::OnInputSpaceKeyPressed()
 {
+	if (Player->m_AnimState == MyPlayerAnimState::JOG_FWD)
+	{
+		m_AnimInstance->Montage_Stop(0.1f, m_AnimInstance->GetAnimMontage(MyPlayerAnimState::JOG_FWD));
+		StopMovement();
+	}
+
 	if (Player->m_AnimState == MyPlayerAnimState::NORMAL_ATTACK_GUN)
 	{
 		m_AnimInstance->Montage_Stop(0.1f, m_AnimInstance->GetAnimMontage(MyPlayerAnimState::NORMAL_ATTACK_GUN));
@@ -281,6 +296,7 @@ void AMyPlayerController::OnInputSpaceKeyPressed()
 		Rot.Yaw = Dir.Rotation().Yaw + RecoveryRootMotionAngle;
 		Player->SetActorRotation(Rot);
 	}
+
 	Player->m_AnimState = MyPlayerAnimState::DASH;
 }
 
@@ -497,6 +513,17 @@ void AMyPlayerController::OnInputFKeyPressed()
 	GetWorld()->SpawnActor<AActor>(m_LaserShotStart, SpawnTransform);
 
 	Player->m_AnimState = MyPlayerAnimState::SKILL_F;
+}
+
+void AMyPlayerController::OnInputIKeyPressed()
+{
+	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
+
+	if (HUD == nullptr && HUD->IsValidLowLevel())
+	{
+		return;
+	}
+	HUD->GetMainWidget()->InventoryWindowVisibilitySwitch();
 }
 
 void AMyPlayerController::OnMouseLButtonClicked()

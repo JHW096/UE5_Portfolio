@@ -54,6 +54,12 @@ public:
 	class UInputAction* InputLMouseAction;
 
 
+	//Inven Onff
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InputIKeyAction;
+
+
+
 protected:
 
 	uint32 bMoveToMouseCursor : 1;
@@ -94,6 +100,10 @@ public:
 
 	//PLAYER_F_KEY_
 	void OnInputFKeyPressed();
+
+	//PLAYER_I_KEY
+	void OnInputIKeyPressed();
+
 
 	//PLAYER_R_MOUSE_BUTTON_
 	void OnMouseLButtonClicked();

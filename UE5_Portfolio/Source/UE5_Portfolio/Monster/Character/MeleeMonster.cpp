@@ -6,6 +6,7 @@
 #include "../Data/MonsterData.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "../../Global/TopDownGameInstance.h"
 
 AMeleeMonster::AMeleeMonster()
 {
@@ -73,5 +74,34 @@ void AMeleeMonster::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
 	{
 		//OtherActor->Destroy();
 	}
+}
+
+void AMeleeMonster::Destroyed()
+{
+	Super::Destroyed();
+
+	UTopDownGameInstance* GameInstance = GetWorld()->GetGameInstance<UTopDownGameInstance>();
+
+	if (GameInstance == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s(%u)GameInstacne == nullptr"), __FUNCTION__, __LINE__);
+		return;
+	}
+
+	TSubclassOf<UObject> Item = GameInstance->GetSubClass(TEXT("Item"));
+
+	for (size_t i = 0; i < 3; i++)
+	{
+		FVector RandomPos;
+
+		RandomPos.X = UTopDownGameInstance::MainRandom.FRandRange(-50, 50);
+		RandomPos.Y = UTopDownGameInstance::MainRandom.FRandRange(-50, 50);
+		{
+			AActor* Drop = GetWorld()->SpawnActor<AActor>(Item);
+			Drop->ActorHasTag(TEXT("Item"));
+			Drop->SetActorLocation(GetActorLocation() + RandomPos);
+		}
+	}
+
 }
 

@@ -42,7 +42,7 @@ private:
 		const FHitResult& Hit
 	);
 
-
+	void Destroyed() override;
 
 private:
 

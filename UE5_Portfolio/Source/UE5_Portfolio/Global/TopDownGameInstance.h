@@ -23,6 +23,8 @@ public:
 
 public: 
 
+	TSubclassOf<UObject> GetSubClass(FName _Name);
+
 	struct FMonsterData* GetNormalMonsterData(FName Name);
 
 	struct FTest2* GetTestData(FName Name);
@@ -30,6 +32,9 @@ public:
 	const struct FItemData* GetItemData();
 
 public:
+
+	UPROPERTY()
+	UDataTable* SubClassData;
 
 	UPROPERTY()
 	UDataTable* DataTable;

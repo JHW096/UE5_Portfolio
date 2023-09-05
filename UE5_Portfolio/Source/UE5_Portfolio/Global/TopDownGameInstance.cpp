@@ -6,6 +6,7 @@
 #include "../Monster/Data/MonsterData.h"
 #include "Data/Test2.h"
 #include "Data/ItemData.h"
+#include "Data/SubClassData.h"
 
 FRandomStream UTopDownGameInstance::MainRandom;
 
@@ -52,6 +53,19 @@ UTopDownGameInstance::UTopDownGameInstance()
 	}
 
 	{
+		
+		FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Global/Data/DT_SubClass.DT_SubClass'");
+		ConstructorHelpers::FObjectFinder<UDataTable> DT_SubClass(*DataPath);
+
+		if (DT_SubClass.Succeeded())
+		{
+			SubClassData = DT_SubClass.Object;
+		}
+		
+
+	}
+
+	{
 		FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Global/Data/DT_ItemData.DT_ItemData'");
 		ConstructorHelpers::FObjectFinder<UDataTable> DT_Item(*DataPath);
 
@@ -68,10 +82,29 @@ UTopDownGameInstance::UTopDownGameInstance()
 			}
 		}
 	}
+
+	MainRandom.GenerateNewSeed();
 }
 
 UTopDownGameInstance::~UTopDownGameInstance()
 {
+}
+
+TSubclassOf<UObject> UTopDownGameInstance::GetSubClass(FName _Name)
+{
+	if (SubClassData == nullptr)
+	{
+		return nullptr;
+	}
+
+	FSubClassData* FindTable = SubClassData->FindRow<FSubClassData>(_Name, _Name.ToString());
+
+	if (FindTable == nullptr)
+	{
+		return nullptr;
+	}
+
+	return FindTable->Object;
 }
 
 FMonsterData* UTopDownGameInstance::GetNormalMonsterData(FName Name)

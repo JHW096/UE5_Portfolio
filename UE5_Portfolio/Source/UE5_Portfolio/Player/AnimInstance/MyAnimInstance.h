@@ -46,6 +46,7 @@ public:
 
 public:
 
+	UFUNCTION(BlueprintCallable)
 	FORCEINLINE class UAnimMontage* GetAnimMontage(MyPlayerAnimState _AnimState)
 	{
 		return AllAnimations[_AnimState];
@@ -56,6 +57,7 @@ public:
 		return AttackSectionIndex;
 	}
 
+	UFUNCTION(BlueprintCallable)
 	FORCEINLINE class UAnimMontage* GetCurrentMontage()
 	{
 		return m_CurrentMontage;
@@ -80,6 +82,7 @@ private:
 
 	class APlayerCharacter* m_Player;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = AllAnimations, meta = (AllowPrivateAccess = "true"))
 	MyPlayerAnimState m_AnimState = MyPlayerAnimState::IDLE;
 
 	float CurrentPawnSpeed = 0.0f;

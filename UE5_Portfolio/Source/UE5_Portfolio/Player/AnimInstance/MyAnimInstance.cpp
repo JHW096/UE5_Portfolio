@@ -31,6 +31,7 @@ void UMyAnimInstance::NativeBeginPlay()
 
 	OnMontageBlendingOut.AddDynamic(this, &UMyAnimInstance::MontageBlendOut);
 	OnPlayMontageNotifyBegin.AddDynamic(this, &UMyAnimInstance::AnimNotifyBegin);
+	OnPlayMontageNotifyEnd.AddDynamic(this, &UMyAnimInstance::AnimNotifyBegin);
 	//OnMontageEnded.AddDynamic(this, &UMyAnimInstance::MontagEnd);
 }
 
@@ -171,10 +172,12 @@ bool UMyAnimInstance::AnimCancelCheck(MyPlayerAnimState _State)
 
 void UMyAnimInstance::AnimNotifyBegin(FName NotifyName, const FBranchingPointNotifyPayload& BranchingPointPayload)
 {
+
+
 	if (NotifyName == TEXT("Pause"))
 	{
 		int a = 0;
 		UAnimMontage* anim = GetCurrentMontage();
-		//Montage_Pause(GetCurrentMontage());
+		Montage_Pause(GetCurrentMontage());
 	}
 }
