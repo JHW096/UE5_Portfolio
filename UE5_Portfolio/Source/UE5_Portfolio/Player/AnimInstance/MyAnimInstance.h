@@ -90,4 +90,6 @@ private:
 	bool m_CancelAnimCheck;
 
 	int32 AttackSectionIndex = 0;
+
+	bool m_IsMontagePaused = false;
 };

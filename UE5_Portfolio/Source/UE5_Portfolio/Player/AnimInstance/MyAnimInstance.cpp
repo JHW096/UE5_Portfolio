@@ -58,6 +58,11 @@ void UMyAnimInstance::NativeUpdateAnimation(float _DeltaSecond)
 		return;
 	}
 
+	if (m_IsMontagePaused)
+	{
+		return;
+	}
+
 	if (!Montage_IsPlaying(CurrentMontage))
 	{
 		if (CurrentMontage == AllAnimations[MyPlayerAnimState::NORMAL_ATTACK_GUN])
@@ -177,7 +182,9 @@ void UMyAnimInstance::AnimNotifyBegin(FName NotifyName, const FBranchingPointNot
 	if (NotifyName == TEXT("Pause"))
 	{
 		int a = 0;
+		m_IsMontagePaused = true;
 		UAnimMontage* anim = GetCurrentMontage();
 		Montage_Pause(GetCurrentMontage());
 	}
+	
 }
