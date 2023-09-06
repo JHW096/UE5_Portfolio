@@ -22,6 +22,9 @@
 #include "../Skill/Skill_AreaShotDecal.h"
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
+#include "Components/CanvasPanelSlot.h"
+#include "Widgets/Layout/Anchors.h"
+
 
 
 AMyPlayerController::AMyPlayerController()
@@ -465,10 +468,7 @@ void AMyPlayerController::OnInputRKeyPressed()
 
 	UWidget* Widget = HUD->GetMainWidget()->GetWidgetFromName(TEXT("WBP_Skill_Snipe"));
 
-	UUserWidget* Userwidget = Cast<UUserWidget>(Widget);
-	UImage* CrossHairImage = Cast<UImage>(Userwidget->GetWidgetFromName(TEXT("CrossHair")));
-
-	int a = 0;
+	UUserWidget* Userwidget = Cast<UUserWidget>(Widget);	
 
 	FVector2D ScreenPos = UWidgetLayoutLibrary::GetMousePositionOnViewport(GetWorld()->GetGameViewport());
 	
@@ -476,8 +476,26 @@ void AMyPlayerController::OnInputRKeyPressed()
 	FWidgetTransform WidgetTransform;
 	WidgetTransform.Translation = ScreenPos;
 
+	
+	FVector2D MinusVector = { -0.05, -0.05 };
+	WidgetTransform.Scale = CrossHairWidgetScale += MinusVector;
+
+	if (CrossHairWidgetScale <= FVector2D{ 1.5, 1.5 })
+	{
+		CrossHairWidgetScale = { 1.5, 1.5 };
+
+
+	}
 
 	Widget->SetRenderTransform(WidgetTransform);
+
+	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
+	{
+		FVector Dir = m_HitResult.Location - Player->GetActorLocation();
+		Dir.Z = 0.0;
+		Player->SetActorRotation(Dir.Rotation());
+	}
+
 
 	if (Player->m_AnimState == MyPlayerAnimState::SNIPE_SHOOT)
 	{
@@ -497,6 +515,12 @@ void AMyPlayerController::OnInputRKeyReleased()
 	}
 
 	HUD->GetMainWidget()->TurnOffCrossHair();
+
+	m_AnimInstance->SetMontagePaused(false);
+	UAnimMontage* CurrentMontage = m_AnimInstance->GetCurrentMontage();
+	m_AnimInstance->Montage_Stop(0.5f, CurrentMontage);
+
+	CrossHairWidgetScale = { 5.0, 5.0 };
 
 	Player->m_AnimState = MyPlayerAnimState::IDLE;
 }
@@ -540,11 +564,26 @@ void AMyPlayerController::OnMouseLButtonClicked()
 
 	if (Player->m_AnimState == MyPlayerAnimState::SNIPE_SHOOT)
 	{
+		if (CrossHairWidgetScale != FVector2D{ 1.5, 1.5 })
+		{
+			return;
+		}
+
 		if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
 		{
+
 			FTransform SnipeShootSpawnTransform;
 			SnipeShootSpawnTransform.SetLocation(m_HitResult.Location);
 			GetWorld()->SpawnActor<AActor>(m_SnipeShootActor, SnipeShootSpawnTransform);
+
+			m_AnimInstance->SetMontagePaused(false);
+			UAnimMontage* CurrentMontage = m_AnimInstance->GetCurrentMontage();
+			m_AnimInstance->Montage_Resume(CurrentMontage);
+
+			FVector RecoveryRotation = Player->GetActorLocation();
+			RecoveryRotation.Z = 0.0f;
+			Player->SetActorRotation(RecoveryRotation.Rotation());
+			Player->m_AnimState = MyPlayerAnimState::IDLE;
 		}
 	}
 }

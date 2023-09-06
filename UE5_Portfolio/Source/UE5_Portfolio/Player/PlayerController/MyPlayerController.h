@@ -186,6 +186,8 @@ private:
 
 	class UMainWidget* m_MainWidget = nullptr;
 
+	FVector2D CrossHairWidgetScale = { 5.0, 5.0 };
+
 public:
 
 	

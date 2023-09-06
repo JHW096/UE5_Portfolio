@@ -195,4 +195,11 @@ void UMyAnimInstance::AnimNotifyBegin(FName NotifyName, const FBranchingPointNot
 		GetWorld()->SpawnActor<AActor>(m_LaserShotCast, SpawnTransform);
 	}
 
+	if (NotifyName == TEXT("Pause_SnipeShoot"))
+	{
+		m_IsMontagePaused = true;
+		UAnimMontage* anim = GetCurrentMontage();
+		Montage_Pause(anim);
+	}
+
 }
