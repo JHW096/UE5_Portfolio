@@ -197,6 +197,7 @@ private:
 
 	float R_Key_CoolTime = 5.0f;
 	float R_Key_Ongoingtime = 3.0f;
+	bool R_StartedButton = false;
 	bool R_Key_IsCooling = false;
 	bool R_Key_Ongoing = false;
 

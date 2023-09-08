@@ -193,10 +193,10 @@ void AMyPlayerController::PlayerTick(float _DeltaSeconds)
 		R_Key_CoolTime -= (1.0f * _DeltaSeconds);
 		R_Key_Ongoingtime -= (1.0f * _DeltaSeconds);
 	}
-	else
+	else // R_Key_IsCooling == false
 	{
 		SnipeShotCount = 1;
-		return;
+		R_StartedButton = false;
 	}
 
 	if (R_Key_CoolTime <= 0.0f)
@@ -485,6 +485,7 @@ void AMyPlayerController::OnInputEKeyPressed()
 
 void AMyPlayerController::OnInputRKeyStarted()
 {
+
 	if (R_Key_CoolTime < 5.0f)
 	{
 		return;
@@ -492,13 +493,18 @@ void AMyPlayerController::OnInputRKeyStarted()
 	else
 	{
 		R_Key_IsCooling = true;
+		R_StartedButton = true;
 	}
-	R_Key_Ongoing = true;
 }
 
 void AMyPlayerController::OnInputRKeyPressed()
 {
-	if (R_Key_Ongoing == false && R_Key_IsCooling == true)
+	if (R_StartedButton == false)
+	{
+		return;
+	}
+
+	if (SnipeShotCount != 1)
 	{
 		return;
 	}
@@ -560,7 +566,7 @@ void AMyPlayerController::OnInputRKeyPressed()
 
 void AMyPlayerController::OnInputRKeyReleased()
 {
-	R_Key_Ongoing = false;
+	SnipeShotCount = 0;
 
 	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
 
