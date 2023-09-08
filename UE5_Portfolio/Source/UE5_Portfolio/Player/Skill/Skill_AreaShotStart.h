@@ -24,18 +24,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 
-	UFUNCTION()
-		FORCEINLINE FVector GetLocation() const
-	{
-		return m_EndLocation;
-	}
-
 private:
-
-	class AMyPlayerController* m_PlayerController = nullptr;
-
-	UPROPERTY(Category = "Transform", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	FVector m_EndLocation;
 
 
 };

@@ -619,6 +619,14 @@ void AMyPlayerController::OnMouseLButtonClicked()
 		m_DecalActor->Destroy();
 		m_DecalActor = nullptr;
 		m_OnArea = false;
+
+		if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
+		{
+			FVector Dir = (m_HitResult.Location - Player->GetActorLocation()).GetSafeNormal();
+			Player->SetActorRotation(Dir.Rotation());
+		}
+
+
 		Player->m_AnimState = MyPlayerAnimState::SKILL_E;
 	}
 
@@ -678,9 +686,14 @@ void AMyPlayerController::OnShootNotify()
 
 void AMyPlayerController::AreaShotDecalDestroyed()
 {
-	FTransform BulletPos = Player->GetMesh()->GetSocketTransform(TEXT("WP_Gun_Socket"));
-
-	GetWorld()->SpawnActor<AActor>(m_AreaShotStart, BulletPos);
+	if (GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, m_HitResult))
+	{
+		FTransform SpawnTransform;
+		FVector SpawnPos = m_HitResult.Location;
+		SpawnPos.Z += 500.0f;
+		SpawnTransform.SetLocation(SpawnPos);
+		GetWorld()->SpawnActor<AActor>(m_AreaShotStart, SpawnTransform);
+	}
 
 }
 
