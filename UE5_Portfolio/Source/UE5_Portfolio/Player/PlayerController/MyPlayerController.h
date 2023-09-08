@@ -66,7 +66,7 @@ protected:
 
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
-	//virtual void PlayerTick(float _DeltaSeconds) override;
+	virtual void PlayerTick(float _DeltaSeconds) override;
 	
 
 public:
@@ -95,8 +95,10 @@ public:
 	void OnInputEKeyPressed();
 
 	//PLAYER_R_KEY_RELATE
+	void OnInputRKeyStarted();
 	void OnInputRKeyPressed();
 	void OnInputRKeyReleased();
+	
 
 	//PLAYER_F_KEY_
 	void OnInputFKeyPressed();
@@ -168,6 +170,8 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> m_SnipeShootActor;
 
+	int SnipeShotCount = 1;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> m_AreaShotDecal;
 
@@ -187,6 +191,21 @@ private:
 	class UMainWidget* m_MainWidget = nullptr;
 
 	FVector2D CrossHairWidgetScale = { 5.0, 5.0 };
+
+
+private:
+
+	float R_Key_CoolTime = 5.0f;
+	float R_Key_Ongoingtime = 3.0f;
+	bool R_Key_IsCooling = false;
+	bool R_Key_Ongoing = false;
+
+public:
+
+	FORCEINLINE void SetRKeyOngoing(bool _Value)
+	{
+		R_Key_Ongoing = _Value;
+	}
 
 public:
 

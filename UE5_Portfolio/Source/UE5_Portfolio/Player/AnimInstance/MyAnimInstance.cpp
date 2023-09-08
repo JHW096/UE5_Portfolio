@@ -141,7 +141,18 @@ void UMyAnimInstance::MontageBlendOut(UAnimMontage* _Anim, bool _Inter)
 		m_Player->SetActorRotation(RecorverRotationToRootMotion);
 	}
 
+	if (_Anim == AllAnimations[MyPlayerAnimState::SNIPE_SHOOT])
+	{
+		FVector RecoveryRotation = m_Player->GetActorLocation();
+		RecoveryRotation.Z = 0.0f;
+		RecoveryRotation.X = m_Player->GetActorForwardVector().X;
+		RecoveryRotation.Y = m_Player->GetActorForwardVector().Y;
+		m_Player->SetActorRotation(RecoveryRotation.Rotation());
+		m_Player->m_AnimState = MyPlayerAnimState::IDLE;
 
+		Cast<AMyPlayerController>(m_PlayerController)->SetRKeyOngoing(false);
+
+	}
 
 }
 
@@ -150,6 +161,11 @@ void UMyAnimInstance::MontagEnd(UAnimMontage* _Anim, bool _Inter)
 	if (_Anim == AllAnimations[MyPlayerAnimState::NORMAL_ATTACK_GUN])
 	{
 		AttackSectionIndex = 0;
+	}
+
+	if (_Anim == AllAnimations[MyPlayerAnimState::SNIPE_SHOOT])
+	{
+		Cast<AMyPlayerController>(m_PlayerController)->SetRKeyOngoing(false);
 	}
 }
 

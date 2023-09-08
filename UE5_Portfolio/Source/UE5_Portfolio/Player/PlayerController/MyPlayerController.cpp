@@ -138,6 +138,11 @@ void AMyPlayerController::SetupInputComponent()
 
 		//PLAYER_INPUT_R_KEY_SKILL
 		{
+
+			EnhancedInputComponent->BindAction(
+				InputRKeyAction, ETriggerEvent::Started, this, &AMyPlayerController::OnInputRKeyStarted
+			);
+
 			EnhancedInputComponent->BindAction(
 				InputRKeyAction, ETriggerEvent::Triggered, this, &AMyPlayerController::OnInputRKeyPressed
 			);
@@ -145,6 +150,7 @@ void AMyPlayerController::SetupInputComponent()
 			EnhancedInputComponent->BindAction(
 				InputRKeyAction, ETriggerEvent::Canceled, this, &AMyPlayerController::OnInputRKeyReleased
 			);
+
 
 			EnhancedInputComponent->BindAction(
 				InputRKeyAction, ETriggerEvent::Completed, this, &AMyPlayerController::OnInputRKeyReleased
@@ -176,11 +182,33 @@ void AMyPlayerController::SetupInputComponent()
 	}
 }
 
-//void AMyPlayerController::PlayerTick(float _DeltaSeconds)
-//{
-//	Super::PlayerTick(_DeltaSeconds);
-//
-//}
+void AMyPlayerController::PlayerTick(float _DeltaSeconds)
+{
+	Super::PlayerTick(_DeltaSeconds);
+
+	int a = 0;
+
+	if (R_Key_IsCooling == true)
+	{
+		R_Key_CoolTime -= (1.0f * _DeltaSeconds);
+		R_Key_Ongoingtime -= (1.0f * _DeltaSeconds);
+	}
+	else
+	{
+		SnipeShotCount = 1;
+		return;
+	}
+
+	if (R_Key_CoolTime <= 0.0f)
+	{
+		R_Key_CoolTime = 5.0f;
+		R_Key_Ongoingtime = 3.0f;
+		R_Key_IsCooling = false;
+	}
+	
+	UE_LOG(LogTemp, Warning, TEXT("%s(%u) : CoolTime : %f"), __FUNCTION__, __LINE__, R_Key_CoolTime);
+
+}
 
 void AMyPlayerController::OnInputStarted()
 {
@@ -455,8 +483,33 @@ void AMyPlayerController::OnInputEKeyPressed()
 }
 
 
+void AMyPlayerController::OnInputRKeyStarted()
+{
+	if (R_Key_CoolTime < 5.0f)
+	{
+		return;
+	}
+	else
+	{
+		R_Key_IsCooling = true;
+	}
+	R_Key_Ongoing = true;
+}
+
 void AMyPlayerController::OnInputRKeyPressed()
 {
+	if (R_Key_Ongoing == false && R_Key_IsCooling == true)
+	{
+		return;
+	}
+
+	if (R_Key_Ongoingtime <= 0.0f)
+	{
+		OnInputRKeyReleased();
+		return;
+	}
+
+
 	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
 
 	if (HUD == nullptr && HUD->IsValidLowLevel())
@@ -507,6 +560,8 @@ void AMyPlayerController::OnInputRKeyPressed()
 
 void AMyPlayerController::OnInputRKeyReleased()
 {
+	R_Key_Ongoing = false;
+
 	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
 
 	if (HUD == nullptr && HUD->IsValidLowLevel())
@@ -574,17 +629,28 @@ void AMyPlayerController::OnMouseLButtonClicked()
 
 			FTransform SnipeShootSpawnTransform;
 			SnipeShootSpawnTransform.SetLocation(m_HitResult.Location);
-			GetWorld()->SpawnActor<AActor>(m_SnipeShootActor, SnipeShootSpawnTransform);
-
+			if (SnipeShotCount == 1)
+			{
+				GetWorld()->SpawnActor<AActor>(m_SnipeShootActor, SnipeShootSpawnTransform);
+				SnipeShotCount -= 1;
+			}
+			
 			m_AnimInstance->SetMontagePaused(false);
 			UAnimMontage* CurrentMontage = m_AnimInstance->GetCurrentMontage();
 			m_AnimInstance->Montage_Resume(CurrentMontage);
 
-			FVector RecoveryRotation = Player->GetActorLocation();
-			RecoveryRotation.Z = 0.0f;
-			Player->SetActorRotation(RecoveryRotation.Rotation());
-			Player->m_AnimState = MyPlayerAnimState::IDLE;
+			APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
+
+			if (HUD == nullptr && HUD->IsValidLowLevel())
+			{
+				return;
+			}
+
+			HUD->GetMainWidget()->TurnOffCrossHair();
+
+			R_Key_Ongoing = false;
 		}
+		
 	}
 }
 
