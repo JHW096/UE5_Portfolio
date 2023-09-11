@@ -70,6 +70,9 @@ private:
 	UPROPERTY(Category = "CameraComponent", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* m_CameraComponent;
 
+	UPROPERTY(VisibleAnywhere)
+	class UPlayerStatComponent* m_PlayerStatComponent;
+
 private: 
 
 	//BEHIND PLAYER

@@ -10,6 +10,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
 #include "../Skill/Player_Bullet.h"
+#include "../Component/PlayerStatComponent.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -73,6 +74,7 @@ APlayerCharacter::APlayerCharacter()
 		}
 	}
 
+	//Material Opacity
 	{
 		static ConstructorHelpers::FObjectFinder<UMaterialInterface> OP_Material(
 			TEXT("/Script/Engine.MaterialInstanceConstant'/Game/MultistoryDungeons/Materials/Base_Low_Transparency_Inst.Base_Low_Transparency_Inst'")
@@ -93,6 +95,11 @@ APlayerCharacter::APlayerCharacter()
 		{
 			NoneOpacityMaterial = NOP_Material.Object;
 		}
+	}
+
+	//PLAYER STAT COMPONENT
+	{
+		m_PlayerStatComponent = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("PLAYERSTATCOMPONENT"));
 	}
 
 	m_AnimState = MyPlayerAnimState::IDLE;
