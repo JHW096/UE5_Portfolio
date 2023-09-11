@@ -17,9 +17,12 @@ class UE5_PORTFOLIO_API AMeleeMonster : public AAINormalMonster
 
 	AMeleeMonster();
 
+	virtual void PostInitializeComponents() override;
+
 	void BeginPlay() override;
 	
 	const struct FMonsterData* NormalMonsterData;
+
 
 private:
 
@@ -48,4 +51,10 @@ private:
 
 	UPROPERTY(Category = "MeleeInfo", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	FName MeleeMonsterName = "NONE";
+
+	UPROPERTY(VisibleAnywhere)
+	class UMonsterStatComponent* m_StatComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	class UWidgetComponent* m_HpBar;
 };

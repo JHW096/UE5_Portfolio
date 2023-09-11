@@ -7,10 +7,48 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "../../Global/TopDownGameInstance.h"
+#include "Components/WidgetComponent.h"
+#include "../Component/MonsterStatComponent.h"
+#include "../Component/MonsterWidget.h"
 
 AMeleeMonster::AMeleeMonster()
 {
+	//Monster Stat, UI
+	{
+		m_StatComponent = CreateDefaultSubobject<UMonsterStatComponent>(TEXT("STATCOMPONENT"));
+
+		m_HpBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("HP_BAR"));
+		m_HpBar->SetupAttachment(GetMesh());
+		m_HpBar->SetRelativeLocation(FVector(0.0f, 0.0f, 200.0f));
+
+		m_HpBar->SetWidgetSpace(EWidgetSpace::Screen);
+
+		static ConstructorHelpers::FClassFinder<UUserWidget> MonsterHpBar
+		(
+			TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/UI/MonsterUI/WBP_MonsterHP.WBP_MonsterHP_C'")
+		);
 		
+		if (MonsterHpBar.Succeeded())
+		{
+			m_HpBar->SetWidgetClass(MonsterHpBar.Class);
+			m_HpBar->SetDrawSize(FVector2D(200.0f, 50.0f));
+		}
+	}
+	
+}
+
+void AMeleeMonster::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	m_HpBar->InitWidget();
+
+	auto HpWidget = Cast<UMonsterWidget>(m_HpBar->GetUserWidgetObject());
+	if (HpWidget)
+	{
+		HpWidget->BindHp(m_StatComponent);
+	}
+
 }
 
 void AMeleeMonster::BeginPlay()

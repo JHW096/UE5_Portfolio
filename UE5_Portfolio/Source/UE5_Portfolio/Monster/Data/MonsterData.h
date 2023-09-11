@@ -19,12 +19,15 @@ struct UE5_PORTFOLIO_API FMonsterData : public FTableRowBase
 	FMonsterData() { }
 
 	~FMonsterData() { }
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	int HP = 100;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	int ATT = 10;
+	int32 Level;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int32 MaxHp = 100;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int32 OffensivePower = 10;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	float SearchRange = 500;
