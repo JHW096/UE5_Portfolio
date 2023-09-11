@@ -7,41 +7,24 @@
 #include "Data/Test2.h"
 #include "Data/ItemData.h"
 #include "Data/SubClassData.h"
+#include "../Player/Data/PlayerStatData.h"
 
 FRandomStream UTopDownGameInstance::MainRandom;
 
 UTopDownGameInstance::UTopDownGameInstance()
 {
+
 	{
-		FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Global/Data/DT_Test.DT_Test'");
-		ConstructorHelpers::FObjectFinder<UDataTable> DATA_TABLE(*DataPath);
-		if (DATA_TABLE.Succeeded())
+		FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Global/Data/DT_PlayerStat.DT_PlayerStat'");
+		ConstructorHelpers::FObjectFinder<UDataTable> DT_PlayerStat(*DataPath);
+
+		if (DT_PlayerStat.Succeeded()) 
 		{
-			DataTable = DATA_TABLE.Object;
+			PlayerStatData = DT_PlayerStat.Object;
 		}
 	}
 
-	{
-		/*FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Monster/DataTable/DT_NormalMonster.DT_NormalMonster'");
-		ConstructorHelpers::FObjectFinder<UDataTable> DT_NormalMonster(*DataPath);
 
-		if (DT_NormalMonster.Succeeded())
-		{
-			NormalMonsterData = DT_NormalMonster.Object;
-		}*/
-
-	}
-
-	{
-		FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Global/Data/DT_Test2.DT_Test2'");
-		ConstructorHelpers::FObjectFinder<UDataTable> DT_UITest(*DataPath);
-
-		if (DT_UITest.Succeeded())
-		{
-			UIData = DT_UITest.Object;
-		}
-	}
-	
 	{
 		FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Global/Data/DT_Monster.DT_Monster'");
 		ConstructorHelpers::FObjectFinder<UDataTable> DT_NormalMonster(*DataPath);
@@ -125,23 +108,24 @@ FMonsterData* UTopDownGameInstance::GetNormalMonsterData(FName Name)
 	return Table;
 }
 
-FTest2* UTopDownGameInstance::GetTestData(FName Name)
+FPlayerStatData* UTopDownGameInstance::GetPlayerStatData(FName Name)
 {
-	if (UIData == nullptr)
+	if (PlayerStatData == nullptr) 
 	{
-		UE_LOG(LogTemp, Log, TEXT("%s(%u) GameInstance : UIData is nullptr"), __FUNCTION__, __LINE__);
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) GameInstance : PlayerStatData == nullptr"), __FUNCTION__, __LINE__);
 		return nullptr;
 	}
 
-	FTest2* Table = UIData->FindRow<FTest2>(Name, Name.ToString());
+	FPlayerStatData* Table = PlayerStatData->FindRow<FPlayerStatData>(Name, Name.ToString());
 
-	if (Table == nullptr)
-	{
+
+	if (Table == nullptr) {
 		return nullptr;
 	}
 
 	return Table;
 }
+
 
 const FItemData* UTopDownGameInstance::GetItemData()
 {

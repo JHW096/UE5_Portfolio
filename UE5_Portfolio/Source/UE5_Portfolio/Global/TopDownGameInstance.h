@@ -27,7 +27,7 @@ public:
 
 	struct FMonsterData* GetNormalMonsterData(FName Name);
 
-	struct FTest2* GetTestData(FName Name);
+	struct FPlayerStatData* GetPlayerStatData(FName Name);
 
 	const struct FItemData* GetItemData();
 
@@ -47,6 +47,10 @@ public:
 
 	UPROPERTY()
 	UDataTable* ItemDatas;
+
+	UPROPERTY()
+	UDataTable* PlayerStatData;
+
 
 	TArray<const struct FItemData*> ItemDataRandoms;
 

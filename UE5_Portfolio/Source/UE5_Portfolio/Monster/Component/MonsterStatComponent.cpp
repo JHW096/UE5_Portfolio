@@ -52,7 +52,7 @@ void UMonsterStatComponent::SetLevel(int32 _Level)
 		if (MonsterData)
 		{
 			m_Level = MonsterData->Level;
-			SetLevel(m_Level);
+			SetHp(MonsterData->MaxHp);
 			m_MaxHp = MonsterData->MaxHp;
 			m_OffensivePower = MonsterData->OffensivePower;
 		}
