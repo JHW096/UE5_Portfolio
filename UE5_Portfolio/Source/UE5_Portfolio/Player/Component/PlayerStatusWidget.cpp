@@ -4,6 +4,18 @@
 #include "PlayerStatusWidget.h"
 #include "PlayerStatComponent.h"
 #include "Components/ProgressBar.h"
+#include "Components/Button.h"
+#include "../PlayerController/MyPlayerController.h"
+
+
+	
+
+void UPlayerStatusWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	m_RKeyButton->OnClicked.AddDynamic(this, &UPlayerStatusWidget::UpdateRKey);
+}
 
 void UPlayerStatusWidget::BindHp(UPlayerStatComponent* StatComponent)
 {
@@ -32,3 +44,29 @@ void UPlayerStatusWidget::UpdataMp()
 		PB_PlayerMpBar->SetPercent(m_CurrentStatComp->GetPlayerMpRatio());
 	}
 }
+
+void UPlayerStatusWidget::PlayerHitTestButtonPressed(UPlayerStatComponent* StatComponent)
+{
+	m_CurrentStatComp = StatComponent;
+
+	int32 PlayerCurrentHp = m_CurrentStatComp->GetPlayerCurrentHp();
+	PlayerCurrentHp -= 10;
+
+	m_CurrentStatComp->SetPlayerHp(PlayerCurrentHp);
+	
+	UpdateHp();
+}
+
+void UPlayerStatusWidget::UpdateRKey()
+{
+	if (m_RKeyButton->bIsEnabled) 
+	{
+		m_RKeyButton->SetIsEnabled(false);
+	}
+	else 
+	{
+		m_RKeyButton->SetIsEnabled(true);
+	}
+	
+}
+

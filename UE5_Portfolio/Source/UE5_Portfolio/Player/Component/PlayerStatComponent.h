@@ -55,6 +55,16 @@ public:
 		return m_MaxMp;
 	}
 
+	FORCEINLINE int32 GetPlayerCurrentHp()
+	{
+		return m_CurrentHp;
+	}
+
+	FORCEINLINE int32 GetPlayerCurrentMp()
+	{
+		return m_CurrentMp;
+	}
+
 	FORCEINLINE int32 GetPlayerFristBulletPower()
 	{
 		return m_FristBulletPower;

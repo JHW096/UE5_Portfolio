@@ -29,6 +29,8 @@ public:
 
 	struct FPlayerStatData* GetPlayerStatData(FName Name);
 
+	struct FPlayerSkillData* GetPlayerSkillData(FName _Name);
+
 	const struct FItemData* GetItemData();
 
 public:
@@ -50,6 +52,9 @@ public:
 
 	UPROPERTY()
 	UDataTable* PlayerStatData;
+
+	UPROPERTY()
+	UDataTable* PlayerSkillData;
 
 
 	TArray<const struct FItemData*> ItemDataRandoms;

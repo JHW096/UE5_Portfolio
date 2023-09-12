@@ -8,6 +8,7 @@
 #include "Data/ItemData.h"
 #include "Data/SubClassData.h"
 #include "../Player/Data/PlayerStatData.h"
+#include "../Player/Data/PlayerSkillData.h"
 
 FRandomStream UTopDownGameInstance::MainRandom;
 
@@ -24,6 +25,16 @@ UTopDownGameInstance::UTopDownGameInstance()
 		}
 	}
 
+	{
+		FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Global/Data/DT_PlayerSkillData.DT_PlayerSkillData'");
+		ConstructorHelpers::FObjectFinder<UDataTable> DT_PlayerSkillData(*DataPath);
+
+		if (DT_PlayerSkillData.Succeeded()) 
+		{
+			PlayerSkillData = DT_PlayerSkillData.Object;
+		}
+
+	}
 
 	{
 		FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Global/Data/DT_Monster.DT_Monster'");
@@ -120,6 +131,25 @@ FPlayerStatData* UTopDownGameInstance::GetPlayerStatData(FName Name)
 
 
 	if (Table == nullptr) {
+		return nullptr;
+	}
+
+	return Table;
+}
+
+FPlayerSkillData* UTopDownGameInstance::GetPlayerSkillData(FName _Name)
+{
+	if (PlayerSkillData == nullptr) 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) GameInstance : PlayerSkillData == nullptr"), __FUNCTION__, __LINE__);
+		return nullptr;
+	}
+
+	FPlayerSkillData* Table = PlayerSkillData->FindRow<FPlayerSkillData>(_Name, _Name.ToString());
+
+	if (Table == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) GameInstance : PlayerSkillData Can not FindRow"), __FUNCTION__, __LINE__);
 		return nullptr;
 	}
 

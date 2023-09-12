@@ -47,9 +47,9 @@ void UPlayerStatComponent::SetPlayerLevel(int32 _Level)
 
 	if (GameInstance)
 	{
-		auto PlayerStatData = GameInstance->GetPlayerStatData(PlayerStatDataName);
+		FPlayerStatData* PlayerStatData = GameInstance->GetPlayerStatData(PlayerStatDataName);
 
-		if (PlayerStatData)
+		if (PlayerStatData != nullptr) 
 		{
 			m_Level = PlayerStatData->Level;
 			SetPlayerHp(PlayerStatData->MaxHp);
@@ -87,6 +87,7 @@ void UPlayerStatComponent::SetPlayerMp(int32 _Mp)
 		if (CurrentMP < SkillMP) 
 		{
 			return
+
 		}
 	}*/
 }

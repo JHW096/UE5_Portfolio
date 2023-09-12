@@ -52,6 +52,12 @@ public:
 		return AllAnimations[_AnimState];
 	}
 
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE class UPlayerStatComponent* GetPlayerStatComponent()
+	{
+		return m_PlayerStatComponent;
+	}
+
 public:
 
 	UPROPERTY(Category = "Animation_Value", EditAnywhere, BlueprintReadWrite)

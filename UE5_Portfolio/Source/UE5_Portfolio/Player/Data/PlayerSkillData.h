@@ -5,46 +5,43 @@
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
 #include "UObject/NoExportTypes.h"
-#include "PlayerStatData.generated.h"
+#include "Components/Image.h"
+#include "Components/TextBlock.h"
+#include "PlayerSkillData.generated.h"
 
 /**
  * 
  */
 USTRUCT(BlueprintType)
-struct UE5_PORTFOLIO_API FPlayerStatData : public FTableRowBase
+struct UE5_PORTFOLIO_API FPlayerSkillData : public FTableRowBase
 {
 	GENERATED_BODY()
 
-	FPlayerStatData() { }
-	~FPlayerStatData() { }
+	FPlayerSkillData() { }
+	~FPlayerSkillData() { }
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	int32 Level = 1;
+	FName SkillName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	int32 MaxHp = 100;
+	int32 SkillCoolTime;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	int32 MaxMp = 100;
+	UTexture* SkillIcon;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	UTextBlock* SkillCoolTimeTextBlock;
+	
+	
+	//Relative Combat
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
+	int32 SkillLevel;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	int32 FristBulletPower = 2; // 3-> 4 -> 5
+	int32 SkillPower;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	int32 SecondBulletPower = 3;  // -> 5 - > 7 -> 9
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	int32 ThirdBulletPower = 5; // 8 -> 11 -> 14
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	int32 SnipeShootPower = 15;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	int32 SnipeShootMp = 20;
-	
-	//TODO
-	//Other Skills Power, MP..
 	
 };
 
