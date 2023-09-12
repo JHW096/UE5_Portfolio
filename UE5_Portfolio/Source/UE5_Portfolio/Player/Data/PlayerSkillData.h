@@ -28,7 +28,7 @@ struct UE5_PORTFOLIO_API FPlayerSkillData : public FTableRowBase
 	int32 SkillCoolTime;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
-	UTexture* SkillIcon;
+	UTexture2D* SkillIcon;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Data")
 	UTextBlock* SkillCoolTimeTextBlock;
