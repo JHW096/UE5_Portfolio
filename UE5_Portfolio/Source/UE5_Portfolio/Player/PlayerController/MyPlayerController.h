@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "EnhancedInputComponent.h"
 #include "MyPlayerController.generated.h"
 
 /**
@@ -110,6 +111,9 @@ public:
 	//PLAYER_R_MOUSE_BUTTON_
 	void OnMouseLButtonClicked();
 	
+public:
+
+	void RKeyPressedUI();
 
 public:
 

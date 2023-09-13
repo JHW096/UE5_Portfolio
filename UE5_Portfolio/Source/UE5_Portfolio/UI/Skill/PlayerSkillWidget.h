@@ -16,6 +16,10 @@ class UE5_PORTFOLIO_API UPlayerSkillWidget : public UUserWidget
 	
 protected:
 
+	virtual void NativeOnInitialized() override;
+	
+	virtual void NativePreConstruct() override;
+
 	virtual void NativeConstruct() override;
 
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
@@ -31,15 +35,27 @@ public:
 		return ((float)m_CurrentCoolTime / (float)m_MaxCoolTime);
 	}
 
+	FORCEINLINE class UProgressBar* GetProgressBar()
+	{
+		return m_ProgressBar;
+	}
+
+	FORCEINLINE int32 GetMaxCoolTime()
+	{
+		return m_MaxCoolTime;
+	}
+
+	void SetProgressBar();
+
 private:
 
-	class UProgressBar* m_ProgressBar = nullptr;
+	class UProgressBar* m_ProgressBar;
 
 	class UImage* m_SkillIcon = nullptr;
 
 	class UTextBlock* m_CoolTimeTextBlock = nullptr;
 
-	FName m_SkillName;
+	FName m_SkillName = FName("None");
 
 	FString m_SkillCoolTime;
 

@@ -24,6 +24,9 @@
 #include "NiagaraFunctionLibrary.h"
 #include "Components/CanvasPanelSlot.h"
 #include "Widgets/Layout/Anchors.h"
+#include "../../UI/Skill/PlayerSkillTileViewWidget.h"
+#include "../../UI/Skill/PlayerSkillWidget.h"
+
 
 
 
@@ -177,6 +180,13 @@ void AMyPlayerController::SetupInputComponent()
 		{
 			EnhancedInputComponent->BindAction(
 				InputLMouseAction, ETriggerEvent::Started, this, &AMyPlayerController::OnMouseLButtonClicked
+			);
+		}
+
+		//RKeyUI
+		{
+			EnhancedInputComponent->BindAction(
+				InputRKeyAction, ETriggerEvent::Started, this, &AMyPlayerController::RKeyPressedUI
 			);
 		}
 	}
@@ -516,6 +526,7 @@ void AMyPlayerController::OnInputRKeyPressed()
 	}
 
 
+
 	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
 
 	if (HUD == nullptr && HUD->IsValidLowLevel())
@@ -666,6 +677,39 @@ void AMyPlayerController::OnMouseLButtonClicked()
 		}
 		
 	}
+}
+
+void AMyPlayerController::RKeyPressedUI()
+{
+	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
+	if (HUD == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) ControllerUI_HUD == nullptr"), __FUNCTION__, __LINE__);
+		return;
+	}
+
+	UUserWidget* MainWidget = HUD->GetMainWidget();
+	if (MainWidget == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) MainWidget == nullptr"), __FUNCTION__, __LINE__);
+		return;
+	}
+
+	UPlayerSkillTileViewWidget* PlayerSkillTileViewWidget = Cast<UPlayerSkillTileViewWidget>(MainWidget->GetWidgetFromName(TEXT("WBP_PlayerSkillTileViewWidget")));
+	if (PlayerSkillTileViewWidget == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) PlayerSkillTileViewWidget == nullptr"), __FUNCTION__, __LINE__);
+		return;
+	}
+
+	UPlayerSkillWidget* PlayerSkillWidget = PlayerSkillTileViewWidget->GetPlayerSkillWidgetFromTileView(0);
+
+	float TempRatio = (float)PlayerSkillWidget->GetMaxCoolTime() / (float)PlayerSkillWidget->GetMaxCoolTime();
+
+	Cast<UProgressBar>(PlayerSkillWidget->GetWidgetFromName(TEXT("SkillProgressBar")))->SetPercent(TempRatio);
+
+
+	int a = 0;
 }
 
 

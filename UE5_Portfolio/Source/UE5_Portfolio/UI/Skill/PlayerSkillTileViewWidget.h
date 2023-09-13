@@ -9,6 +9,7 @@
 /**
  * 
  */
+
 UCLASS()
 class UE5_PORTFOLIO_API UPlayerSkillTileViewWidget : public UUserWidget
 {
@@ -21,19 +22,25 @@ protected:
 
 public:
 
+	void SetSkillWidgetProgressBarPercent(size_t _Value);
+
+	class UPlayerSkillWidget* GetPlayerSkillWidgetFromTileView(size_t _Value);
 
 private:
 
 	void SetTableRowName();
 	FName GetTableRowName(int _Key);
 	class UPlayerSkillWidget* CreateSkillWidget(FName _Name);
+	class USkillWidgetObject* CreateSkillWidgetObject(FName _Name);
 
-private:
+private: 
+
+	const int32 PLAYER_SKILL_SIZE = 4;
 
 	UPROPERTY(Category = "InvenList", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	class UTileView* InvenList = nullptr;
+	class UTileView* m_SkillList = nullptr;
 
-	TArray<UUserWidget> m_SkillWidgetList;
+	TArray<class UPlayerSkillWidget*> m_SkillWidgetList;
 
 	TMap<int, FName> TableRowNameMap;
 };
