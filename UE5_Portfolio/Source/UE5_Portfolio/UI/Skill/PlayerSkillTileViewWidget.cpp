@@ -88,11 +88,13 @@ UPlayerSkillWidget* UPlayerSkillTileViewWidget::CreateSkillWidget(FName _Name)
 		return nullptr;
 	}
 	
+	
+
 	UPlayerSkillWidget* PlayerSkillWidget = NewObject<UPlayerSkillWidget>();
 	PlayerSkillWidget->PlayerSkillWidgetSetting(PlayerSkillData);
 	PlayerSkillWidget->SetProgressBar();
 
-	int a = 0
+	int a = 0;
 
 	return PlayerSkillWidget;
 }
