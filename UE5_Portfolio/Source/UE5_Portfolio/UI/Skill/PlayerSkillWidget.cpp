@@ -28,8 +28,6 @@ void UPlayerSkillWidget::NativeConstruct()
 	m_ProgressBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("SkillProgressBar")));
 	m_CoolTimeTextBlock = Cast<UTextBlock>(GetWidgetFromName(TEXT("CoolTimeText")));
 
-	int a = 0;
-
 	if (m_PlayerSkillData == nullptr || m_ProgressBar == nullptr || m_CoolTimeTextBlock == nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s(%u) : No PlayerSkillUI Settings"), __FUNCTION__, __LINE__);
@@ -40,6 +38,7 @@ void UPlayerSkillWidget::NativeConstruct()
 void UPlayerSkillWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
+
 }
 
 void UPlayerSkillWidget::PlayerSkillWidgetSetting(FPlayerSkillData* _PlayerSkillData)
@@ -47,16 +46,21 @@ void UPlayerSkillWidget::PlayerSkillWidgetSetting(FPlayerSkillData* _PlayerSkill
 	/*FSlateBrush BackGroundBrush = UWidgetBlueprintLibrary::MakeBrushFromTexture(_PlayerSkillData->SkillIcon, 50, 50);
 
 	m_ProgressBar->WidgetStyle.BackgroundImage = BackGroundBrush;*/
-	
-	m_ProgressBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("SkillProgressBar")));
 	m_PlayerSkillData = _PlayerSkillData;
 	m_SkillName = _PlayerSkillData->SkillName;
 	m_MaxCoolTime = _PlayerSkillData->SkillCoolTime;
+	m_CurrentCoolTime = _PlayerSkillData->SkillCoolTime;
 }
 
-void UPlayerSkillWidget::SetProgressBar()
+float UPlayerSkillWidget::SkillProgressFillDown()
 {
-	m_ProgressBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("SkillProgressBar")));
+	float Ratio = (float)m_MaxCoolTime / (float)(m_MaxCoolTime * 0.5f);
+	
+	return 1.0f;
+	//return ((float)m_CurrentCoolTime / (float)m_MaxCoolTime);
 }
+
+
+
 
 

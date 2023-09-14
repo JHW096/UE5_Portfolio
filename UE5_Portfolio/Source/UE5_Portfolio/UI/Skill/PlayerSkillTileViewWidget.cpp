@@ -9,6 +9,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "SkillWidgetObject.h"
 #include "Components/ProgressBar.h"
+#include "../../Portfolio/PortfolioHUD.h"
 
 void UPlayerSkillTileViewWidget::NativeConstruct()
 {
@@ -87,14 +88,19 @@ UPlayerSkillWidget* UPlayerSkillTileViewWidget::CreateSkillWidget(FName _Name)
 		UE_LOG(LogTemp, Warning, TEXT("%s(%u) PlayerSkillData == nullptr"), __FUNCTION__, __LINE__);
 		return nullptr;
 	}
-	
+
+
+	UPlayerSkillWidget* PlayerSkillWidget = Cast<UPlayerSkillWidget>(CreateWidgetInstance(*GetWorld(), TSkillWidget, FName("SkillWidget")));
 	
 
-	UPlayerSkillWidget* PlayerSkillWidget = NewObject<UPlayerSkillWidget>();
+	if (PlayerSkillWidget == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) PlayerSkillWidget Pointer is nullptr"), __FUNCTION__, __LINE__);
+		return nullptr;
+	}
+
+	//UPlayerSkillWidget* PlayerSkillWidget = NewObject<UPlayerSkillWidget>();
 	PlayerSkillWidget->PlayerSkillWidgetSetting(PlayerSkillData);
-	PlayerSkillWidget->SetProgressBar();
-
-	int a = 0;
 
 	return PlayerSkillWidget;
 }

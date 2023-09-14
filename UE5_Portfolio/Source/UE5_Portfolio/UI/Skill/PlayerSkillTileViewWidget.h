@@ -43,4 +43,7 @@ private:
 	TArray<class UPlayerSkillWidget*> m_SkillWidgetList;
 
 	TMap<int, FName> TableRowNameMap;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class UPlayerSkillWidget> TSkillWidget;
 };

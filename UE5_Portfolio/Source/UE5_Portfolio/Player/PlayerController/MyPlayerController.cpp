@@ -26,6 +26,7 @@
 #include "Widgets/Layout/Anchors.h"
 #include "../../UI/Skill/PlayerSkillTileViewWidget.h"
 #include "../../UI/Skill/PlayerSkillWidget.h"
+#include "Components/Button.h"
 
 
 
@@ -703,11 +704,6 @@ void AMyPlayerController::RKeyPressedUI()
 	}
 
 	UPlayerSkillWidget* PlayerSkillWidget = PlayerSkillTileViewWidget->GetPlayerSkillWidgetFromTileView(0);
-
-	float TempRatio = (float)PlayerSkillWidget->GetMaxCoolTime() / (float)PlayerSkillWidget->GetMaxCoolTime();
-
-	Cast<UProgressBar>(PlayerSkillWidget->GetWidgetFromName(TEXT("SkillProgressBar")))->SetPercent(TempRatio);
-
 
 	int a = 0;
 }

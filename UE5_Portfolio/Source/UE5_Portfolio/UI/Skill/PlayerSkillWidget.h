@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/ProgressBar.h"
 #include "PlayerSkillWidget.generated.h"
 
 /**
@@ -28,28 +29,45 @@ public:
 
 	void PlayerSkillWidgetSetting(struct FPlayerSkillData* _PlayerSkillData);
 	
+	UFUNCTION(BlueprintCallable)
+	float SkillProgressFillDown();
+
 public:
 
+	UFUNCTION(BlueprintCallable)
 	FORCEINLINE float GetSkillCoolTimeRatio()
 	{
 		return ((float)m_CurrentCoolTime / (float)m_MaxCoolTime);
 	}
 
-	FORCEINLINE class UProgressBar* GetProgressBar()
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE UProgressBar* GetProgressBar()
 	{
 		return m_ProgressBar;
 	}
 
+	UFUNCTION(BlueprintCallable)
 	FORCEINLINE int32 GetMaxCoolTime()
 	{
 		return m_MaxCoolTime;
 	}
 
-	void SetProgressBar();
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE int32 GetCurrentCoolTime()
+	{
+		return m_CurrentCoolTime;
+	}
+
+	FORCEINLINE void SetCurrentCoolTime(int32 _Value)
+	{
+		m_CurrentCoolTime = _Value;
+	}
+
+	
 
 private:
-
-	class UProgressBar* m_ProgressBar;
+	
+	UProgressBar* m_ProgressBar;
 
 	class UImage* m_SkillIcon = nullptr;
 
@@ -64,7 +82,7 @@ private:
 	int32 m_CurrentCoolTime;
 
 	float m_CoolTimeRatio;
-	
+
 
 private:
 
