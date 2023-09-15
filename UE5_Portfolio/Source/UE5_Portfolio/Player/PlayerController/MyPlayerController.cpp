@@ -26,6 +26,7 @@
 #include "Widgets/Layout/Anchors.h"
 #include "../../UI/Skill/PlayerSkillTileViewWidget.h"
 #include "../../UI/Skill/PlayerSkillWidget.h"
+#include "../../UI/Skill/PlayerSkillWidgets.h"
 #include "Components/Button.h"
 
 
@@ -696,11 +697,11 @@ void AMyPlayerController::RKeyPressedUI()
 		return;
 	}
 
-	UUserWidget* PlayerSkillWidgets = Cast<UUserWidget>(MainWidget->GetWidgetFromName(TEXT("WBP_PlayerSkillWidgets")));
+	UPlayerSkillWidgets* PlayerSkillWidgets = Cast<UPlayerSkillWidgets>(MainWidget->GetWidgetFromName(TEXT("WBP_PlayerSkillWidgets")));
+
+	PlayerSkillWidgets->FillAmountFullElement(3);
 
 	int a = 0;
-
-	
 }
 
 

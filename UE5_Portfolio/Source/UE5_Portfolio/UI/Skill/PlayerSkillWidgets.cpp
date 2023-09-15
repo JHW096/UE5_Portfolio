@@ -46,6 +46,16 @@ void UPlayerSkillWidgets::SetPlayerWidgetElement(size_t _index, FName _Name)
 	SkillWidget->SetPlayerSkill(_Name);
 }
 
+void UPlayerSkillWidgets::FillAmountFullElement(int32 _index)
+{
+	if (_index < 0 || _index > PLAYERSKILLNUM)
+	{
+		return;
+	}
+
+	m_PlayerSkillWidgetArray[_index]->GetProgressBar()->SetPercent(1.0f);
+}
+
 
 void UPlayerSkillWidgets::InitiallizeSkillWidget()
 {

@@ -25,6 +25,8 @@ public:
 	class UPlayerSkillWidget* GetPlayerWidgetElement(size_t _index);
 	void SetPlayerWidgetElement(size_t _index, FName _Name);
 
+	void FillAmountFullElement(int32 _index);
+
 private:
 
 	void InitiallizeSkillWidget();
