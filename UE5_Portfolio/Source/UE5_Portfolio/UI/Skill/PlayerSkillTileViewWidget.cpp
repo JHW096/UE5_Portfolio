@@ -15,6 +15,8 @@ void UPlayerSkillTileViewWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
+	int a = 0;
+
 	SetTableRowName();
 
 	m_SkillList = Cast<UTileView>(GetWidgetFromName(TEXT("PlayerSkillTileView")));
@@ -98,9 +100,6 @@ UPlayerSkillWidget* UPlayerSkillTileViewWidget::CreateSkillWidget(FName _Name)
 		UE_LOG(LogTemp, Warning, TEXT("%s(%u) PlayerSkillWidget Pointer is nullptr"), __FUNCTION__, __LINE__);
 		return nullptr;
 	}
-
-	//UPlayerSkillWidget* PlayerSkillWidget = NewObject<UPlayerSkillWidget>();
-	PlayerSkillWidget->PlayerSkillWidgetSetting(PlayerSkillData);
 
 	return PlayerSkillWidget;
 }

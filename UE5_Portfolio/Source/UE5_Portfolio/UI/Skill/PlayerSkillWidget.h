@@ -10,6 +10,8 @@
 /**
  * 
  */
+
+
 UCLASS()
 class UE5_PORTFOLIO_API UPlayerSkillWidget : public UUserWidget
 {
@@ -17,20 +19,13 @@ class UE5_PORTFOLIO_API UPlayerSkillWidget : public UUserWidget
 	
 protected:
 
-	virtual void NativeOnInitialized() override;
-	
-	virtual void NativePreConstruct() override;
-
 	virtual void NativeConstruct() override;
 
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 public:
-
-	void PlayerSkillWidgetSetting(struct FPlayerSkillData* _PlayerSkillData);
 	
-	UFUNCTION(BlueprintCallable)
-	float SkillProgressFillDown();
+	void SetPlayerSkill(FName _Name);
 
 public:
 

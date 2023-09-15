@@ -10,6 +10,7 @@
 /**
  * 
  */
+
 UCLASS()
 class UE5_PORTFOLIO_API AMyPlayerController : public APlayerController
 {
@@ -205,6 +206,10 @@ private:
 	bool R_Key_IsCooling = false;
 	bool R_Key_Ongoing = false;
 
+	float RPercent;
+public:
+
+		
 public:
 
 	FORCEINLINE void SetRKeyOngoing(bool _Value)
@@ -225,4 +230,9 @@ public:
 	{
 		m_OnArea = _bool;
 	}
+
+public:
+
+	UFUNCTION(BlueprintCallable)
+	float RKeyPercent();
 };

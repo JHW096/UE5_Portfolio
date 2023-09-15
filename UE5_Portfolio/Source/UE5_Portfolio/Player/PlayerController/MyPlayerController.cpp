@@ -696,16 +696,11 @@ void AMyPlayerController::RKeyPressedUI()
 		return;
 	}
 
-	UPlayerSkillTileViewWidget* PlayerSkillTileViewWidget = Cast<UPlayerSkillTileViewWidget>(MainWidget->GetWidgetFromName(TEXT("WBP_PlayerSkillTileViewWidget")));
-	if (PlayerSkillTileViewWidget == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s(%u) PlayerSkillTileViewWidget == nullptr"), __FUNCTION__, __LINE__);
-		return;
-	}
-
-	UPlayerSkillWidget* PlayerSkillWidget = PlayerSkillTileViewWidget->GetPlayerSkillWidgetFromTileView(0);
+	UUserWidget* PlayerSkillWidgets = Cast<UUserWidget>(MainWidget->GetWidgetFromName(TEXT("WBP_PlayerSkillWidgets")));
 
 	int a = 0;
+
+	
 }
 
 
@@ -734,6 +729,48 @@ void AMyPlayerController::AreaShotDecalDestroyed()
 		SpawnTransform.SetLocation(SpawnPos);
 		GetWorld()->SpawnActor<AActor>(m_AreaShotStart, SpawnTransform);
 	}
+
+}
+
+float AMyPlayerController::RKeyPercent()
+{
+	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
+	if (HUD == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) ControllerUI_HUD == nullptr"), __FUNCTION__, __LINE__);
+		return -1.0f;
+	}
+
+	UUserWidget* MainWidget = HUD->GetMainWidget();
+	if (MainWidget == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) MainWidget == nullptr"), __FUNCTION__, __LINE__);
+		return -1.0f;
+	}
+
+	UPlayerSkillTileViewWidget* PlayerSkillTileViewWidget = Cast<UPlayerSkillTileViewWidget>(MainWidget->GetWidgetFromName(TEXT("WBP_PlayerSkillTileViewWidget")));
+	if (PlayerSkillTileViewWidget == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) PlayerSkillTileViewWidget == nullptr"), __FUNCTION__, __LINE__);
+		return -1.0f;
+	}
+
+	UPlayerSkillWidget* PlayerSkillWidget = PlayerSkillTileViewWidget->GetPlayerSkillWidgetFromTileView(0);
+
+	UProgressBar* ProgressBar = PlayerSkillWidget->GetProgressBar();
+
+	int32 CurrentCoolTime = PlayerSkillWidget->GetCurrentCoolTime();
+
+	float Percent = 10.0f / (float)PlayerSkillWidget->GetMaxCoolTime();
+
+	Percent -= (1.0f * GetWorld()->GetDeltaSeconds());
+	
+	if (Percent < 0.0f)
+	{
+		return 0.0f;
+	}
+
+	return Percent;
 
 }
 

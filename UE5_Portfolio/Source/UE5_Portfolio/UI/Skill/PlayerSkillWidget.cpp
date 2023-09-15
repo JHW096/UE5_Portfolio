@@ -10,29 +10,14 @@
 #include "../../Player/Data/PlayerSkillData.h"
 #include "../../Global/TopDownGameInstance.h"
 
-void UPlayerSkillWidget::NativeOnInitialized()
-{
-	int a = 0;
-	//m_ProgressBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("SkillProgressBar")));
-}
 
-void UPlayerSkillWidget::NativePreConstruct()
-{
-	//m_ProgressBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("SkillProgressBar")));
-}
 
 void UPlayerSkillWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	m_ProgressBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("SkillProgressBar")));
-	m_CoolTimeTextBlock = Cast<UTextBlock>(GetWidgetFromName(TEXT("CoolTimeText")));
 
-	if (m_PlayerSkillData == nullptr || m_ProgressBar == nullptr || m_CoolTimeTextBlock == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s(%u) : No PlayerSkillUI Settings"), __FUNCTION__, __LINE__);
-		return;
-	}
+	//m_CoolTimeTextBlock = Cast<UTextBlock>(GetWidgetFromName(TEXT("CoolTimeText")));
 }
 
 void UPlayerSkillWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -41,23 +26,29 @@ void UPlayerSkillWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTi
 
 }
 
-void UPlayerSkillWidget::PlayerSkillWidgetSetting(FPlayerSkillData* _PlayerSkillData)
-{
-	/*FSlateBrush BackGroundBrush = UWidgetBlueprintLibrary::MakeBrushFromTexture(_PlayerSkillData->SkillIcon, 50, 50);
 
-	m_ProgressBar->WidgetStyle.BackgroundImage = BackGroundBrush;*/
-	m_PlayerSkillData = _PlayerSkillData;
-	m_SkillName = _PlayerSkillData->SkillName;
-	m_MaxCoolTime = _PlayerSkillData->SkillCoolTime;
-	m_CurrentCoolTime = _PlayerSkillData->SkillCoolTime;
-}
-
-float UPlayerSkillWidget::SkillProgressFillDown()
+void UPlayerSkillWidget::SetPlayerSkill(FName _Name)
 {
-	float Ratio = (float)m_MaxCoolTime / (float)(m_MaxCoolTime * 0.5f);
-	
-	return 1.0f;
-	//return ((float)m_CurrentCoolTime / (float)m_MaxCoolTime);
+	UTopDownGameInstance* GameInst = Cast<UTopDownGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	if (GameInst == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) GameInst == nullptr"), __FUNCTION__, __LINE__);
+		return;
+	}
+
+	FPlayerSkillData* SkillData = GameInst->GetPlayerSkillData(_Name);
+
+	if (SkillData == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) SkillData== nullptr"), __FUNCTION__, __LINE__);
+		return;
+	}
+
+	m_PlayerSkillData = SkillData;
+	m_ProgressBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("SkillProgressBar")));
+	m_SkillName = m_PlayerSkillData->SkillName;
+	m_MaxCoolTime = m_PlayerSkillData->SkillCoolTime;
+	m_CurrentCoolTime = m_PlayerSkillData->SkillCoolTime;
 }
 
 

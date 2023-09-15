@@ -16,6 +16,8 @@ class UE5_PORTFOLIO_API USkillWidgetObject : public UObject
 	
 public:
 
+	USkillWidgetObject();
+
 	FORCEINLINE class UPlayerSkillWidget* GetPlayerSkillWidget()
 	{
 		return m_PlayerSkillWidget;
@@ -28,11 +30,13 @@ public:
 
 	FORCEINLINE void SetPlayerSkillWidget(class UPlayerSkillWidget* p_PlayerSkillWidget)
 	{
+		int a = 0;
 		m_PlayerSkillWidget = p_PlayerSkillWidget;
 	}
 
 	FORCEINLINE void SetPlayerSkillData(struct FPlayerSkillData* p_PlayerSkillData)
 	{
+		int a = 0;
 		m_PlayerSkillData = p_PlayerSkillData;
 	}
 	
