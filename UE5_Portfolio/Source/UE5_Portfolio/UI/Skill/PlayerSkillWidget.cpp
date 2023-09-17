@@ -9,6 +9,7 @@
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "../../Player/Data/PlayerSkillData.h"
 #include "../../Global/TopDownGameInstance.h"
+#include "PlayerSkillWidgets.h"
 
 
 
@@ -23,9 +24,14 @@ void UPlayerSkillWidget::NativeConstruct()
 void UPlayerSkillWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-
+	
 }
 
+void UPlayerSkillWidget::BindProgressBar(UPlayerSkillWidgets* _PlayerSkillWidgets)
+{
+	m_PlayerSkillWidgets = _PlayerSkillWidgets;
+	m_PlayerSkillWidgets->OnQButtonProgress.AddUObject(this, &UPlayerSkillWidget::UpDataSkillCoolTime);
+}
 
 void UPlayerSkillWidget::SetPlayerSkill(FName _Name)
 {
@@ -49,6 +55,18 @@ void UPlayerSkillWidget::SetPlayerSkill(FName _Name)
 	m_SkillName = m_PlayerSkillData->SkillName;
 	m_MaxCoolTime = m_PlayerSkillData->SkillCoolTime;
 	m_CurrentCoolTime = m_PlayerSkillData->SkillCoolTime;
+}
+
+
+
+void UPlayerSkillWidget::UpDataSkillCoolTime()
+{
+	m_ProgressBar->SetPercent(GetSkillCoolTimeRatio());
+}
+
+float UPlayerSkillWidget::SkillCoolTimeDown()
+{
+	return GetSkillCoolTimeRatio();
 }
 
 

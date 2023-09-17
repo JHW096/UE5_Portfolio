@@ -26,6 +26,11 @@ protected:
 public:
 	
 	void SetPlayerSkill(FName _Name);
+	void BindProgressBar(class UPlayerSkillWidgets* _PlayerSkillWidgets);
+	void UpDataSkillCoolTime();
+
+	UFUNCTION(BlueprintCallable)
+	float SkillCoolTimeDown();
 
 public:
 
@@ -78,8 +83,10 @@ private:
 
 	float m_CoolTimeRatio;
 
-
+	float m_FillDownSpeed = 0.005f;
 private:
+
+	class UPlayerSkillWidgets* m_PlayerSkillWidgets = nullptr;
 
 	struct FPlayerSkillData* m_PlayerSkillData = nullptr;
 	

@@ -36,7 +36,6 @@ public:
 private:
 
 	TWeakObjectPtr<class UPlayerStatComponent> m_CurrentStatComp;
-
 	UPROPERTY(meta = (BindWidget))
 	class UProgressBar* PB_PlayerHpBar;
 

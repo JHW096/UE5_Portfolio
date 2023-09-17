@@ -699,7 +699,8 @@ void AMyPlayerController::RKeyPressedUI()
 
 	UPlayerSkillWidgets* PlayerSkillWidgets = Cast<UPlayerSkillWidgets>(MainWidget->GetWidgetFromName(TEXT("WBP_PlayerSkillWidgets")));
 
-	PlayerSkillWidgets->FillAmountFullElement(3);
+//	PlayerSkillWidgets->FillAmountFullElement(3);
+	PlayerSkillWidgets->SetSkillProgressBar(3);
 
 	int a = 0;
 }
