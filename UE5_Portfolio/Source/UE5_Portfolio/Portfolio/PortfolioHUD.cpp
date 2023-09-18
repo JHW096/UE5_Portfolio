@@ -6,7 +6,7 @@
 
 APortfolioHUD::APortfolioHUD()
 {
-	
+
 }
 
 APortfolioHUD::~APortfolioHUD()
@@ -16,9 +16,6 @@ APortfolioHUD::~APortfolioHUD()
 void APortfolioHUD::BeginPlay()
 {
 	Super::BeginPlay();
-
-	
-
 
 	FSoftClassPath ClassPath(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/UI/WBP_MainWidget.WBP_MainWidget_C'"));
 	TSubclassOf<UUserWidget> MainWidgetClass = ClassPath.TryLoadClass<UUserWidget>();

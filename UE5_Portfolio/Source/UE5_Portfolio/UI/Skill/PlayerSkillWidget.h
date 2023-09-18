@@ -30,9 +30,6 @@ public:
 	void UpDataSkillCoolTime();
 
 	UFUNCTION(BlueprintCallable)
-	void CoolTimeReduce(float _DeltaTime);
-
-	UFUNCTION(BlueprintCallable)
 	float SkillCoolTimeDown();
 
 public:

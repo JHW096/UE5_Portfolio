@@ -65,11 +65,6 @@ void UPlayerSkillWidget::UpDataSkillCoolTime()
 	m_ProgressBar->SetPercent(GetSkillCoolTimeRatio());
 }
 
-void UPlayerSkillWidget::CoolTimeReduce(float _DeltaTime)
-{
-	m_CurrentCoolTime = m_CurrentCoolTime - ((1.0f) * _DeltaTime);
-}
-
 float UPlayerSkillWidget::SkillCoolTimeDown()
 {
 	return GetSkillCoolTimeRatio();

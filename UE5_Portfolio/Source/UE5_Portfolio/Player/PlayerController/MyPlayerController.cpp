@@ -63,22 +63,7 @@ void AMyPlayerController::BeginPlay()
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);
 	}
 
-	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
-	if (HUD == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s(%u) ControllerUI_HUD == nullptr"), __FUNCTION__, __LINE__);
-		return;
-	}
-
-	UUserWidget* MainWidget = HUD->GetMainWidget();
-	if (MainWidget == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s(%u) MainWidget == nullptr"), __FUNCTION__, __LINE__);
-		return;
-	}
-
-	m_PlayerSkillWidgets = Cast<UPlayerSkillWidgets>(MainWidget->GetWidgetFromName(TEXT("WBP_PlayerSkillWidgets")));
-	
+	GetWorld()->GetTimerManager().SetTimer(m_TimerHandle, this, &AMyPlayerController::TimerDown, 0.2f, true);
 }
 
 void AMyPlayerController::SetupInputComponent()
@@ -221,6 +206,14 @@ void AMyPlayerController::PlayerTick(float _DeltaSeconds)
 	{
 		R_Key_CoolTime -= (1.0f * _DeltaSeconds);
 		R_Key_Ongoingtime -= (1.0f * _DeltaSeconds);
+		/*if (m_PlayerSkillWidgets == nullptr)
+		{
+			return;
+		}
+		else
+		{
+			m_PlayerSkillWidgets->GetPlayerWidgetElement(3)->GetProgressBar()->SetPercent(R_Key_CoolTime / 10.0f);
+		}*/
 	}
 	else // R_Key_IsCooling == false
 	{
@@ -230,12 +223,13 @@ void AMyPlayerController::PlayerTick(float _DeltaSeconds)
 
 	if (R_Key_CoolTime <= 0.0f)
 	{
-		R_Key_CoolTime = 5.0f;
+		R_Key_CoolTime = 10.0f;
 		R_Key_Ongoingtime = 3.0f;
 		R_Key_IsCooling = false;
 	}
 
 	
+
 	/*m_PlayerSkillWidgets->SetCoolTimeReduce2(3, _DeltaSeconds);
 	m_PlayerSkillWidgets->SetSkillProgressBar(3);*/
 
@@ -723,8 +717,14 @@ void AMyPlayerController::RKeyPressedUI()
 
 	UPlayerSkillWidgets* PlayerSkillWidgets = Cast<UPlayerSkillWidgets>(MainWidget->GetWidgetFromName(TEXT("WBP_PlayerSkillWidgets")));
 
+
+	TimerBool = true;
 //	PlayerSkillWidgets->FillAmountFullElement(3);
-	PlayerSkillWidgets->SetCoolTimeReduce2(3, GetWorld()->GetDeltaSeconds());
+	
+	/*UPlayerSkillWidget* SkillWidget = PlayerSkillWidgets->GetPlayerWidgetElement(3);
+	UProgressBar* ProgressBar = SkillWidget->GetProgressBar();
+	ProgressBar->SetPercent(R_Key_CoolTime);*/
+
 
 	int a = 0;
 }
@@ -755,6 +755,29 @@ void AMyPlayerController::AreaShotDecalDestroyed()
 		SpawnTransform.SetLocation(SpawnPos);
 		GetWorld()->SpawnActor<AActor>(m_AreaShotStart, SpawnTransform);
 	}
+
+}
+
+void AMyPlayerController::TimerDown()
+{
+	m_TimerFloat -= 0.2f;
+	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
+	if (HUD == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) ControllerUI_HUD == nullptr"), __FUNCTION__, __LINE__);
+		return;
+	}
+
+	UUserWidget* MainWidget = HUD->GetMainWidget();
+	if (MainWidget == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) MainWidget == nullptr"), __FUNCTION__, __LINE__);
+		return;
+	}
+
+	UPlayerSkillWidgets* PlayerSkillWidgets = Cast<UPlayerSkillWidgets>(MainWidget->GetWidgetFromName(TEXT("WBP_PlayerSkillWidgets")));
+	PlayerSkillWidgets->GetPlayerWidgetElement(3)->SetCurrentCoolTime(m_TimerFloat);
+	
 
 }
 

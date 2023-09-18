@@ -17,47 +17,6 @@ void UPlayerSkillWidgets::NativeConstruct()
 void UPlayerSkillWidgets::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-
-	for (int i = 0; i < PLAYERSKILLNUM; ++i)
-	{
-		if (m_PlayerSkillWidgetArray[i]->GetProgressBar() == nullptr)
-		{
-			continue;
-		}
-
-		if (m_IsCoolTimeReduce[i] == true)
-		{
-			if (m_SkillCoolTimePercent[i] <= 0.0f)
-			{
-				m_SkillCoolTimePercent[i] = 1.0f;
-				m_IsCoolTimeReduce[i] = false;
-			}
-			else
-			{
-				/*m_SkillCoolTimePercent[i] -= (0.000001f * GetWorld()->GetDeltaSeconds());
-				m_PlayerSkillWidgetArray[i]->GetProgressBar()->SetPercent(m_SkillCoolTimePercent[i]);*/
-			}
-		}
-		else
-		{
-			return;
-		}
-	}
-
-	for (int i = 0; i < PLAYERSKILLNUM; ++i)
-	{
-		if (m_SkillCoolTimePercent[i] < 0.0f)
-		{
-			m_SkillCoolTimePercent[i] = 0.0f;
-		
-		}
-		m_SkillCoolTimePercent[i] -= (1.0f * InDeltaTime);
-		if (m_PlayerSkillWidgetArray[i]->GetProgressBar() == nullptr)
-		{
-			continue;
-		}
-		m_PlayerSkillWidgetArray[i]->GetProgressBar()->SetPercent(m_SkillCoolTimePercent[i]);
-	}
 }
 
 UPlayerSkillWidget* UPlayerSkillWidgets::GetPlayerWidgetElement(size_t _index)
@@ -129,7 +88,6 @@ void UPlayerSkillWidgets::SetCoolTimeReduce2(int32 _Index, float _DeltaTime)
 	}
 
 	float Time = m_PlayerSkillWidgetArray[_Index]->GetCurrentCoolTime();
-	Time -= (1.0f * _DeltaTime);
 
 	m_SkillCoolTimePercent[_Index] = m_PlayerSkillWidgetArray[_Index]->GetSkillCoolTimeRatio();
 

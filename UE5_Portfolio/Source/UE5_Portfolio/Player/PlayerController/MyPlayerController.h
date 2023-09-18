@@ -200,7 +200,7 @@ private:
 
 private:
 
-	float R_Key_CoolTime = 5.0f;
+	float R_Key_CoolTime = 10.0f;
 	float R_Key_Ongoingtime = 3.0f;
 	bool R_StartedButton = false;
 	bool R_Key_IsCooling = false;
@@ -209,8 +209,20 @@ private:
 	float RPercent;
 
 	class UPlayerSkillWidgets* m_PlayerSkillWidgets;
+
+	
 public:
 
+	void TimerDown();
+
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE	float GetTimerFloat() { return m_TimerFloat; }
+
+private:
+
+	FTimerHandle  m_TimerHandle;
+	float m_TimerFloat = 10;
+	bool TimerBool = false;
 		
 public:
 
