@@ -62,6 +62,23 @@ void AMyPlayerController::BeginPlay()
 	{
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);
 	}
+
+	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
+	if (HUD == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) ControllerUI_HUD == nullptr"), __FUNCTION__, __LINE__);
+		return;
+	}
+
+	UUserWidget* MainWidget = HUD->GetMainWidget();
+	if (MainWidget == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s(%u) MainWidget == nullptr"), __FUNCTION__, __LINE__);
+		return;
+	}
+
+	m_PlayerSkillWidgets = Cast<UPlayerSkillWidgets>(MainWidget->GetWidgetFromName(TEXT("WBP_PlayerSkillWidgets")));
+	
 }
 
 void AMyPlayerController::SetupInputComponent()
@@ -217,8 +234,15 @@ void AMyPlayerController::PlayerTick(float _DeltaSeconds)
 		R_Key_Ongoingtime = 3.0f;
 		R_Key_IsCooling = false;
 	}
+
 	
-	UE_LOG(LogTemp, Warning, TEXT("%s(%u) : CoolTime : %f"), __FUNCTION__, __LINE__, R_Key_CoolTime);
+	/*m_PlayerSkillWidgets->SetCoolTimeReduce2(3, _DeltaSeconds);
+	m_PlayerSkillWidgets->SetSkillProgressBar(3);*/
+
+
+
+	
+//	UE_LOG(LogTemp, Warning, TEXT("%s(%u) : CoolTime : %f"), __FUNCTION__, __LINE__, R_Key_CoolTime);
 
 }
 
@@ -700,7 +724,7 @@ void AMyPlayerController::RKeyPressedUI()
 	UPlayerSkillWidgets* PlayerSkillWidgets = Cast<UPlayerSkillWidgets>(MainWidget->GetWidgetFromName(TEXT("WBP_PlayerSkillWidgets")));
 
 //	PlayerSkillWidgets->FillAmountFullElement(3);
-	PlayerSkillWidgets->SetSkillProgressBar(3);
+	PlayerSkillWidgets->SetCoolTimeReduce2(3, GetWorld()->GetDeltaSeconds());
 
 	int a = 0;
 }
@@ -734,47 +758,47 @@ void AMyPlayerController::AreaShotDecalDestroyed()
 
 }
 
-float AMyPlayerController::RKeyPercent()
-{
-	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
-	if (HUD == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s(%u) ControllerUI_HUD == nullptr"), __FUNCTION__, __LINE__);
-		return -1.0f;
-	}
-
-	UUserWidget* MainWidget = HUD->GetMainWidget();
-	if (MainWidget == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s(%u) MainWidget == nullptr"), __FUNCTION__, __LINE__);
-		return -1.0f;
-	}
-
-	UPlayerSkillTileViewWidget* PlayerSkillTileViewWidget = Cast<UPlayerSkillTileViewWidget>(MainWidget->GetWidgetFromName(TEXT("WBP_PlayerSkillTileViewWidget")));
-	if (PlayerSkillTileViewWidget == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s(%u) PlayerSkillTileViewWidget == nullptr"), __FUNCTION__, __LINE__);
-		return -1.0f;
-	}
-
-	UPlayerSkillWidget* PlayerSkillWidget = PlayerSkillTileViewWidget->GetPlayerSkillWidgetFromTileView(0);
-
-	UProgressBar* ProgressBar = PlayerSkillWidget->GetProgressBar();
-
-	int32 CurrentCoolTime = PlayerSkillWidget->GetCurrentCoolTime();
-
-	float Percent = 10.0f / (float)PlayerSkillWidget->GetMaxCoolTime();
-
-	Percent -= (1.0f * GetWorld()->GetDeltaSeconds());
-	
-	if (Percent < 0.0f)
-	{
-		return 0.0f;
-	}
-
-	return Percent;
-
-}
+//float AMyPlayerController::RKeyPercent()
+//{
+//	APortfolioHUD* HUD = GetHUD<APortfolioHUD>();
+//	if (HUD == nullptr)
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("%s(%u) ControllerUI_HUD == nullptr"), __FUNCTION__, __LINE__);
+//		return -1.0f;
+//	}
+//
+//	UUserWidget* MainWidget = HUD->GetMainWidget();
+//	if (MainWidget == nullptr)
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("%s(%u) MainWidget == nullptr"), __FUNCTION__, __LINE__);
+//		return -1.0f;
+//	}
+//
+//	UPlayerSkillTileViewWidget* PlayerSkillTileViewWidget = Cast<UPlayerSkillTileViewWidget>(MainWidget->GetWidgetFromName(TEXT("WBP_PlayerSkillTileViewWidget")));
+//	if (PlayerSkillTileViewWidget == nullptr)
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("%s(%u) PlayerSkillTileViewWidget == nullptr"), __FUNCTION__, __LINE__);
+//		return -1.0f;
+//	}
+//
+//	UPlayerSkillWidget* PlayerSkillWidget = PlayerSkillTileViewWidget->GetPlayerSkillWidgetFromTileView(0);
+//
+//	UProgressBar* ProgressBar = PlayerSkillWidget->GetProgressBar();
+//
+//	int32 CurrentCoolTime = PlayerSkillWidget->GetCurrentCoolTime();
+//
+//	float Percent = 10.0f / (float)PlayerSkillWidget->GetMaxCoolTime();
+//
+//	Percent -= (1.0f * GetWorld()->GetDeltaSeconds());
+//	
+//	if (Percent < 0.0f)
+//	{
+//		return 0.0f;
+//	}
+//
+//	return Percent;
+//
+//}
 
 
 //Other Source

@@ -30,6 +30,9 @@ public:
 	void UpDataSkillCoolTime();
 
 	UFUNCTION(BlueprintCallable)
+	void CoolTimeReduce(float _DeltaTime);
+
+	UFUNCTION(BlueprintCallable)
 	float SkillCoolTimeDown();
 
 public:
@@ -58,6 +61,7 @@ public:
 		return m_CurrentCoolTime;
 	}
 
+	UFUNCTION(BlueprintCallable)
 	FORCEINLINE void SetCurrentCoolTime(int32 _Value)
 	{
 		m_CurrentCoolTime = _Value;
@@ -83,7 +87,7 @@ private:
 
 	float m_CoolTimeRatio;
 
-	float m_FillDownSpeed = 0.005f;
+	bool m_CoolTimeReduce = false; 
 private:
 
 	class UPlayerSkillWidgets* m_PlayerSkillWidgets = nullptr;

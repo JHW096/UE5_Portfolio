@@ -207,6 +207,8 @@ private:
 	bool R_Key_Ongoing = false;
 
 	float RPercent;
+
+	class UPlayerSkillWidgets* m_PlayerSkillWidgets;
 public:
 
 		
@@ -233,6 +235,6 @@ public:
 
 public:
 
-	UFUNCTION(BlueprintCallable)
-	float RKeyPercent();
+	//UFUNCTION(BlueprintCallable)
+	//float RKeyPercent();
 };

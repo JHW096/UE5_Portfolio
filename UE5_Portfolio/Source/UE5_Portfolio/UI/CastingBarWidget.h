@@ -22,7 +22,9 @@ public:
 
 public:
 
-	/*UFUNCTION(BlueprintCallable)
+	/*
+	
+	UNCTION(BlueprintCallable)
 	FORCEINLINE bool IsProgressBarHidden()
 	{
 		return this->Visibility == ESlateVisibility::Hidden ? true : false;

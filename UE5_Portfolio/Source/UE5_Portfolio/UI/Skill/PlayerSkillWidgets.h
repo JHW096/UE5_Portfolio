@@ -32,8 +32,8 @@ public:
 	void FillAmountFullElement(int32 _index);
 
 	void SetSkillProgressBar(int32 _Index);
-
-	
+	void SetCoolTimeReduce(int32 _Index);
+	void SetCoolTimeReduce2(int32 _Index, float _DeltaTime);
 
 private:
 
@@ -53,7 +53,7 @@ private:
 	TArray<class UPlayerSkillWidget*> m_PlayerSkillWidgetArray;
 
 	TArray<float> m_SkillCoolTimePercent { 1.0f, 1.0f, 1.0f, 1.0f };
-
+	TArray<bool> m_IsCoolTimeReduce{ false, false, false, false };
 
 
 public:

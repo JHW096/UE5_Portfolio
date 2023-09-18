@@ -10,6 +10,7 @@
 #include "../../Player/Data/PlayerSkillData.h"
 #include "../../Global/TopDownGameInstance.h"
 #include "PlayerSkillWidgets.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 
 
@@ -62,6 +63,11 @@ void UPlayerSkillWidget::SetPlayerSkill(FName _Name)
 void UPlayerSkillWidget::UpDataSkillCoolTime()
 {
 	m_ProgressBar->SetPercent(GetSkillCoolTimeRatio());
+}
+
+void UPlayerSkillWidget::CoolTimeReduce(float _DeltaTime)
+{
+	m_CurrentCoolTime = m_CurrentCoolTime - ((1.0f) * _DeltaTime);
 }
 
 float UPlayerSkillWidget::SkillCoolTimeDown()

@@ -20,9 +20,36 @@ void UPlayerSkillWidgets::NativeTick(const FGeometry& MyGeometry, float InDeltaT
 
 	for (int i = 0; i < PLAYERSKILLNUM; ++i)
 	{
+		if (m_PlayerSkillWidgetArray[i]->GetProgressBar() == nullptr)
+		{
+			continue;
+		}
+
+		if (m_IsCoolTimeReduce[i] == true)
+		{
+			if (m_SkillCoolTimePercent[i] <= 0.0f)
+			{
+				m_SkillCoolTimePercent[i] = 1.0f;
+				m_IsCoolTimeReduce[i] = false;
+			}
+			else
+			{
+				/*m_SkillCoolTimePercent[i] -= (0.000001f * GetWorld()->GetDeltaSeconds());
+				m_PlayerSkillWidgetArray[i]->GetProgressBar()->SetPercent(m_SkillCoolTimePercent[i]);*/
+			}
+		}
+		else
+		{
+			return;
+		}
+	}
+
+	for (int i = 0; i < PLAYERSKILLNUM; ++i)
+	{
 		if (m_SkillCoolTimePercent[i] < 0.0f)
 		{
 			m_SkillCoolTimePercent[i] = 0.0f;
+		
 		}
 		m_SkillCoolTimePercent[i] -= (1.0f * InDeltaTime);
 		if (m_PlayerSkillWidgetArray[i]->GetProgressBar() == nullptr)
@@ -78,15 +105,37 @@ void UPlayerSkillWidgets::SetSkillProgressBar(int32 _Index)
 		return;
 	}
 
-	if (m_SkillCoolTimePercent[_Index] < 0.0f)
-	{
-		m_SkillCoolTimePercent[_Index] = 0.0f;
-	}
-	m_SkillCoolTimePercent[_Index] -= GetWorld()->GetDeltaSeconds();
 	m_PlayerSkillWidgetArray[_Index]->GetProgressBar()->SetPercent(m_SkillCoolTimePercent[_Index]);
 
 	OnQButtonProgress.Broadcast();
 }
+
+void UPlayerSkillWidgets::SetCoolTimeReduce(int32 _Index)
+{
+	if (_Index < 0 || _Index > PLAYERSKILLNUM)
+	{
+		return;
+	}
+
+	m_IsCoolTimeReduce[_Index] = true;
+
+}
+
+void UPlayerSkillWidgets::SetCoolTimeReduce2(int32 _Index, float _DeltaTime)
+{
+	if (_Index < 0 || _Index > PLAYERSKILLNUM)
+	{
+		return;
+	}
+
+	float Time = m_PlayerSkillWidgetArray[_Index]->GetCurrentCoolTime();
+	Time -= (1.0f * _DeltaTime);
+
+	m_SkillCoolTimePercent[_Index] = m_PlayerSkillWidgetArray[_Index]->GetSkillCoolTimeRatio();
+
+	m_PlayerSkillWidgetArray[_Index]->SetCurrentCoolTime(Time);
+}
+
 
 
 void UPlayerSkillWidgets::InitiallizeSkillWidget()
