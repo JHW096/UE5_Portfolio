@@ -68,7 +68,8 @@ void UMyAnimInstance::NativeUpdateAnimation(float _DeltaSecond)
 
 	if (!Montage_IsPlaying(CurrentMontage))
 	{
-		if (CurrentMontage == AllAnimations[MyPlayerAnimState::NORMAL_ATTACK_GUN])
+		Montage_Play(CurrentMontage, 1.0f);
+		/*if (CurrentMontage == AllAnimations[MyPlayerAnimState::NORMAL_ATTACK_GUN])
 		{
 			Montage_Play(CurrentMontage, 1.0f);
 			JumpToSection(AttackSectionIndex);
@@ -77,7 +78,7 @@ void UMyAnimInstance::NativeUpdateAnimation(float _DeltaSecond)
 		else
 		{
 			Montage_Play(CurrentMontage, 1.0f);
-		}
+		}*/
 	}
 }
 
