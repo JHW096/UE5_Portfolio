@@ -17,7 +17,7 @@ void AControllerUI::SetupInputComponent()
 {
 	int b = 0;
 	Super::SetupInputComponent();
-	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent))
+	if (EnhancedInputComponent)
 	{
 		int a = 0;
 		//RKey

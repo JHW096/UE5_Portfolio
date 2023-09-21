@@ -69,8 +69,10 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 	virtual void PlayerTick(float _DeltaSeconds) override;
-	
 
+	UEnhancedInputComponent* EnhancedInputComponent;
+	bool CheckUEnhancedInputComponent();
+		
 public:
 
 	//PLAYER_MOVE

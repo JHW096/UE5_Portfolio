@@ -64,6 +64,8 @@ void AMyPlayerController::BeginPlay()
 	}
 
 	GetWorld()->GetTimerManager().SetTimer(m_TimerHandle, this, &AMyPlayerController::TimerDown, 0.2f, true);
+
+	int a = 0;
 }
 
 void AMyPlayerController::SetupInputComponent()
@@ -77,8 +79,16 @@ void AMyPlayerController::SetupInputComponent()
 		bBindingsAdded = true;
 	}
 
+	EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
+
+	if (!EnhancedInputComponent)
+	{
+		return;
+	}
+
+	int a = 0;
+
 	//BIND_KEY
-	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent))
 	{
 		//PLAYER_MOVE
 		{
@@ -238,6 +248,11 @@ void AMyPlayerController::PlayerTick(float _DeltaSeconds)
 	
 //	UE_LOG(LogTemp, Warning, TEXT("%s(%u) : CoolTime : %f"), __FUNCTION__, __LINE__, R_Key_CoolTime);
 
+}
+
+bool AMyPlayerController::CheckUEnhancedInputComponent()
+{
+		return false;
 }
 
 void AMyPlayerController::OnInputStarted()
