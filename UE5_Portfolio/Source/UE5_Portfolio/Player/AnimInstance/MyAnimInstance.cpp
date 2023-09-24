@@ -35,7 +35,7 @@ void UMyAnimInstance::NativeBeginPlay()
 	
 
 
-	m_LaserShotCast = Cast<AMyPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0))->GetLaserShotStart();
+	//m_LaserShotCast = Cast<AMyPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0))->GetLaserShotStart();
 }
 
 void UMyAnimInstance::NativeUpdateAnimation(float _DeltaSecond)

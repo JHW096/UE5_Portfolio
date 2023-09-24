@@ -20,7 +20,9 @@ public:
 	class UInputAction* SetDestinationClickAction;
 
 protected:
-	
+
+	APlayerControllerTopDownMove();
+
 	virtual void BeginPlay() override;
 
 	virtual void PlayerTick(float _DeltaSeconds) override;
@@ -47,16 +49,14 @@ public:
 
 public:
 
+	//MouserCursorHit_Successful
 	bool HitSucceeded();
 
-	//CursorMovementFunction
+	//MouseMoveCursorMovement_Function
 	void OnInputStarted();
 	void OnSetDestinationTriggered();
 	void OnSetDestinationReleased();
 
-	
-	
-	//void GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
 
 private:
 

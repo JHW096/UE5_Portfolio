@@ -37,4 +37,6 @@ private:
 
 	UMainWidget* MainWidget = nullptr;
 
+	UUserWidget* TestWidget = nullptr;
+
 };

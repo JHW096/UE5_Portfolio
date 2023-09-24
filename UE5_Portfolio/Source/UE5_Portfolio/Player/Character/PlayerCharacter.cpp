@@ -124,6 +124,9 @@ void APlayerCharacter::Tick(float DeltaTime)
 	{
 		UGameplayStatics::GetPlayerController(GetWorld(), 0)->StopMovement();
 	}
+
+	testtime += (1.0f * GetWorld()->GetDeltaSeconds());
+	UE_LOG(LogTemp, Warning, TEXT("%f"), testtime);
 }
 
 // Called to bind functionality to input

@@ -4,6 +4,12 @@
 #include "PlayerControllerTopDownMove.h"
 #include <Blueprint/AIBlueprintHelperLibrary.h>
 
+APlayerControllerTopDownMove::APlayerControllerTopDownMove()
+{
+	bShowMouseCursor = true;
+	CachedDestination = FVector::ZeroVector;
+}
+
 void APlayerControllerTopDownMove::BeginPlay()
 {
 	Super::BeginPlay();
@@ -57,9 +63,9 @@ void APlayerControllerTopDownMove::OnSetDestinationTriggered()
 		SetCacheDestination(m_CursorHitResult.Location);
 	}
 
-	APawn* Pawn = GetPawn();
+	APawn* PlayerPawn = GetPawn();
 	//GetPawn nullptr check
-	if (Pawn != nullptr)
+	if (PlayerPawn != nullptr)
 	{
 		//Prev Way to Move
 		//WorldDirection = FVector(Hit Location, MainPlayer Location) NormalVector
