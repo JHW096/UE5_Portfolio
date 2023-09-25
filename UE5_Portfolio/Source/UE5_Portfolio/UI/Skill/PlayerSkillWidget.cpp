@@ -9,7 +9,6 @@
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "../../Player/Data/PlayerSkillData.h"
 #include "../../Global/TopDownGameInstance.h"
-#include "PlayerSkillWidgets.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 
@@ -28,49 +27,8 @@ void UPlayerSkillWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTi
 	
 }
 
-void UPlayerSkillWidget::BindProgressBar(UPlayerSkillWidgets* _PlayerSkillWidgets)
+void UPlayerSkillWidget::SetSkillPassingTime(float _Time)
 {
-	m_PlayerSkillWidgets = _PlayerSkillWidgets;
-	m_PlayerSkillWidgets->OnQButtonProgress.AddUObject(this, &UPlayerSkillWidget::UpDataSkillCoolTime);
+	m_PassTime = _Time;
 }
-
-void UPlayerSkillWidget::SetPlayerSkill(FName _Name)
-{
-	UTopDownGameInstance* GameInst = Cast<UTopDownGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	if (GameInst == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s(%u) GameInst == nullptr"), __FUNCTION__, __LINE__);
-		return;
-	}
-
-	FPlayerSkillData* SkillData = GameInst->GetPlayerSkillData(_Name);
-
-	if (SkillData == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s(%u) SkillData== nullptr"), __FUNCTION__, __LINE__);
-		return;
-	}
-
-	m_PlayerSkillData = SkillData;
-	m_ProgressBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("SkillProgressBar")));
-	m_SkillName = m_PlayerSkillData->SkillName;
-	m_MaxCoolTime = m_PlayerSkillData->SkillCoolTime;
-	m_CurrentCoolTime = m_PlayerSkillData->SkillCoolTime;
-}
-
-
-
-void UPlayerSkillWidget::UpDataSkillCoolTime()
-{
-	m_ProgressBar->SetPercent(GetSkillCoolTimeRatio());
-}
-
-float UPlayerSkillWidget::SkillCoolTimeDown()
-{
-	return GetSkillCoolTimeRatio();
-}
-
-
-
-
 

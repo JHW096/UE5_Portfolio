@@ -20,3 +20,18 @@ enum class MyPlayerAnimState : uint8
 	SKILL_E,
 	SKILL_F
 };
+
+
+UENUM(BlueprintType)
+enum class GreatSwordAnimState : uint8
+{
+	NONE,
+	IDLE,
+	JOG_FWD,
+	DASH,
+	CKey,
+	QKey,
+	WKey,
+	EKey,
+	RKey
+};

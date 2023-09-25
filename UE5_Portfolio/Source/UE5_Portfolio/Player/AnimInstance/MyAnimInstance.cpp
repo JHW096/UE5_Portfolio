@@ -29,7 +29,7 @@ void UMyAnimInstance::NativeBeginPlay()
 	AllAnimations = m_Player->AllAnimations;
 
 
-	OnMontageBlendingOut.AddDynamic(this, &UMyAnimInstance::MontageBlendOut);
+	//OnMontageBlendingOut.AddDynamic(this, &UMyAnimInstance::MontageBlendOut);
 	OnPlayMontageNotifyBegin.AddDynamic(this, &UMyAnimInstance::AnimNotifyBegin);
 	OnPlayMontageNotifyEnd.AddDynamic(this, &UMyAnimInstance::AnimNotifyBegin);
 	
@@ -89,6 +89,7 @@ void UMyAnimInstance::MontageBlendOut(UAnimMontage* _Anim, bool _Inter)
 		UE_LOG(LogTemp, Log, TEXT("%s(%u) MainPlayer AnimInstance : MainPlayer is nullptr"), __FUNCTION__, __LINE__);
 		return;
 	}
+
 
 	if (_Anim == AllAnimations[MyPlayerAnimState::JOG_FWD])
 	{

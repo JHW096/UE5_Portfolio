@@ -18,32 +18,21 @@ class UE5_PORTFOLIO_API UPlayerSkillTileViewWidget : public UUserWidget
 protected:
 
 	virtual void NativeConstruct() override;
+
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 public:
 
-	void SetSkillWidgetProgressBarPercent(size_t _Value);
 
-	class UPlayerSkillWidget* GetPlayerSkillWidgetFromTileView(size_t _Value);
 
 private:
 
-	void SetTableRowName();
-	FName GetTableRowName(int _Key);
-	class UPlayerSkillWidget* CreateSkillWidget(FName _Name);
-	class USkillWidgetObject* CreateSkillWidgetObject(FName _Name);
+	class UTileView* m_SkillTileView = nullptr;
 
-private: 
+private:
 
-	const int32 PLAYER_SKILL_SIZE = 4;
+	const int32 PLAYERSKILLNUM = 4;
 
-	UPROPERTY(Category = "InvenList", EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	class UTileView* m_SkillList = nullptr;
+	TArray<FName> PlayerSkillName;
 
-	TArray<class UPlayerSkillWidget*> m_SkillWidgetList;
-
-	TMap<int, FName> TableRowNameMap;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<class UPlayerSkillWidget> TSkillWidget;
 };

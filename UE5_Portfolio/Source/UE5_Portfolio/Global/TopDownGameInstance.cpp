@@ -16,6 +16,17 @@ UTopDownGameInstance::UTopDownGameInstance()
 {
 
 	{
+		FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Global/Data/DT_GreatSwordSkills.DT_GreatSwordSkills'");
+		ConstructorHelpers::FObjectFinder<UDataTable> DT_GreatSwordSkills(*DataPath);
+
+		if (DT_GreatSwordSkills.Succeeded())
+		{
+			GreatSwordSkillData = DT_GreatSwordSkills.Object;
+		}
+	}
+
+
+	{
 		FString DataPath = TEXT("/Script/Engine.DataTable'/Game/Global/Data/DT_PlayerStat.DT_PlayerStat'");
 		ConstructorHelpers::FObjectFinder<UDataTable> DT_PlayerStat(*DataPath);
 

@@ -210,7 +210,6 @@ private:
 
 	float RPercent;
 
-	class UPlayerSkillWidgets* m_PlayerSkillWidgets;
 
 	
 public:

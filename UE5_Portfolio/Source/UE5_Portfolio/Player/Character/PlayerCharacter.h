@@ -95,4 +95,13 @@ private:
 	float DestroyDistance = 0.0f;
 
 	class AActor* m_Bullet;
+
+
+	TArray<FName> SkillNames = { "Frist", "Second", "Third", "Forth" };
+public:
+
+	TArray<FName> GetSkillName()
+	{
+		return SkillNames;
+	}
 };

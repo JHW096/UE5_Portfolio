@@ -26,7 +26,6 @@
 #include "Widgets/Layout/Anchors.h"
 #include "../../UI/Skill/PlayerSkillTileViewWidget.h"
 #include "../../UI/Skill/PlayerSkillWidget.h"
-#include "../../UI/Skill/PlayerSkillWidgets.h"
 #include "Components/Button.h"
 
 
@@ -730,10 +729,6 @@ void AMyPlayerController::RKeyPressedUI()
 		return;
 	}
 
-	UPlayerSkillWidgets* PlayerSkillWidgets = Cast<UPlayerSkillWidgets>(MainWidget->GetWidgetFromName(TEXT("WBP_PlayerSkillWidgets")));
-
-
-	TimerBool = true;
 //	PlayerSkillWidgets->FillAmountFullElement(3);
 	
 	/*UPlayerSkillWidget* SkillWidget = PlayerSkillWidgets->GetPlayerWidgetElement(3);
@@ -790,8 +785,7 @@ void AMyPlayerController::TimerDown()
 		return;
 	}
 
-	UPlayerSkillWidgets* PlayerSkillWidgets = Cast<UPlayerSkillWidgets>(MainWidget->GetWidgetFromName(TEXT("WBP_PlayerSkillWidgets")));
-	PlayerSkillWidgets->GetPlayerWidgetElement(3)->SetCurrentCoolTime(m_TimerFloat);
+
 	
 
 }

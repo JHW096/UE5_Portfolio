@@ -56,6 +56,8 @@ public:
 	UPROPERTY()
 	UDataTable* PlayerSkillData;
 
+	UPROPERTY()
+	UDataTable* GreatSwordSkillData;
 
 	TArray<const struct FItemData*> ItemDataRandoms;
 
