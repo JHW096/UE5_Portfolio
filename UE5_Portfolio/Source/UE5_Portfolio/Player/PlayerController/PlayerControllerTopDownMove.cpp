@@ -3,6 +3,7 @@
 
 #include "PlayerControllerTopDownMove.h"
 #include <Blueprint/AIBlueprintHelperLibrary.h>
+#include "../Character/GreatSwordCharacter.h"
 
 APlayerControllerTopDownMove::APlayerControllerTopDownMove()
 {
@@ -25,6 +26,7 @@ void APlayerControllerTopDownMove::SetupInputComponent()
 	Super::SetupInputComponent();
 
 	AddInputAction(FName("SetDestinationClickAction"), SetDestinationClickAction);
+	AddInputAction(FName("InputSpaceAction"), InputSpaceAction);
 
 	//SetDestinaitionClickAction Binding
 	{
@@ -40,8 +42,15 @@ void APlayerControllerTopDownMove::SetupInputComponent()
 		EnhancedInputComponent->BindAction(
 			SetDestinationClickAction, ETriggerEvent::Canceled, this, &APlayerControllerTopDownMove::OnSetDestinationReleased
 		);
+
 	}
 	
+	{
+		EnhancedInputComponent->BindAction(
+			InputSpaceAction, ETriggerEvent::Started, this, &APlayerControllerTopDownMove::OnInputSpaceStarted
+		);
+
+	}
 }
 
 bool APlayerControllerTopDownMove::HitSucceeded()
@@ -72,12 +81,28 @@ void APlayerControllerTopDownMove::OnSetDestinationTriggered()
 		//ControlledPawn->AddMovementInput(WorldDirection, 1.0f, false);
 		UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, CachedDestination);
 	}
-
+	Cast<AGreatSwordCharacter>(GetPawn())->SetPlayerAnimState(GreatSwordAnimState::JOG_FWD);
 }
 
 void APlayerControllerTopDownMove::OnSetDestinationReleased()
 {
 	FollowTime = 0.0f;
+	Cast<AGreatSwordCharacter>(GetPawn())->SetPlayerAnimState(GreatSwordAnimState::JOG_FWD);
+}
+
+void APlayerControllerTopDownMove::OnInputSpaceStarted()
+{
+	if (HitSucceeded())
+	{
+		FVector Dir = GetCursorHitResult().Location - GetPawn()->GetActorLocation();
+		Dir = Dir.GetSafeNormal();
+		FRotator Rot = Dir.Rotation();
+		Rot.Pitch = 0.0f;
+		GetPawn()->SetActorRotation(Rot);
+
+	}
+
+	Cast<AGreatSwordCharacter>(GetPawn())->SetPlayerAnimState(GreatSwordAnimState::DASH);
 }
 
 

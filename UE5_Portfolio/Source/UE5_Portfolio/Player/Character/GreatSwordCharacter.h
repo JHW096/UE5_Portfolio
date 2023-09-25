@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "TopDownMoveCharacterBase.h"
 #include "../PlayerAnimState.h"
+#include "Components/CapsuleComponent.h"
 #include "GreatSwordCharacter.generated.h"
 
 
@@ -28,6 +29,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
+public:
+
+	void MoveAction();
 
 public:
 
@@ -41,6 +45,22 @@ public:
 		m_AnimState = _AnimState;
 	}
 
+	UFUNCTION(BlueprintCallable)
+	bool NoneAttack()
+	{
+		if (m_AnimState == GreatSwordAnimState::JOG_FWD || m_AnimState == GreatSwordAnimState::IDLE)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	UFUNCTION(BlueprintCallable)
+		FORCEINLINE bool GetIsAttacking()
+	{
+		return isAttacking;
+	}
+
 public:
 
 	UPROPERTY(Category = "Animation_Value", EditAnywhere, BlueprintReadWrite)
@@ -49,8 +69,14 @@ public:
 	UPROPERTY(Category = "Animation_Value", EditAnywhere, BlueprintReadWrite)
 	TMap<GreatSwordAnimState, UAnimMontage*> m_AllAnimations;
 
+	UPROPERTY(Category = "Skills", EditAnywhere, BlueprintReadWrite)
+	TMap<FName, TSubclassOf<AActor>> m_SkillActors;
+
+
+	bool isAttacking = false;
 private:
+	
 
 	class UPlayerStatComponent* m_StatCompoenent;
-
+	class UNiagaraComponent* m_SwordEffect;
 };

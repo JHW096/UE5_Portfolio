@@ -30,6 +30,8 @@ public:
 
 	void SetLevel(int32 _Level);
 	void SetHp(int32 _Hp);
+
+	UFUNCTION(BlueprintCallable)
 	void OnAttacked(float _DamageAmount);
 
 	FORCEINLINE int32 GetMonsterLevel()

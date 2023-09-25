@@ -26,12 +26,18 @@ protected:
 
 public:
 	//FOR DELEGATE
+
+	UFUNCTION()
+	void AnimNotifyBegin(FName NotifyName, const FBranchingPointNotifyPayload& BranchingPointPayload);
+
 	UFUNCTION()
 	void MontageBlendOut(UAnimMontage* _Anim, bool _Inter);
 
 	void JumpToSection(int32 SectionIndex);
 
 	FName GetNormalAttackMontageName(int32 SectionIndex);
+
+
 
 private:
 

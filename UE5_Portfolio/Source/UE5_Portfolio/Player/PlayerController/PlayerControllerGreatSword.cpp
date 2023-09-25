@@ -42,17 +42,68 @@ void APlayerControllerGreatSword::SetupInputComponent()
 		);
 
 	}
+
+
+	//Input Q Key Binding
+	{
+		EnhancedInputComponent->BindAction(
+			InputQAction, ETriggerEvent::Started, this, &APlayerControllerGreatSword::InputQKeyStart
+		);
+	}
+
+
+	//Input W Key Binding
+	{
+		EnhancedInputComponent->BindAction(
+			InputWAction, ETriggerEvent::Started, this, &APlayerControllerGreatSword::InputWKeyStart
+		);
+	}
+
+	//Input E Key Binding
+	{
+		EnhancedInputComponent->BindAction(
+			InputEAction, ETriggerEvent::Started, this, &APlayerControllerGreatSword::InputEKeyStart
+		);
+	}
+
+
+	//Input R Key Binding
+	{
+		EnhancedInputComponent->BindAction(
+			InputRAction, ETriggerEvent::Started, this, &APlayerControllerGreatSword::InputRKeyStart
+		);
+
+		/*EnhancedInputComponent->BindAction(
+			InputRAction, ETriggerEvent::Triggered, this, &APlayerControllerGreatSword::InputRKeyStart
+		);*/
+	}
+
 }
 
 void APlayerControllerGreatSword::InputCKeyStart()
 {
-	
+	if (HitSucceeded())
+	{
+		FVector Dir = GetCursorHitResult().Location - GetPawn()->GetActorLocation();
+		Dir = Dir.GetSafeNormal();
+		FRotator Rot = Dir.Rotation();
+		Rot.Pitch = 0.0f;
+		GetPawn()->SetActorRotation(Rot);
+	}
 
 	m_Player->SetPlayerAnimState(GreatSwordAnimState::CKey);
 }
 
 void APlayerControllerGreatSword::InputQKeyStart()
 {
+	if (HitSucceeded())
+	{
+		FVector Dir = GetCursorHitResult().Location - GetPawn()->GetActorLocation();
+		Dir = Dir.GetSafeNormal();
+		FRotator Rot = Dir.Rotation();
+		Rot.Pitch = 0.0f;
+		GetPawn()->SetActorRotation(Rot);
+	}
 
 	m_Player->SetPlayerAnimState(GreatSwordAnimState::QKey);
 }
@@ -65,12 +116,51 @@ void APlayerControllerGreatSword::InputWKeyStart()
 
 void APlayerControllerGreatSword::InputEKeyStart()
 {
+	StopMovement();
+
+	if (HitSucceeded())
+	{
+		FVector Dir = GetCursorHitResult().Location - GetPawn()->GetActorLocation();
+		Dir = Dir.GetSafeNormal();
+		FRotator Rot = Dir.Rotation();
+		Rot.Pitch = 0.0f;
+		GetPawn()->SetActorRotation(Rot);
+		
+	}
+
 
 	m_Player->SetPlayerAnimState(GreatSwordAnimState::EKey);
 }
 
 void APlayerControllerGreatSword::InputRKeyStart()
 {
+	StopMovement();
+
+	if (HitSucceeded())
+	{
+		FVector Dir = GetCursorHitResult().Location - GetPawn()->GetActorLocation();
+		Dir = Dir.GetSafeNormal();
+		FRotator Rot = Dir.Rotation();
+		Rot.Pitch = 0.0f;
+		GetPawn()->SetActorRotation(Rot);
+	}
 
 	m_Player->SetPlayerAnimState(GreatSwordAnimState::RKey);
+}
+
+void APlayerControllerGreatSword::InputRKeyTriggered()
+{
+	if (m_Player->m_AnimState != GreatSwordAnimState::RKey)
+	{
+		return;
+	}
+
+	if (HitSucceeded())
+	{
+		FVector Dir = GetCursorHitResult().Location - GetPawn()->GetActorLocation();
+		Dir = Dir.GetSafeNormal();
+		FRotator Rot = Dir.Rotation();
+		Rot.Pitch = 0.0f;
+		GetPawn()->SetActorRotation(Rot);
+	}
 }

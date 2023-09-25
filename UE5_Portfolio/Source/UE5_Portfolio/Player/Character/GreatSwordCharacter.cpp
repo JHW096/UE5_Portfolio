@@ -2,6 +2,7 @@
 
 
 #include "GreatSwordCharacter.h"
+#include "NiagaraComponent.h"
 
 AGreatSwordCharacter::AGreatSwordCharacter()
 {
@@ -21,6 +22,10 @@ AGreatSwordCharacter::AGreatSwordCharacter()
 		}
 	}
 
+	{
+		
+	}
+
 	m_AnimState = GreatSwordAnimState::IDLE;
 }
 
@@ -32,11 +37,56 @@ void AGreatSwordCharacter::BeginPlay()
 void AGreatSwordCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	MoveAction();
+
+	if (m_AnimState == GreatSwordAnimState::CKey || m_AnimState == GreatSwordAnimState::QKey)
+	{
+		isAttacking = true;
+	}
+	else
+	{
+		isAttacking = false;
+	}
 }
 
 void AGreatSwordCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+
+void AGreatSwordCharacter::MoveAction()
+{
+	if (m_AnimState == GreatSwordAnimState::CKey)
+	{
+		return;
+	}
+
+	if (m_AnimState == GreatSwordAnimState::WKey)
+	{
+		return;
+	}
+
+	if (m_AnimState == GreatSwordAnimState::EKey)
+	{
+		return;
+	}
+
+	if (m_AnimState == GreatSwordAnimState::RKey)
+	{
+		return;
+	}
+
+	if (m_AnimState == GreatSwordAnimState::DASH)
+	{
+		return;
+	}
+
+	if (m_AnimState == GreatSwordAnimState::QKey)
+	{
+		return;
+	}
+
+	m_AnimState = GetVelocity().Size() > 1.0f ? GreatSwordAnimState::JOG_FWD : GreatSwordAnimState::IDLE;
 }
 
 

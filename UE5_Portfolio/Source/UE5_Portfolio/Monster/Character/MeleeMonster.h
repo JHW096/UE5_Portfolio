@@ -20,6 +20,8 @@ class UE5_PORTFOLIO_API AMeleeMonster : public AAINormalMonster
 	virtual void PostInitializeComponents() override;
 
 	void BeginPlay() override;
+
+	virtual void Tick(float DeltaSeconds) override;
 	
 	const struct FMonsterData* NormalMonsterData;
 
@@ -46,6 +48,13 @@ private:
 	);
 
 	void Destroyed() override;
+public:
+
+	UFUNCTION(BlueprintCallable) 
+		class UMonsterStatComponent* GetStatComp()
+	{
+		return m_StatComponent;
+	}
 
 private:
 

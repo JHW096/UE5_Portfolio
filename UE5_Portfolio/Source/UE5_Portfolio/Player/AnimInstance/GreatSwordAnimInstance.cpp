@@ -16,6 +16,9 @@ void UGreatSwordAnimInstance::NativeBeginPlay()
 		return;
 	}
 	m_AllAnimations = m_Player->m_AllAnimations;
+
+	OnMontageBlendingOut.AddDynamic(this, &UGreatSwordAnimInstance::MontageBlendOut);
+	OnPlayMontageNotifyBegin.AddDynamic(this, &UGreatSwordAnimInstance::AnimNotifyBegin);
 }
 
 void UGreatSwordAnimInstance::NativeUpdateAnimation(float _DeltaSecond)
@@ -41,12 +44,109 @@ void UGreatSwordAnimInstance::NativeUpdateAnimation(float _DeltaSecond)
 	if (!Montage_IsPlaying(CurrentMontage))
 	{
 		Montage_Play(CurrentMontage, 1.0f);
+		if (CurrentMontage == m_AllAnimations[GreatSwordAnimState::CKey])
+		{
+			JumpToSection(AttackSectionIndex);
+			AttackSectionIndex = (AttackSectionIndex + 1) % 3;
+		}
 	}
 
 }
 
+void UGreatSwordAnimInstance::AnimNotifyBegin(FName NotifyName, const FBranchingPointNotifyPayload& BranchingPointPayload)
+{
+	if (NotifyName == FName("Burst"))
+	{
+		FTransform Transform = m_Player->GetTransform();
+		Transform.SetLocation(m_Player->GetActorLocation() + m_Player->GetActorForwardVector() * 150);
+		FRotator Rot = Transform.GetRotation().Rotator();
+		Rot.Pitch = 0.0f;
+		Transform.SetRotation(Rot.Quaternion());
+		GetWorld()->SpawnActor<AActor>(*m_Player->m_SkillActors.Find(FName("Burst")), Transform);
+	}
+
+	if (NotifyName == FName("WKeySkill"))
+	{
+		FTransform Transform = m_Player->GetTransform();
+		GetWorld()->SpawnActor<AActor>(*m_Player->m_SkillActors.Find(FName("WKeySkill")), Transform);
+	}
+
+	if (NotifyName == FName("RKeySkill"))
+	{
+		FTransform Transform = m_Player->GetTransform();
+		Transform.SetLocation(m_Player->GetActorLocation() + m_Player->GetActorForwardVector() * 300);
+		FRotator Rot = Transform.GetRotation().Rotator();
+		Rot.Pitch = 0.0f;
+		Transform.SetRotation(Rot.Quaternion());
+		GetWorld()->SpawnActor<AActor>(*m_Player->m_SkillActors.Find(FName("RKeySkill")), Transform);
+		
+	}
+
+	if (NotifyName == FName("RKeyCharge"))
+	{
+		FTransform Transform = m_Player->GetTransform();
+		FVector vec = m_Player->GetActorLocation();
+		vec.Z = m_Player->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+		Transform.SetLocation(vec);
+		GetWorld()->SpawnActor<AActor>(*m_Player->m_SkillActors.Find(FName("RKeyCharge")), Transform);
+		
+	}
+}
+
 void UGreatSwordAnimInstance::MontageBlendOut(UAnimMontage* _Anim, bool _Inter)
 {
+	if (_Anim == m_AllAnimations[GreatSwordAnimState::CKey])
+	{
+		m_AnimState = GreatSwordAnimState::IDLE;
+		m_Player->SetPlayerAnimState(m_AnimState);
+		FRotator OriginRotation = m_Player->GetActorRotation();
+		OriginRotation.Pitch = 0.0f;
+		m_Player->SetActorRotation(OriginRotation);
+	}
+
+	if (_Anim == m_AllAnimations[GreatSwordAnimState::QKey])
+	{
+		m_AnimState = GreatSwordAnimState::IDLE;
+		m_Player->SetPlayerAnimState(m_AnimState);
+	}
+
+	if (_Anim == m_AllAnimations[GreatSwordAnimState::WKey])
+	{
+		m_AnimState = GreatSwordAnimState::IDLE;
+		m_Player->SetPlayerAnimState(m_AnimState);
+		FRotator OriginRotation = m_Player->GetActorRotation();
+		OriginRotation.Pitch = 0.0f;
+		m_Player->SetActorRotation(OriginRotation);
+	}
+
+	if (_Anim == m_AllAnimations[GreatSwordAnimState::EKey])
+	{
+		m_AnimState = GreatSwordAnimState::IDLE;
+		m_Player->SetPlayerAnimState(m_AnimState);
+		FRotator OriginRotation = m_Player->GetActorRotation();
+		OriginRotation.Pitch = 0.0f;
+		m_Player->SetActorRotation(OriginRotation);
+	}
+
+	if (_Anim == m_AllAnimations[GreatSwordAnimState::RKey])
+	{
+		m_AnimState = GreatSwordAnimState::IDLE;
+		m_Player->SetPlayerAnimState(m_AnimState);
+		FRotator OriginRotation = m_Player->GetActorRotation();
+		OriginRotation.Pitch = 0.0f;
+		m_Player->SetActorRotation(OriginRotation);
+	}
+
+	if (_Anim == m_AllAnimations[GreatSwordAnimState::DASH])
+	{
+		m_AnimState = GreatSwordAnimState::IDLE;
+		m_Player->SetPlayerAnimState(m_AnimState);
+	}
+	/*if (_Anim == m_AllAnimations[GreatSwordAnimState::JOG_FWD])
+	{
+		m_AnimState = GreatSwordAnimState::;
+		m_Player->SetPlayerAnimState(m_AnimState);
+	}*/
 }
 
 void UGreatSwordAnimInstance::JumpToSection(int32 SectionIndex)
@@ -57,5 +157,5 @@ void UGreatSwordAnimInstance::JumpToSection(int32 SectionIndex)
 
 FName UGreatSwordAnimInstance::GetNormalAttackMontageName(int32 SectionIndex)
 {
-	return FName();
+	return FName(*FString::Printf(TEXT("%d"), SectionIndex));
 }

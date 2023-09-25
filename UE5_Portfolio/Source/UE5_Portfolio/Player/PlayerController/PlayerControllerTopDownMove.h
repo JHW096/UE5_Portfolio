@@ -19,6 +19,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* SetDestinationClickAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InputSpaceAction;
+
 protected:
 
 	APlayerControllerTopDownMove();
@@ -57,6 +60,8 @@ public:
 	void OnSetDestinationTriggered();
 	void OnSetDestinationReleased();
 
+	//Space
+	void OnInputSpaceStarted();
 
 private:
 
